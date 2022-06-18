@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/autocomplete.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
+import 'package:hospital/SCREEN/registration.dart';
 import 'package:intl/intl.dart';
 
 class StaffLogin extends StatelessWidget {
@@ -140,7 +141,14 @@ class StaffLogin extends StatelessWidget {
                                                         20), // <-- Radius
                                               ),
                                             ),
-                                            onPressed: () async {},
+                                            onPressed: () async {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        RegistrationScreen()),
+                                              );
+                                            },
                                             child: Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment
