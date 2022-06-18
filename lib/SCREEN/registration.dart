@@ -107,6 +107,13 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         height: size.height * 0.05,
                         width: size.width * 0.3,
                         child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: P_Settings.wavecolor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(20), // <-- Radius
+                              ),
+                            ),
                             onPressed: () async {
                               Navigator.push(
                                 context,

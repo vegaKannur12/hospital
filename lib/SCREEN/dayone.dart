@@ -69,17 +69,28 @@ class Dayone {
             donutWidth: 40,
           );
         }
-      // case "DChartLine":
-      //   return DChartLine(
-      //       data: data, lineColor: (lineData, index, id) => Colors.amber);
-      // case "DChartBar":
-      //   return DChartBar(
-      //       barColor: (barData, index, id) => Colors.green, data: data);
+      case "DChartLine":
+        return DChartLine(
+          data: [
+            {'id': 'Line', 'data': data},
+          ],
+          lineColor: (lineData, index, id) => Colors.amber,
+        );
+      case "DChartBar":
+        return DChartBar(
+          data: [
+            {'id': 'Bar', 'data': data},
+          ],
+          domainLabelPaddingToAxisLine: 16,
+          axisLineColor: Colors.green,
+          measureLabelPaddingToAxisLine: 16,
+          barColor: (barData, index, id) => Colors.green,
+          verticalDirection: false,
+        );
     }
   }
 
   @override
-
   @override
   Widget Dayone1(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -106,24 +117,7 @@ class Dayone {
                             aspectRatio: 1.2,
                             child: Stack(
                               children: [
-                                _getChart('DChartPie'),
-                                // DChartPie(
-                                //   data: data,
-                                //   fillColor: (pieData, index) {
-                                //     switch (pieData['domain']) {
-                                //       case 'Flutter':
-                                //         return Color.fromARGB(255, 243, 212, 33);
-                                //       case 'React Native':
-                                //         return Color.fromARGB(255, 158, 68, 209);
-                                //       case 'Ionic':
-                                //         return Colors.lightBlue;
-                                //       default:
-                                //         return Colors.orange;
-                                //     }
-                                //   },
-                                //   donutWidth: 40,
-                                //   labelColor: Colors.white,
-                                // ),
+                                _getChart('DChartBar'),
                                 Align(
                                     child: Text(
                                   head![index]['total'],
