@@ -1,15 +1,9 @@
-import 'dart:math';
-import 'package:d_chart/d_chart.dart';
-import 'package:charts_flutter/flutter.dart' as _charts;
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
-import 'package:hospital/SCREEN/branch2.dart';
 import 'package:hospital/SCREEN/dayone.dart';
 import 'package:hospital/SCREEN/daythree.dart';
 import 'package:hospital/SCREEN/daytwo.dart';
 import 'package:intl/intl.dart';
-
-import 'branch3.dart';
 
 enum WidgetMarker {
   dayone,
@@ -61,10 +55,9 @@ class _Branch1State extends State<Branch1> {
     // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
 
     print("init");
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final yester = DateTime(now.year, now.month, now.day - 1);
-    final dayaf = DateTime(now.year, now.month, now.day - 2);
+    final today = DateTime(date.year, date.month, date.day);
+    final yester = DateTime(date.year, date.month, date.day - 1);
+    final dayaf = DateTime(date.year, date.month, date.day - 2);
 
     daytoday = DateFormat('dd').format(date);
     String month = DateFormat('MM').format(date).toString();
@@ -72,12 +65,10 @@ class _Branch1State extends State<Branch1> {
     dayafter = DateFormat('dd').format(dayaf);
     print("dayafter yesterday $dayafter $yesterday ");
 
+    /////////// month name ////////////////////
     var someDateTime = new DateTime.now();
     var mon = someDateTime.month;
     _month = months[mon - 1];
-    // print("month${months[mon - 1]}");
-
-    // print("mon$mon");
   }
 
   @override
@@ -126,7 +117,8 @@ class _Branch1State extends State<Branch1> {
                       },
                       child: Column(
                         children: [
-                          Text(_month!, style: TextStyle(color: Colors.grey[200])),
+                          Text(_month!,
+                              style: TextStyle(color: Colors.grey[200])),
                           CircleAvatar(
                             backgroundColor: Colors.grey[200],
                             child: Text(

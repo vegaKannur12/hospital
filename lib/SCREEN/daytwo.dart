@@ -1,7 +1,6 @@
 import 'dart:math';
 import 'package:d_chart/d_chart.dart';
 import 'package:flutter/material.dart';
-import 'branch3.dart';
 
 class Daytwo {
   List<Map<String, dynamic>> colors = [
@@ -107,23 +106,7 @@ class Daytwo {
                             child: Stack(
                               children: [
                                 _getChart('DChartPie'),
-                                // DChartPie(
-                                //   data: data,
-                                //   fillColor: (pieData, index) {
-                                //     switch (pieData['domain']) {
-                                //       case 'Flutter':
-                                //         return Color.fromARGB(255, 243, 212, 33);
-                                //       case 'React Native':
-                                //         return Color.fromARGB(255, 158, 68, 209);
-                                //       case 'Ionic':
-                                //         return Colors.lightBlue;
-                                //       default:
-                                //         return Colors.orange;
-                                //     }
-                                //   },
-                                //   donutWidth: 40,
-                                //   labelColor: Colors.white,
-                                // ),
+                               
                                 Align(
                                     child: Text(
                                   head![index]['total'],

@@ -1,9 +1,6 @@
-import 'dart:math';
-import 'package:d_chart/d_chart.dart';
-import 'package:charts_flutter/flutter.dart' as _charts;
+
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
-import 'package:hospital/SCREEN/branch2.dart';
 import 'package:hospital/SCREEN/dayone.dart';
 import 'package:hospital/SCREEN/daythree.dart';
 import 'package:hospital/SCREEN/daytwo.dart';
