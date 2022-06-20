@@ -50,8 +50,8 @@ class _Branch2State extends State<Branch2> {
     daytoday = DateFormat('dd').format(date);
     yesterday = DateFormat('dd').format(yester);
     dayafter = DateFormat('dd').format(dayaf);
-    print("dayafter yesterday $dayafter $yesterday ");
-    print("daytotoday$daytoday");
+    // print("dayafter yesterday $dayafter $yesterday ");
+    // print("daytotoday$daytoday");
   }
 
   @override

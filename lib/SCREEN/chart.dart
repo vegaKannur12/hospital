@@ -3,6 +3,7 @@ import 'package:hospital/COMPONENTS/commoncolor.dart';
 import 'package:hospital/SCREEN/branch1.dart';
 import 'package:hospital/SCREEN/branch2.dart';
 import 'package:hospital/SCREEN/branch3.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 class MyWidget extends StatefulWidget {
   const MyWidget({Key? key}) : super(key: key);
@@ -68,7 +69,7 @@ class _MyWidgetState extends State<MyWidget> with TickerProviderStateMixin {
           centerTitle: true,
           title: Text(
             'Company',
-            style: TextStyle(color: P_Settings.wavecolor),
+            // style: GoogleFonts.actor(),
           ),
           bottom: TabBar(
             isScrollable: true,

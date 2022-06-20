@@ -3,12 +3,12 @@ import 'package:d_chart/d_chart.dart';
 import 'package:flutter/material.dart';
 
 class Dayone {
-  List<Map<String, dynamic>> colors = [
-    {'color': 'Color.fromRGBO(75, 135, 185, 1)'},
-    {'color': 'Color.fromRGBO(192, 108, 132, 1)'},
-    // {'color': 'Color.fromRGBO(246, 114, 128, 1)'},
-    // {'color': 'Color.fromRGBO(248, 177, 149, 1)'},
-    // {'color': 'Color.fromRGBO(116, 180, 155, 1)'}
+  List<Map<String, dynamic>>? colors = [
+    {'color': 'red'},
+    {'color': 'green'},
+    {'color': 'blue'},
+    {'color': 'yellow'},
+    {'color': 'orange'},
   ];
   List<Map<String, dynamic>> data = [
     {
@@ -52,18 +52,19 @@ class Dayone {
           // _tabController!.animateTo((0));
           return DChartPie(
             data: data,
-            fillColor: (pieData, index) {
-              switch (pieData['domain']) {
-                case 'Flutter':
-                  return Color.fromARGB(255, 243, 212, 33);
-                case 'React Native':
-                  return Color.fromARGB(255, 158, 68, 209);
-                case 'Ionic':
-                  return Colors.pink;
-                default:
-                  return Colors.green;
-              }
-            },
+            fillColor: colors![0]['color'],
+            // (pieData, index) {
+            //   switch (pieData['domain']) {
+            //     case 'Flutter':
+            //       return Color.fromARGB(255, 243, 212, 33);
+            //     case 'React Native':
+            //       return Color.fromARGB(255, 158, 68, 209);
+            //     case 'Ionic':
+            //       return Colors.pink;
+            //     default:
+            //       return Colors.green;
+            //   }
+            // },
             animate: true,
             donutWidth: 40,
           );
@@ -89,7 +90,6 @@ class Dayone {
     }
   }
 
-  @override
   @override
   Widget Dayone1(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -157,9 +157,9 @@ class Dayone {
                                             value: data[index]['pvalue'],
                                             valueColor:
                                                 new AlwaysStoppedAnimation<
-                                                        Color>(
-                                                    Color.fromARGB(
-                                                        255, 175, 48, 118)),
+                                                    Color>(
+                                              Color.fromARGB(255, 175, 48, 118),
+                                            ),
                                           ),
                                         ],
                                       )),
@@ -186,5 +186,4 @@ class Dayone {
     );
   }
 }
-  //////////////////////////////////////////////////////////////////////
-
+//////////////////////////////////////////////////////////////////////

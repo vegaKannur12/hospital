@@ -4,10 +4,6 @@ class P_Font {
   static String kronaOne = 'KronaOne-Regular';
 }
 
-class P_Image {
-  static String login = 'asset/image/01.jpg';
-  static String empty = 'asset/image/04.jpg';
-}
 
 class P_Settings {
   /// [title] Project Title
@@ -19,6 +15,9 @@ class P_Settings {
   
  
   static Color get wavecolor => Color.fromARGB(255, 192, 9, 116);
+  static Color get chartcolor1 => Color.fromARGB(255, 28, 57, 219);
+  static Color get chartcolor2 =>Color.fromARGB(255, 28, 219, 85);
+  static Color get chartcolor3 =>Color.fromARGB(255, 204, 74, 14);
   
   // static Color get bottomNavButton => Colors.white;
 

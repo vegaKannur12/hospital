@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:hospital/COMPONENTS/autocomplete.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
-import 'package:hospital/SCREEN/registration.dart';
+import 'package:hospital/SCREEN/chart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:intl/intl.dart';
 
 class StaffLogin extends StatelessWidget {
@@ -29,8 +30,6 @@ class StaffLogin extends StatelessWidget {
     double topInsets = MediaQuery.of(context).viewInsets.top;
 
     date = DateFormat('yyyy-MM-dd HH:mm:ss').format(now);
-    print("staff log date $date");
-    print("now date $now");
     Size size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () => _onBackPressed(context),
@@ -43,21 +42,10 @@ class StaffLogin extends StatelessWidget {
           elevation: 0,
           backgroundColor: P_Settings.wavecolor,
           actions: [
-            // IconButton(
-            //     onPressed: () {
-            //       controller.add(true);
-            //     },
-            //     icon: Icon(Icons.refresh)),
             IconButton(
               onPressed: () async {},
               icon: Icon(Icons.table_bar),
             ),
-            // IconButton(
-            //   onPressed: () async {
-            //     await OrderAppDB.instance.deleteStaffdetails();
-            //   },
-            //   icon: Icon(Icons.delete),
-            // ),
           ],
         ),
         body: InkWell(
@@ -142,11 +130,14 @@ class StaffLogin extends StatelessWidget {
                                               ),
                                             ),
                                             onPressed: () async {
+                                              //  final prefs =
+                                              //         await SharedPreferences
+                                              //             .getInstance();
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        RegistrationScreen()),
+                                                        MyWidget()),
                                               );
                                             },
                                             child: Row(

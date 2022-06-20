@@ -1,6 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/SCREEN/chart.dart';
+import 'package:hospital/SCREEN/login.dart';
 import 'package:provider/provider.dart';
 
 import '../../components/commoncolor.dart';
@@ -85,8 +88,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           controller: codeController,
                           decoration: const InputDecoration(
                             icon: Icon(Icons.business),
-                            // contentPadding: EdgeInsets.all(15.0),
-                            // hintText: 'What do people call you?',
                             labelText: 'Company Key',
                           ),
                           validator: (text) {
@@ -95,9 +96,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             }
                             return null;
                           },
-                          // scrollPadding: EdgeInsets.only(
-                          //     top:100),
-                          // focusNode: fieldFocusNode,
                         ),
                       ),
                       SizedBox(
@@ -107,20 +105,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         height: size.height * 0.05,
                         width: size.width * 0.3,
                         child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              primary: P_Settings.wavecolor,
+                          style: ElevatedButton.styleFrom(
+                            primary: P_Settings.wavecolor,
+                          ),
+                          onPressed: () async {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                            if (_formKey.currentState!.validate()) {
+                              Provider.of<Controller>(context, listen: false)
+                                  .postRegistration(
+                                      codeController.text, context);
+                            }
+                          },
+                          child: Text(
+                            'Register',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                              fontFamily: 'Montserrat'
                             ),
-                            onPressed: () async {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => MyWidget()),
-                              );
-                            },
-                            child: Text(
-                              "Register",
-                              style: TextStyle(fontSize: 20,color: Colors.white),
-                            )),
+                            // style: GoogleFonts.actor(
+                            //   textStyle: TextStyle(
+                            //       color: Colors.white, letterSpacing: .5),
+                            // ),
+                          ),
+                        ),
                       ),
                       SizedBox(
                         height: size.height * 0.09,

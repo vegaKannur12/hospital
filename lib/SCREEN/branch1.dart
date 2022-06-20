@@ -33,6 +33,9 @@ class _Branch1State extends State<Branch1> {
   String? selected;
   List<String> s = [];
   String? sid;
+  bool colorvisible1 = false;
+  bool colorvisible2 = false;
+  bool colorvisible3 = false;
   var groupBarData = 1;
   List months = [
     'jan',
@@ -54,7 +57,7 @@ class _Branch1State extends State<Branch1> {
     super.initState();
     // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
 
-    print("init");
+    // print("init");
     final today = DateTime(date.year, date.month, date.day);
     final yester = DateTime(date.year, date.month, date.day - 1);
     final dayaf = DateTime(date.year, date.month, date.day - 2);
@@ -63,7 +66,7 @@ class _Branch1State extends State<Branch1> {
     String month = DateFormat('MM').format(date).toString();
     yesterday = DateFormat('dd').format(yester);
     dayafter = DateFormat('dd').format(dayaf);
-    print("dayafter yesterday $dayafter $yesterday ");
+    // print("dayafter yesterday $dayafter $yesterday ");
 
     /////////// month name ////////////////////
     var someDateTime = new DateTime.now();
@@ -111,8 +114,11 @@ class _Branch1State extends State<Branch1> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
+                          colorvisible2=false;
+                          colorvisible1=!colorvisible1;
                           selectedWidgetMarker = WidgetMarker.daythree;
                           print("selectedWidgetMarker $selectedWidgetMarker");
+                          
                         });
                       },
                       child: Column(
@@ -120,13 +126,13 @@ class _Branch1State extends State<Branch1> {
                           Text(_month!,
                               style: TextStyle(color: Colors.grey[200])),
                           CircleAvatar(
-                            backgroundColor: Colors.grey[200],
+                            backgroundColor: colorvisible1? P_Settings.headingColor:Colors.grey[200],
                             child: Text(
                               dayafter!,
                               style: TextStyle(
                                   fontSize: 17,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.white),
+                                  color: Colors.white,),
                             ),
                           ),
                         ],
@@ -138,6 +144,8 @@ class _Branch1State extends State<Branch1> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
+                          colorvisible1=false;
+                          colorvisible2=!colorvisible2;
                           selectedWidgetMarker = WidgetMarker.daytwo;
                           print("selectedWidgetMarker $selectedWidgetMarker");
                         });
@@ -149,7 +157,7 @@ class _Branch1State extends State<Branch1> {
                             style: TextStyle(color: Colors.grey[400]),
                           ),
                           CircleAvatar(
-                            backgroundColor: Colors.grey[400],
+                            backgroundColor: colorvisible2? P_Settings.headingColor:Colors.grey[400],
                             child: Text(
                               yesterday!,
                               style: TextStyle(
@@ -167,6 +175,9 @@ class _Branch1State extends State<Branch1> {
                     GestureDetector(
                       onTap: () {
                         setState(() {
+                          colorvisible1=false;
+                          colorvisible2=false;
+                          colorvisible3=!colorvisible3;
                           selectedWidgetMarker = WidgetMarker.dayone;
                           print("selectedWidgetMarker $selectedWidgetMarker");
                         });
@@ -175,7 +186,7 @@ class _Branch1State extends State<Branch1> {
                         children: [
                           Text(_month!),
                           CircleAvatar(
-                            backgroundColor: P_Settings.headingColor,
+                            backgroundColor:colorvisible3||colorvisible1==true||colorvisible2==true? Colors.grey[200]: P_Settings.headingColor,
                             child: Text(
                               daytoday!,
                               style: TextStyle(
