@@ -12,24 +12,21 @@ class Dayone {
   ];
   List<Map<String, dynamic>> data = [
     {
-      'type': 'DChartPie',
       'domain': 'Flutter',
       'measure': 50,
       'pvalue': 0.3,
     },
     {
-      'type': 'DChartBar',
       'domain': 'React Native',
       'measure': 81,
       'pvalue': 0.3,
     },
     {
-      'type': 'DChartLine',
       'domain': 'Ionic',
       'measure': 27,
       'pvalue': 0.1,
     },
-    {'type': 'DChartBar', 'domain': 'Cordova', 'measure': 17, 'pvalue': 0.4},
+    {'domain': 'Cordova', 'measure': 17, 'pvalue': 0.4},
   ];
   List<Map<String, dynamic>>? head = [
     {'title': 'Expence', 'total': '200'},

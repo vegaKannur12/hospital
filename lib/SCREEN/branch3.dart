@@ -1,10 +1,11 @@
-
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
+import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/SCREEN/dayone.dart';
 import 'package:hospital/SCREEN/daythree.dart';
 import 'package:hospital/SCREEN/daytwo.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import 'branch3.dart';
 
@@ -63,9 +64,11 @@ class _Branch3State extends State<Branch3> {
     Widget dayone() {
       return todaydata.Dayone1(context);
     }
+
     Widget daytwo() {
       return yesterdaydata.Daytwo2(context);
     }
+
     Widget daythree() {
       return dayafterdata.Daythree3(context);
     }
@@ -83,92 +86,99 @@ class _Branch3State extends State<Branch3> {
     }
 
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      child: Consumer<Controller>(
+        builder: (context, value, child) {
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Column(
                   children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedWidgetMarker = WidgetMarker.daythree;
+                              print(
+                                  "selectedWidgetMarker $selectedWidgetMarker");
+                            });
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey[200],
+                            child: Text(
+                              dayafter!,
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: size.width * 0.03,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedWidgetMarker = WidgetMarker.daytwo;
+                              print(
+                                  "selectedWidgetMarker $selectedWidgetMarker");
+                            });
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: Colors.grey[400],
+                            child: Text(
+                              yesterday!,
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: size.width * 0.03,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedWidgetMarker = WidgetMarker.dayone;
+                              print(
+                                  "selectedWidgetMarker $selectedWidgetMarker");
+                            });
+                          },
+                          child: CircleAvatar(
+                            backgroundColor: P_Settings.headingColor,
+                            child: Text(
+                              daytoday!,
+                              style: TextStyle(
+                                  fontSize: 17,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                     GestureDetector(
                       onTap: () {
                         setState(() {
-                          selectedWidgetMarker = WidgetMarker.daythree;
-                          print("selectedWidgetMarker $selectedWidgetMarker");
+                          getCustomContainer();
                         });
                       },
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey[200],
-                        child: Text(
-                          dayafter!,
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: size.width * 0.03,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedWidgetMarker = WidgetMarker.daytwo;
-                          print("selectedWidgetMarker $selectedWidgetMarker");
-                        });
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: Colors.grey[400],
-                        child: Text(
-                          yesterday!,
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: size.width * 0.03,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          selectedWidgetMarker = WidgetMarker.dayone;
-                          print("selectedWidgetMarker $selectedWidgetMarker");
-                        });
-                      },
-                      child: CircleAvatar(
-                        backgroundColor: P_Settings.headingColor,
-                        child: Text(
-                          daytoday!,
-                          style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
+                      child: Container(
+                        height: size.height * 0.9,
+                        child: getCustomContainer(),
                       ),
                     ),
                   ],
                 ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      getCustomContainer();
-                    });
-                  },
-                  child: Container(
-                    height: size.height * 0.9,
-                    child: getCustomContainer(),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }

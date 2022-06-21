@@ -66,14 +66,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 color: P_Settings.wavecolor,
                                 height: size.height * 0.3,
                                 alignment: Alignment.center,
-                                //   child: Text(
-                                //   "Company Registration",
-                                //   style: TextStyle(
-                                //     fontSize: 20,
-                                //     // fontWeight: FontWeight.bold,
-                                //     color: Colors.white,
-                                //   ),
-                                // ),
                               ),
                             ),
                           ],

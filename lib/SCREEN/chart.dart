@@ -66,7 +66,7 @@ class _MyWidgetState extends State<MyWidget> with TickerProviderStateMixin {
           elevation: 0,
           backgroundColor: Colors.white,
           bottomOpacity: 1,
-          centerTitle: true,
+          // centerTitle: true,
           title: Text(
             'Company',
             // style: GoogleFonts.actor(),

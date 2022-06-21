@@ -18,7 +18,7 @@ class Controller extends ChangeNotifier {
     try {
       Uri url = Uri.parse("http://146.190.8.166/API/get_registration.php");
       Map body = {
-        'company_code': 'ARSYWPQUDT',
+        'company_code': company_code,
       };
       print("compny----${company_code}");
       // isLoading = true;
@@ -27,10 +27,12 @@ class Controller extends ChangeNotifier {
         url,
         body: jsonEncode(body),
       );
+      // body:
+      // jsonEncode(body);
 
       print("body ${body}");
       print("response ${response.body}");
-      var map = jsonDecode(response.body); 
+      var map = jsonDecode(response.body);
       print("map ${map}");
       GetRegistration regModel = GetRegistration.fromJson(map);
       print("cid ${regModel.cid}");
@@ -64,8 +66,8 @@ class Controller extends ChangeNotifier {
     try {
       Uri url = Uri.parse("http://146.190.8.166/API/verify_registration.php");
       Map body = {
-        'company_code': 'ARSYWPQUDT',
-        'fingerprint': 'UV3U7XC2WX6Y7QG',
+        'company_code': cid,
+        'fingerprint': fp,
       };
 
       http.Response response = await http.post(
