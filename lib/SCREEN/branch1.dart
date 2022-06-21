@@ -55,8 +55,11 @@ class _Branch1State extends State<Branch1> {
   ];
   @override
   void initState() {
+    Provider.of<Controller>(context, listen: false).getBranchList();
+
     // TODO: implement initState
     super.initState();
+
     // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
 
     // print("init");
@@ -82,14 +85,16 @@ class _Branch1State extends State<Branch1> {
     return SingleChildScrollView(
       child: Consumer<Controller>(
         builder: (context, value, child) {
+          print("length.........${value.branchList.length}");
           return Column(
             children: [
               Container(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
+                      
                       DefaultTabController(
-                          length: 3, // length of tabs
+                          length: value.branchList.length, // length of tabs
                           initialIndex: 0,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -97,17 +102,24 @@ class _Branch1State extends State<Branch1> {
                                 Container(
                                   // color: P_Settings.bodyTabColor,
                                   child: TabBar(
-                                    labelColor: P_Settings.wavecolor,
-                                    unselectedLabelColor: Colors.black,
-                                    tabs: [
-                                      Tab(text: 'Branch 1'),
-                                      Tab(text: 'Branch 2'),
-                                      Tab(text: 'Branch 3'),
-                                    ],
-                                  ),
+                                      labelColor: P_Settings.wavecolor,
+                                      unselectedLabelColor: Colors.black,
+                                      tabs: value.branchList
+                                          .map((e) => Tab(
+                                                text: e['branch_code'],
+                                              ))
+                                          .toList()
+
+                                      //  [
+                                      // Tab(text: ),
+                                      // Tab(text: 'Branch 2'),
+                                      // Tab(text: 'Branch 3'),
+                                      // ],
+                                      ),
                                 ),
                                 Container(
-                                     height: size.height*0.75, //height of TabBarView
+                                    height: size.height *
+                                        0.75, //height of TabBarView
                                     decoration: BoxDecoration(
                                         border: Border(
                                             top: BorderSide(

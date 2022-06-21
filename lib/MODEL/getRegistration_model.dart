@@ -28,7 +28,6 @@ class GetRegistrationData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['cid'] = this.cid;
     data['type'] = this.type;
-
     data['fp'] = this.fp;
     data['os'] = this.os;
     if (this.c_d != null) {
@@ -41,7 +40,6 @@ class GetRegistrationData {
 }
 
 class CD {
-  String? cid;
   String? cpre;
   String? ctype;
   String? hoid;
@@ -59,8 +57,7 @@ class CD {
   String? base_url;
 
   CD(
-      {this.cid,
-      this.cpre,
+      {this.cpre,
       this.ctype,
       this.hoid,
       this.cnme,
@@ -77,7 +74,6 @@ class CD {
       this.base_url});
 
   CD.fromJson(Map<String, dynamic> json) {
-    cid = json["cid"];
     cpre = json["cpre"];
     ctype = json["ctype"];
     hoid = json["hoid"];
@@ -96,7 +92,7 @@ class CD {
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data["cid"] = this.cid;
+
     data["cpre"] = this.cpre;
     data["ctype"] = this.ctype;
     data["hoid"] = this.hoid;

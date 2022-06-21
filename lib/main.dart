@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         fontFamily: P_Font.kronaOne,
       ),
       home: Scaffold(
-        body: RegistrationScreen(),
+        body: MyHomePage(),
       ),
     );
   }

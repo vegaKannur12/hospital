@@ -98,9 +98,7 @@ class OrderAppDB {
 
     result =
         await db.rawQuery('select * from registrationTable where $condition');
-
-    print("select * from registrationTable where $condition");
-
+    // print("select * from registrationTable where $condition");
     print("company deta-=-$result");
     if (result.length > 0) {
       return result;
@@ -115,8 +113,8 @@ class OrderAppDB {
     var query1 =
         'INSERT INTO registrationTable(cid, fp, os, cpre, ctype, cnme, ad1, ad2, ad3, pcode, land, mob, em, gst, ccode, scode, base_url, msg) VALUES("${data.cid}", "${data.fp}", "${data.os}","${data.c_d![0].cpre}", "${data.c_d![0].ctype}", "${data.c_d![0].cnme}", "${data.c_d![0].ad1}", "${data.c_d![0].ad2}", "${data.c_d![0].ad3}", "${data.c_d![0].pcode}", "${data.c_d![0].land}", "${data.c_d![0].mob}", "${data.c_d![0].em}", "${data.c_d![0].gst}", "${data.c_d![0].ccode}", "${data.c_d![0].scode}", "${data.c_d![0].base_url}", "${data.msg}" )';
     var res = await db.rawInsert(query1);
-    print(query1);
-    print(res);
+    // print(query1);
+    // print(res);
     return res;
   }
 }  

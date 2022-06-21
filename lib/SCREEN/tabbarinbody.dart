@@ -1,8 +1,13 @@
+import 'dart:html';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/SCREEN/branch1.dart';
 import 'package:hospital/SCREEN/branch2.dart';
 import 'package:hospital/SCREEN/branch3.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../COMPONENTS/commoncolor.dart';
 
@@ -16,6 +21,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   String menu_index = "1";
   TabController? _tabController;
   String? daytoday;
+
   DateTime date = DateTime.now();
   List<Tab> myTabs = <Tab>[
     Tab(text: 'Today '),
@@ -36,6 +42,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       });
       print("Selected Index: " + _tabController!.index.toString());
     });
+
+    daytoday = DateFormat('yyyy-MM-dd').format(date);
+    print("date $daytoday");
+    // Provider.of<Controller>(context, listen: false).getBranchList();
+    // Provider.of<Controller>(context, listen: false)
+    //     .chartDataSet(daytoday.toString(), daytoday.toString(), "");
     // TODO: implement initState
     super.initState();
   }
@@ -63,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         elevation: 0,
         title: Text(
           'Company Name',
-          style: TextStyle(color: Colors.white,fontSize: 18),
+          style: TextStyle(color: Colors.white, fontSize: 18),
         ),
         bottom: TabBar(
           isScrollable: true,
@@ -78,20 +90,25 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
       ),
       // drawer: Drawer(),
-      body: TabBarView(
-        controller: _tabController,
-        children: myTabs.map((Tab tab) {
-          final String label = tab.text!.toLowerCase();
-          return Center(
-            child: SingleChildScrollView(
-              child: Container(
-                child: _getBranch(
-                  menu_index,
+      body: Consumer<Controller>(
+        builder: (context, value, child) {
+          return TabBarView(
+            controller: _tabController,
+            children: myTabs.map((Tab tab) {
+              final String label = tab.text!.toLowerCase();
+              return Center(
+                child: SingleChildScrollView(
+                  child: Container(
+                    child: 
+                    _getBranch(
+                      menu_index,
+                    ),
+                  ),
                 ),
-              ),
-            ),
+              );
+            }).toList(),
           );
-        }).toList(),
+        },
       ),
     );
   }
