@@ -101,7 +101,7 @@ class Daythree {
                         Padding(
                           padding: EdgeInsets.all(16),
                           child: AspectRatio(
-                            aspectRatio: 1.2,
+                            aspectRatio: 1.5,
                             child: Stack(
                               children: [
                                 _getChart('DChartPie'),

@@ -18,6 +18,7 @@ class P_Settings {
   static Color get chartcolor1 => Color.fromARGB(255, 28, 57, 219);
   static Color get chartcolor2 =>Color.fromARGB(255, 28, 219, 85);
   static Color get chartcolor3 =>Color.fromARGB(255, 204, 74, 14);
+  static Color get bodyTabColor =>Color.fromARGB(255, 218, 108, 172);
   
   // static Color get bottomNavButton => Colors.white;
 

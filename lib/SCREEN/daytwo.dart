@@ -65,7 +65,8 @@ class Daytwo {
               }
             },
             animate: true,
-            donutWidth: 40,
+            donutWidth: 30,
+            showLabelLine: true,
           );
         }
       // case "DChartLine":
@@ -78,7 +79,6 @@ class Daytwo {
   }
 
   @override
-
   @override
   Widget Daytwo2(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -102,11 +102,10 @@ class Daytwo {
                         Padding(
                           padding: EdgeInsets.all(16),
                           child: AspectRatio(
-                            aspectRatio: 1.2,
+                            aspectRatio: 1.5,
                             child: Stack(
                               children: [
                                 _getChart('DChartPie'),
-                               
                                 Align(
                                     child: Text(
                                   head![index]['total'],

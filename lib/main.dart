@@ -8,6 +8,7 @@ import 'package:hospital/MODEL/registrationModel.dart';
 import 'package:hospital/SCREEN/chart.dart';
 import 'package:hospital/SCREEN/login.dart';
 import 'package:hospital/SCREEN/registration.dart';
+import 'package:hospital/SCREEN/tabbarinbody.dart';
 import 'package:ota_update/ota_update.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
         fontFamily: P_Font.kronaOne,
       ),
       home: Scaffold(
-        body: MyWidget(),
+        body: RegistrationScreen(),
       ),
     );
   }

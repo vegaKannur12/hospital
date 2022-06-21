@@ -4,6 +4,7 @@ import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/SCREEN/dayone.dart';
 import 'package:hospital/SCREEN/daythree.dart';
 import 'package:hospital/SCREEN/daytwo.dart';
+import 'package:hospital/SCREEN/daytwo.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -61,121 +62,68 @@ class _Branch2State extends State<Branch2> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    Widget dayone() {
-      return todaydata.Dayone1(context);
-    }
-
-    Widget daytwo() {
-      return yesterdaydata.Daytwo2(context);
-    }
-
-    Widget daythree() {
-      return dayafterdata.Daythree3(context);
-    }
-
-    Widget getCustomContainer() {
-      print("inside switch case");
-      switch (selectedWidgetMarker) {
-        case WidgetMarker.dayone:
-          return dayone();
-        case WidgetMarker.daytwo:
-          return daytwo();
-        case WidgetMarker.daythree:
-          return daythree();
-      }
-    }
-
     return SingleChildScrollView(
       child: Consumer<Controller>(
         builder: (context, value, child) {
           return Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
+              Container(
                 child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedWidgetMarker = WidgetMarker.daythree;
-                              print(
-                                  "selectedWidgetMarker $selectedWidgetMarker");
-                            });
-                          },
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey[200],
-                            child: Text(
-                              dayafter!,
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: size.width * 0.03,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedWidgetMarker = WidgetMarker.daytwo;
-                              print(
-                                  "selectedWidgetMarker $selectedWidgetMarker");
-                            });
-                          },
-                          child: CircleAvatar(
-                            backgroundColor: Colors.grey[400],
-                            child: Text(
-                              yesterday!,
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: size.width * 0.03,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              selectedWidgetMarker = WidgetMarker.dayone;
-                              print(
-                                  "selectedWidgetMarker $selectedWidgetMarker");
-                            });
-                          },
-                          child: CircleAvatar(
-                            backgroundColor: P_Settings.headingColor,
-                            child: Text(
-                              daytoday!,
-                              style: TextStyle(
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          getCustomContainer();
-                        });
-                      },
-                      child: Container(
-                        height: size.height * 0.9,
-                        child: getCustomContainer(),
-                      ),
-                    ),
-                  ],
-                ),
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      DefaultTabController(
+                          length: 3, // length of tabs
+                          initialIndex: 0,
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Container(
+                                  // color: P_Settings.bodyTabColor,
+                                  child: TabBar(
+                                    labelColor: P_Settings.wavecolor,
+                                    // labelColor: Colors.green,
+                                    unselectedLabelColor: Colors.black,
+                                    tabs: [
+                                      Tab(text: 'Branch 1'),
+                                      Tab(text: 'Branch 2'),
+                                      Tab(text: 'Branch 3'),
+                                      
+                                    ],
+                                  ),
+                                ),
+                                Container(
+                                     height: size.height*0.75, //height of TabBarView
+                                    decoration: BoxDecoration(
+                                        border: Border(
+                                            top: BorderSide(
+                                                color: Colors.grey,
+                                                width: 0.5))),
+                                    child: TabBarView(children: <Widget>[
+                                      Container(
+                                        child: Center(
+                                          child: todaydata.Dayone1(context),
+                                        //   child: Text('Display Tab 1',
+                                        //       style: TextStyle(
+                                        //           fontSize: 22,
+                                        //           fontWeight: FontWeight.bold)),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Center(
+                                          child: yesterdaydata.Daytwo2(context),
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Center(
+                                          child: dayafterdata.Daythree3(context),
+                                        ),
+                                      ),
+                                     
+                                    ]))
+                              ])),
+                    ]),
               ),
+        
             ],
           );
         },
