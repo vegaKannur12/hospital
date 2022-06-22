@@ -2,6 +2,11 @@ import 'dart:math';
 import 'package:d_chart/d_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
+<<<<<<< HEAD
+=======
+import 'package:hospital/CONTROLLER/controller.dart';
+import 'package:provider/provider.dart';
+>>>>>>> b406eb02365d37499eb2d030bb79ef1f019f11ab
 
 class FirstBranch extends StatefulWidget {
   String branchId;
@@ -50,8 +55,8 @@ class _FirstBranchState extends State<FirstBranch> {
         {
           // _tabController!.animateTo((0));
           return DChartPie(
-            data: data,
-            fillColor: colors![0]['color'],
+            data: Provider.of<Controller>(context, listen: false).collectData,
+            fillColor: (pieData, index) => Colors.purple,
             // (pieData, index) {
             //   switch (pieData['domain']) {
             //     case 'Flutter':
@@ -78,7 +83,11 @@ class _FirstBranchState extends State<FirstBranch> {
       case "DChartBar":
         return DChartBar(
           data: [
-            {'id': 'Bar', 'data': data},
+            {
+              'id': 'Bar',
+              'data': data
+              // 'data':Provider.of<Controller>(context, listen: false).collectData.length>0? Provider.of<Controller>(context, listen: false).collectData:data,
+            },
           ],
           domainLabelPaddingToAxisLine: 16,
           axisLineColor: Colors.green,
@@ -94,6 +103,7 @@ class _FirstBranchState extends State<FirstBranch> {
     Size size = MediaQuery.of(context).size;
 
     return SingleChildScrollView(
+<<<<<<< HEAD
       child: Column(
         children: [
           Padding(
@@ -234,21 +244,172 @@ class _FirstBranchState extends State<FirstBranch> {
                                     //     Text("${data[index]['measure'].toString()}%"),
                                   );
                                 },
+=======
+      child: Consumer<Controller>(
+        builder: (context, value, child) {
+          return Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Column(
+                  children: [
+                    Container(
+                      height: size.height * 0.9,
+                      child: ListView.builder(
+                        itemCount:value.collectData.length,
+                        itemBuilder: (context, index) {
+                          return Column(children: [
+                            Text(value.collectData.length>0 ? value.collectData[index]['title'] :"",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Color.fromARGB(255, 179, 15, 15))),
+                            Column(children: [
+                              Padding(
+                                padding: EdgeInsets.all(16),
+                                child: AspectRatio(
+                                  aspectRatio: 1.5,
+                                  child: Stack(
+                                    children: [
+                                      _getChart('DChartPie'),
+                                      Align(
+                                          child: 
+                                          
+                                          Text(
+                                        value.collectData.length>0 ? value.collectData[index]['total']:"",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          color:
+                                              Color.fromARGB(255, 110, 9, 94),
+                                        ),
+                                      ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+>>>>>>> b406eb02365d37499eb2d030bb79ef1f019f11ab
                               ),
-                            ),
-                          ),
-                          Divider(
-                            thickness: 2,
-                          ),
-                        ]),
-                      ]);
-                    },
-                  ),
+                              // AspectRatio(
+                              //   aspectRatio: 16 / 9,
+                              //   child: DChartBar(
+                              //     measureLabelColor: P_Settings.wavecolor,
+                              //     data: [
+                              //       {
+                              //         'id': 'Bar 1',
+                              //         'data': [
+                              //           {'domain': '2020', 'measure': 32},
+                              //           {'domain': '2021', 'measure': 43},
+                              //           {'domain': '2022', 'measure': 29},
+                              //           {'domain': '2023', 'measure': 16},
+                              //         ],
+                              //       },
+                              //       {
+                              //         'id': 'Bar 2',
+                              //         'data': [
+                              //           {'domain': '2020', 'measure': 24},
+                              //           {'domain': '2021', 'measure': 42},
+                              //           {'domain': '2022', 'measure': 9},
+                              //           {'domain': '2023', 'measure': 37},
+                              //         ],
+                              //       },
+                              //       {
+                              //         'id': 'Bar 3',
+                              //         'data': [
+                              //           {'domain': '2020', 'measure': 17},
+                              //           {'domain': '2021', 'measure': 28},
+                              //           {'domain': '2022', 'measure': 12},
+                              //           {'domain': '2023', 'measure': 30},
+                              //         ],
+                              //       },
+                              //     ],
+                              //     minimumPaddingBetweenLabel: 1,
+                              //     domainLabelPaddingToAxisLine: 16,
+                              //     axisLineTick: 4,
+                              //     axisLinePointTick: 4,
+                              //     axisLinePointWidth: 10,
+                              //     axisLineColor: Colors.green,
+                              //     measureLabelPaddingToAxisLine: 40,
+                              //     barColor: (barData, index, id) => id == 'Bar 1'
+                              //         ? Colors.green.shade300
+                              //         : id == 'Bar 2'
+                              //             ? Colors.green.shade600
+                              //             : Colors.green.shade900,
+                              //     barValue: (barData, index) =>
+                              //         '${barData['measure']}',
+                              //     showBarValue: true,
+                              //     barValueFontSize: 12,
+                              //     barValuePosition: BarValuePosition.outside,
+                              //   ),
+                              // ),
+                              // Padding(
+                              //   padding: EdgeInsets.symmetric(vertical: 8),
+                              //   child: Text(
+                              //     'Year',
+                              //     style: TextStyle(
+                              //       fontWeight: FontWeight.bold,
+                              //       color: Colors.green,
+                              //     ),
+                              //   ),
+                              // ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 10, right: 10),
+                                child: Container(
+                                  height: size.height * 0.395,
+                                  child: ListView.builder(
+                                    itemCount: data.length,
+                                    itemBuilder: (context, index) {
+                                      return ListTile(
+                                        leading: Text(
+                                            "${data[index]['measure'].toString()}%"),
+                                        title: Container(
+                                            // width: size.width*0.9,
+                                            alignment: Alignment.topCenter,
+                                            margin: EdgeInsets.all(10),
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "${data[index]['domain'].toString()}",
+                                                  style: TextStyle(
+                                                      fontSize: 13,
+                                                      color: Colors.grey[500]),
+                                                ),
+                                                LinearProgressIndicator(
+                                                  value: data[index]['pvalue'],
+                                                  // valueColor:
+                                                  //     new AlwaysStoppedAnimation<
+                                                  //         Color>(
+                                                  //   Color.fromARGB(
+                                                  //       255, 175, 48, 118),
+                                                  // ),
+                                                  color: Color.fromARGB(
+                                                      0, 20, 255, 255),
+                                                ),
+                                              ],
+                                            )),
+                                        // subtitle: Text("${data[index]['domain'].toString()}%"),
+                                        // trailing:
+                                        //     Text("${data[index]['measure'].toString()}%"),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Divider(
+                                thickness: 2,
+                              ),
+                            ]),
+                          ]);
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
       ),
     );
   }

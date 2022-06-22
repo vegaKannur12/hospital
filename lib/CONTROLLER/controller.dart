@@ -29,7 +29,7 @@ class Controller extends ChangeNotifier {
   String? till_date;
   String? branch_id;
   List<CD> c_d = [];
-  List<CollectionData> collectData = [];
+  List<Map<String, dynamic>> collectData = [];
 
   List<Map<String, dynamic>> branchList = [];
   List<Map<String, dynamic>> allData = [];
@@ -176,12 +176,12 @@ class Controller extends ChangeNotifier {
         // body: jsonEncode(body),
       );
 
-      // print("body ${body}");
       var map = jsonDecode(response.body);
       print("map ${map}");
 
       collectData.clear();
       print("map chart data ${map}");
+<<<<<<< HEAD
 
       ChartData chartModel = ChartData.fromJson(map);
       print("chartModel  ${chartModel}");
@@ -194,10 +194,13 @@ class Controller extends ChangeNotifier {
 
       for (var item in chartModel.collectionData!) {
         print("inside for length  ${chartModel.toJson()}");
+=======
+      for (var item in map["collection_data"]) {
+        print("inside for length  ${item}");
+>>>>>>> b406eb02365d37499eb2d030bb79ef1f019f11ab
         collectData.add(item);
       }
       print("collectData ${collectData}");
-
       notifyListeners();
     } catch (e) {
       print(e);
@@ -222,7 +225,7 @@ class Controller extends ChangeNotifier {
         branchList.add(item);
       }
 
-      print("branchList ${branchList.length}");
+      print("branchList ${branchList}");
       notifyListeners();
     } catch (e) {
       print(e);
