@@ -14,45 +14,7 @@ class FirstBranch extends StatefulWidget {
 
 class _FirstBranchState extends State<FirstBranch> {
   List<String> chartType = ["DChartBar", "DChartPie", "DChartPie", "DChartBar"];
-  List<Map<String, dynamic>>? colors = [
-    {'color': 'red'},
-    {'color': 'green'},
-    {'color': 'blue'},
-    {'color': 'yellow'},
-    {'color': 'orange'},
-  ];
-  List<Map<String, dynamic>> data = [
-    {
-      'domain': 'Flutter',
-      'measure': 50,
-      'pvalue': 0.3,
-      'color': 0xffb74093,
-    },
-    {
-      'title': 'CASH',
-      'amt': '29921.213',
-      'domain': 'CREDIT',
-      'measure': 290.213,
-    },
-    {
-      'title': 'CASH',
-      'domain': 'CASH',
-      'measure': 290.213,
-      'amt': '29921.213',
-    },
-    {
-      'title': 'CASH',
-      'amt': '29921.213',
-      'domain': 'CARD',
-      'measure': 400.0,
-    },
-  ];
-  List<Map<String, dynamic>>? head = [
-    {'title': 'COLLECTION', 'total': '200'},
-    {'title': 'COUNT', 'total': '500'},
-    {'title': 'DEPARTEMENT', 'total': '1000'},
-    {'title': 'SERVICE GROUP', 'total': '1000'},
-  ];
+
   String? daytoday;
   String? yesterday;
   String? dayafter;
@@ -112,7 +74,7 @@ class _FirstBranchState extends State<FirstBranch> {
                 child: Column(
                   children: [
                     Text(
-                        "${value.collectData != null && value.collectData.isNotEmpty ? value.collectData[0]['rpt'] : 'Data'}",
+                        "${value.collectData != null && value.collectData.isNotEmpty ? value.collectData[0]['rpt'] : ''}",
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 179, 15, 15))),
@@ -120,44 +82,36 @@ class _FirstBranchState extends State<FirstBranch> {
                       aspectRatio: 1.5,
                       child: _getChart("DChartBar", value.collectData),
                     ),
-                    linearProgress(data, size),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : 'Data'}",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 179, 15, 15))),
-                    ),
+                    linearProgress(value.collectData, size),
+                    Text(
+                        "${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : ''}",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 179, 15, 15))),
                     AspectRatio(
                       aspectRatio: 1.5,
                       child: _getChart("DChartPie", value.countData),
                     ),
-                    linearProgress(data, size),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : 'Data'}",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 179, 15, 15))),
-                    ),
-                          
+                    linearProgress(value.countData, size),
+                    Text(
+                        "${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : ''}",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 179, 15, 15))),
                     AspectRatio(
                       aspectRatio: 1.5,
                       child: _getChart("DChartPie", value.departmentData),
                     ),
-                    linearProgress(data, size),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text("SERVICE GROUP",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 179, 15, 15))),
-                    ),
+                    linearProgress(value.collectData, size),
+                    Text("SERVICE GROUP",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 179, 15, 15))),
                     AspectRatio(
                       aspectRatio: 1.5,
                       child: _getChart("DChartPie", value.servicegroupData),
                     ),
-                    linearProgress(data, size),
+                    linearProgress(value.servicegroupData, size),
                   ],
                 ),
               ),
@@ -169,46 +123,45 @@ class _FirstBranchState extends State<FirstBranch> {
   }
 
   Widget linearProgress(List<Map<String, dynamic>> list, Size size) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10),
-        child: Container(
-          height: size.height * 0.36,
-          child: ListView.builder(
-            itemCount: list.length,
-            itemBuilder: (context, index) {
-              return ListTile(
-                // leading: Text("${data[index]['measure'].toString()}%"),
-                title: Container(
-                    // width: size.width*0.9,
-                    alignment: Alignment.topCenter,
-                    margin: EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${data[index]['domain'].toString()}",
-                          style:
-                              TextStyle(fontSize: 13, color: Colors.grey[500]),
-                        ),
-                        LinearProgressIndicator(
-                          value: data[index]['pvalue'],
-                          // valueColor:
-                          //     new AlwaysStoppedAnimation<
-                          //         Color>(
-                          //   Color.fromARGB(
-                          //       255, 175, 48, 118),
-                          // ),
-                          color: Color.fromARGB(0, 20, 255, 255),
-                        ),
-                      ],
-                    )),
-                // subtitle: Text("${data[index]['domain'].toString()}%"),
-                // trailing:
-                //     Text("${data[index]['measure'].toString()}%"),
-              );
-            },
-          ),
+    print("cjxzj-----$list");
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10),
+      child: Container(
+        height: size.height * 0.36,
+        child: ListView.builder(
+          itemCount: list.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+                // leading: Text("${list[index]['measure'].toString()}%"),
+                title: Row(
+              children: [
+                Container(
+                    width: size.width * 0.2,
+                    child: Text("${list[index]['measure'].toString()}%")),
+                SizedBox(
+                  width: size.width * 0.03,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${list[index]['domain'].toString()}",
+                      style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                    ),
+                    Container(
+                      width: size.width * 0.6,
+                      child: LinearProgressIndicator(
+                        value: list[index]['per'],
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Color.fromARGB(255, 131, 7, 7)),
+                        color: Color.fromARGB(0, 20, 255, 255),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ));
+          },
         ),
       ),
     );

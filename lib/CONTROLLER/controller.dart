@@ -20,6 +20,8 @@ class Controller extends ChangeNotifier {
   // List<Map<String, dynamic>> departmentData = [];
   // List<Map<String, dynamic>> servicegroupData = [];
   bool isLoading = false;
+  List<num> num_list = [];
+  num? sum;
   String? cid;
   String? fp;
   String? sof;
@@ -163,6 +165,16 @@ class Controller extends ChangeNotifier {
     }
   }
 
+  /////////////////////////sum////////////////////////
+  calculate_sum(List<num> list) {
+    num sum = 0;
+    list.forEach((num e) {
+      sum = sum + e;
+    });
+    print(sum);
+    return sum;
+  }
+
   ///////////////////chart data///////////////////////
   Future<ChartData?> chartDataSet() async {
     var res;
@@ -188,9 +200,25 @@ class Controller extends ChangeNotifier {
       for (var item in map["collection_data"]) {
         print("inside for length  ${item}");
         collectData.add(item);
+        num_list.add(item["measure"]);
       }
+
+      sum = calculate_sum(num_list);
+      for (var item in collectData) {
+        print("item----$item");
+        num percent = item["measure"] / sum;
+        item["per"] = percent;
+        // collectData.add({"per":0});
+      }
+
+      num_list.clear();
+
+      print("coll--$collectData");
+      // print("num_list---$sum");
+
       for (var item in map["count_data"]) {
         countData.add(item);
+        num_list.add(item["measure"]);
       }
 
       for (var item in map["department_data"]) {
@@ -200,6 +228,14 @@ class Controller extends ChangeNotifier {
         servicegroupData.add(item);
       }
       print("collectData ${collectData}");
+      sum = calculate_sum(num_list);
+      for (var item in countData) {
+        print("item----$item");
+        num percent = item["measure"] / sum;
+        item["per"] = percent;
+        // collectData.add({"per":0});
+      }
+      print("collectData ${countData}");
       notifyListeners();
     } catch (e) {
       print(e);
