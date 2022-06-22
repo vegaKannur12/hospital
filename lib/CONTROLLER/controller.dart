@@ -181,23 +181,8 @@ class Controller extends ChangeNotifier {
 
       collectData.clear();
       print("map chart data ${map}");
-<<<<<<< HEAD
-
-      ChartData chartModel = ChartData.fromJson(map);
-      print("chartModel  ${chartModel}");
-         
-      CollectionData dataDetails;
-      // // print("collection data  ${dataDetails.title}");
-      // title = chartModel.collectionData![0].title;
-      // print("title   ${title}");
-      // print("collection data length ${chartModel.collectionData!.length}");
-
-      for (var item in chartModel.collectionData!) {
-        print("inside for length  ${chartModel.toJson()}");
-=======
       for (var item in map["collection_data"]) {
         print("inside for length  ${item}");
->>>>>>> b406eb02365d37499eb2d030bb79ef1f019f11ab
         collectData.add(item);
       }
       print("collectData ${collectData}");

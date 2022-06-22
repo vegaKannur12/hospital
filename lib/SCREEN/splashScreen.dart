@@ -39,9 +39,9 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     Provider.of<Controller>(context, listen: false).getBranchList();
     Provider.of<Controller>(context, listen: false).chartDataSet();
+
     // TODO: implement initState
     super.initState();
-
 
     navigate();
   }
