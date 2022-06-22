@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/SCREEN/branch1.dart';
@@ -24,8 +23,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   DateTime date = DateTime.now();
   List<Tab> myTabs = <Tab>[
     Tab(text: 'Today '),
-    Tab(text: ''),
-    Tab(text: '')
+    // Tab(text: ''),
   ];
   @override
   void initState() {
@@ -59,15 +57,15 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   _getBranch(String pos) {
     switch (pos) {
-      case "0":
+      case "1":
         {
           _tabController!.animateTo((0));
           return Branch1();
         }
-      case "1":
-        return Branch2();
-      case "2":
-        return Branch3();
+      // case "1":
+      //   return Branch2();
+      // case "2":
+      //   return Branch3();
     }
   }
 
@@ -79,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         backgroundColor: P_Settings.bodyTabColor,
         elevation: 0,
         title: Text(
-          'Company Name',
+          'Clinic Report',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
         bottom: TabBar(
@@ -97,7 +95,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       // drawer: Drawer(),
       body: Consumer<Controller>(
         builder: (context, value, child) {
-
           return TabBarView(
             controller: _tabController,
             children: myTabs.map((Tab tab) {

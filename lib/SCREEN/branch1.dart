@@ -7,11 +7,11 @@ import 'package:hospital/SCREEN/daytwo.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
-enum WidgetMarker {
-  dayone,
-  daytwo,
-  daythree,
-}
+// enum WidgetMarker {
+//   dayone,
+//   daytwo,
+//   daythree,
+// }
 
 class Branch1 extends StatefulWidget {
   const Branch1({Key? key}) : super(key: key);
@@ -26,7 +26,7 @@ class _Branch1State extends State<Branch1> {
   // FirstBranch todaydata = FirstBranch();
   Daytwo yesterdaydata = Daytwo();
   Daythree dayafterdata = Daythree();
-  WidgetMarker selectedWidgetMarker = WidgetMarker.dayone;
+  // WidgetMarker selectedWidgetMarker = WidgetMarker.dayone;
   String? _month;
   String? daytoday;
   String? yesterday;

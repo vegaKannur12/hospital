@@ -111,40 +111,51 @@ class _FirstBranchState extends State<FirstBranch> {
                 padding: const EdgeInsets.only(top: 15),
                 child: Column(
                   children: [
-                    Text("${value.collectData != null && value.collectData.isNotEmpty?value.collectData[0]['rpt']:'Data'}",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 179, 15, 15))),
-                    AspectRatio(
-                      aspectRatio: 1.5,
-                      child: _getChart("DChartBar",value.collectData),
-                    ),
-                    linearProgress(data, size),
-                    Text("COUNT",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 179, 15, 15))),
-                    AspectRatio(
-                      aspectRatio: 1.5,
-                      child: _getChart("DChartPie", value.countData),
-                    ),
-                    linearProgress(data, size),
-                    Text("DEPARTEMENT",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 179, 15, 15))),
-                    AspectRatio(
-                      aspectRatio: 1.5,
-                      child: _getChart("DChartPie", value.collectData),
-                    ),
-                    linearProgress(data, size),
-                    Text("SERVICE GROUP",
+                    Text(
+                        "${value.collectData != null && value.collectData.isNotEmpty ? value.collectData[0]['rpt'] : 'Data'}",
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 179, 15, 15))),
                     AspectRatio(
                       aspectRatio: 1.5,
                       child: _getChart("DChartBar", value.collectData),
+                    ),
+                    linearProgress(data, size),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : 'Data'}",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 179, 15, 15))),
+                    ),
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: _getChart("DChartPie", value.countData),
+                    ),
+                    linearProgress(data, size),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : 'Data'}",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 179, 15, 15))),
+                    ),
+                          
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: _getChart("DChartPie", value.departmentData),
+                    ),
+                    linearProgress(data, size),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("SERVICE GROUP",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 179, 15, 15))),
+                    ),
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: _getChart("DChartPie", value.servicegroupData),
                     ),
                     linearProgress(data, size),
                   ],
@@ -158,43 +169,46 @@ class _FirstBranchState extends State<FirstBranch> {
   }
 
   Widget linearProgress(List<Map<String, dynamic>> list, Size size) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 10, right: 10),
-      child: Container(
-        height: size.height * 0.36,
-        child: ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              leading: Text("${data[index]['measure'].toString()}%"),
-              title: Container(
-                  // width: size.width*0.9,
-                  alignment: Alignment.topCenter,
-                  margin: EdgeInsets.all(10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${data[index]['domain'].toString()}",
-                        style: TextStyle(fontSize: 13, color: Colors.grey[500]),
-                      ),
-                      LinearProgressIndicator(
-                        value: data[index]['pvalue'],
-                        // valueColor:
-                        //     new AlwaysStoppedAnimation<
-                        //         Color>(
-                        //   Color.fromARGB(
-                        //       255, 175, 48, 118),
-                        // ),
-                        color: Color.fromARGB(0, 20, 255, 255),
-                      ),
-                    ],
-                  )),
-              // subtitle: Text("${data[index]['domain'].toString()}%"),
-              // trailing:
-              //     Text("${data[index]['measure'].toString()}%"),
-            );
-          },
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.only(left: 10, right: 10),
+        child: Container(
+          height: size.height * 0.36,
+          child: ListView.builder(
+            itemCount: list.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                // leading: Text("${data[index]['measure'].toString()}%"),
+                title: Container(
+                    // width: size.width*0.9,
+                    alignment: Alignment.topCenter,
+                    margin: EdgeInsets.all(10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${data[index]['domain'].toString()}",
+                          style:
+                              TextStyle(fontSize: 13, color: Colors.grey[500]),
+                        ),
+                        LinearProgressIndicator(
+                          value: data[index]['pvalue'],
+                          // valueColor:
+                          //     new AlwaysStoppedAnimation<
+                          //         Color>(
+                          //   Color.fromARGB(
+                          //       255, 175, 48, 118),
+                          // ),
+                          color: Color.fromARGB(0, 20, 255, 255),
+                        ),
+                      ],
+                    )),
+                // subtitle: Text("${data[index]['domain'].toString()}%"),
+                // trailing:
+                //     Text("${data[index]['measure'].toString()}%"),
+              );
+            },
+          ),
         ),
       ),
     );

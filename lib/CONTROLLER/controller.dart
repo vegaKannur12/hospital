@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hospital/COMPONENTS/globalurl.dart';
 import 'package:hospital/COMPONENTS/network_connectivity.dart';
 import 'package:hospital/MODEL/branch_model.dart';
 import 'package:hospital/MODEL/chartData_model.dart';
@@ -31,12 +32,14 @@ class Controller extends ChangeNotifier {
   List<CD> c_d = [];
   List<Map<String, dynamic>> collectData = [];
   List<Map<String, dynamic>> countData = [];
-
+  List<Map<String, dynamic>> departmentData = [];
+  List<Map<String, dynamic>> servicegroupData = [];
 
   List<Map<String, dynamic>> branchList = [];
   List<Map<String, dynamic>> allData = [];
   List<CD> companyList = [];
   List<Map<String, dynamic>> collectionChart = [];
+  String urlgolabl = Globaldata.apiglobal;
   var map;
   Future<GetRegistrationData?> postRegistration(
       String company_code, BuildContext context) async {
@@ -92,9 +95,8 @@ class Controller extends ChangeNotifier {
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("cid", cid!);
 
-            
             // prefs.setString("os", os!);
-            getCompanyData();
+            // getCompanyData();
             verifyRegistration(cid!, fp!, context);
             Navigator.push(
               context,
@@ -111,28 +113,28 @@ class Controller extends ChangeNotifier {
     });
   }
 
-  //////////////////////////////////////////
-  getCompanyData() async {
-    try {
-      isLoading = true;
-      // notifyListeners();
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // String? cid = prefs.getString("cid");
-      // print('cidnew---$cid');
-      var res = await OrderAppDB.instance.selectCompany("cid='${cid}'");
-      // print("res companyList----${res}");
-      for (var item in res) {
-        companyList.add(item);
-      }
-      // print("companyList ----${companyList}");
-      isLoading = false;
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
-    notifyListeners();
-  }
+  // //////////////////////////////////////////
+  // getCompanyData() async {
+  //   try {
+  //     isLoading = true;
+  //     // notifyListeners();
+  //     // SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     // String? cid = prefs.getString("cid");
+  //     // print('cidnew---$cid');
+  //     var res = await OrderAppDB.instance.selectCompany("cid='${cid}'");
+  //     // print("res companyList----${res}");
+  //     for (var item in res) {
+  //       companyList.add(item);
+  //     }
+  //     // print("companyList ----${companyList}");
+  //     isLoading = false;
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print(e);
+  //     return null;
+  //   }
+  //   notifyListeners();
+  // }
 
   /////////////////// verify registration//////////////
   Future<Registration?> verifyRegistration(
@@ -141,7 +143,7 @@ class Controller extends ChangeNotifier {
     print("company_code---fp-${company_code}---${fp}");
 
     try {
-      Uri url = Uri.parse("http://146.190.8.166/API/verify_registration.php");
+      Uri url = Uri.parse("$urlgolabl/verify_registration.php");
       Map body = {
         'company_code': cid,
         'fingerprint': fp,
@@ -166,7 +168,7 @@ class Controller extends ChangeNotifier {
     var res;
     // print("company_code---fp-${company_code}---${fp}");
     try {
-      Uri url = Uri.parse("http://146.190.8.166/API/reports.php");
+      Uri url = Uri.parse("$urlgolabl/reports.php");
       // Map body = {
       //   'from_date': from_date,
       //   'till_date': till_date,
@@ -187,8 +189,15 @@ class Controller extends ChangeNotifier {
         print("inside for length  ${item}");
         collectData.add(item);
       }
-      for(var item in map["count_data"]){
+      for (var item in map["count_data"]) {
         countData.add(item);
+      }
+
+      for (var item in map["department_data"]) {
+        departmentData.add(item);
+      }
+      for (var item in map["servicegroup_data"]) {
+        servicegroupData.add(item);
       }
       print("collectData ${collectData}");
       notifyListeners();
@@ -202,7 +211,7 @@ class Controller extends ChangeNotifier {
   getBranchList() async {
     try {
       branchList.clear();
-      Uri url = Uri.parse("http://146.190.8.166/API/branch_list.php");
+      Uri url = Uri.parse("$urlgolabl/branch_list.php");
       http.Response response = await http.post(
         url,
         // body: body,
