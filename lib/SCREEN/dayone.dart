@@ -91,7 +91,7 @@ class _FirstBranchState extends State<FirstBranch> {
                       aspectRatio: 1.5,
                       child: _getChart("DChartPie", value.countData),
                     ),
-                    linearProgress(value.collectData, size),
+                    linearProgress(value.countData, size),
                     Text("DEPARTEMENT",
                         style: TextStyle(
                             fontSize: 20,
@@ -121,6 +121,7 @@ class _FirstBranchState extends State<FirstBranch> {
   }
 
   Widget linearProgress(List<Map<String, dynamic>> list, Size size) {
+    print("cjxzj-----$list");
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Container(
@@ -133,11 +134,11 @@ class _FirstBranchState extends State<FirstBranch> {
                 title: Row(
               children: [
                 Container(
-                 width: size.width * 0.2,
-                  child: Text("${list[index]['measure'].toString()}%")),
+                    width: size.width * 0.2,
+                    child: Text("${list[index]['measure'].toString()}%")),
                 SizedBox(
-                      width: size.width * 0.03,
-                    ),
+                  width: size.width * 0.03,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -145,68 +146,19 @@ class _FirstBranchState extends State<FirstBranch> {
                       "${list[index]['domain'].toString()}",
                       style: TextStyle(fontSize: 13, color: Colors.grey[500]),
                     ),
-                    
                     Container(
                       width: size.width * 0.6,
                       child: LinearProgressIndicator(
-                        value: list[index]['measure'],
-                        // valueColor:
-                        //     new AlwaysStoppedAnimation<
-                        //         Color>(
-                        //   Color.fromARGB(
-                        //       255, 175, 48, 118),
-                        // ),
+                        value: list[index]['per'],
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Color.fromARGB(255, 131, 7, 7)),
                         color: Color.fromARGB(0, 20, 255, 255),
                       ),
                     ),
                   ],
                 ),
               ],
-            )
-                // title: Container(
-                //     // width: size.width*0.9,
-                //     alignment: Alignment.topCenter,
-                //     margin: EdgeInsets.all(10),
-                //     child: Row(children: [
-                //       Text(
-                //           "${list[index]['domain'].toString()}",
-                //           style: TextStyle(fontSize: 13, color: Colors.grey[500]),
-                //         ),
-                //         LinearProgressIndicator(
-                //           value: list[index]['measure'],
-                //           // valueColor:
-                //           //     new AlwaysStoppedAnimation<
-                //           //         Color>(
-                //           //   Color.fromARGB(
-                //           //       255, 175, 48, 118),
-                //           // ),
-                //           color: Color.fromARGB(0, 20, 255, 255),
-                //         ),
-                //     ]),
-                //     // child: Column(
-                //     //   crossAxisAlignment: CrossAxisAlignment.start,
-                //     //   children: [
-                //     //     Text(
-                //     //       "${list[index]['domain'].toString()}",
-                //     //       style: TextStyle(fontSize: 13, color: Colors.grey[500]),
-                //     //     ),
-                //     //     LinearProgressIndicator(
-                //     //       value: list[index]['measure'],
-                //     //       // valueColor:
-                //     //       //     new AlwaysStoppedAnimation<
-                //     //       //         Color>(
-                //     //       //   Color.fromARGB(
-                //     //       //       255, 175, 48, 118),
-                //     //       // ),
-                //     //       color: Color.fromARGB(0, 20, 255, 255),
-                //     //     ),
-                //     //   ],
-                //     // )
-                //     ),
-                // subtitle: Text("${data[index]['domain'].toString()}%"),
-                // trailing:
-                //     Text("${data[index]['measure'].toString()}%"),
-                );
+            ));
           },
         ),
       ),
