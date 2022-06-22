@@ -85,9 +85,12 @@ class Controller extends ChangeNotifier {
 
             // print("inserted ${res}");
             notifyListeners();
+
+            print("cidrett---$cid");
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            // prefs.setString("company_id", company_code);
             prefs.setString("cid", cid!);
+
+            
             // prefs.setString("os", os!);
             getCompanyData();
             verifyRegistration(cid!, fp!, context);

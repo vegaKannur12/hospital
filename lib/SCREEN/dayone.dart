@@ -3,16 +3,16 @@ import 'package:d_chart/d_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
 
-
 class FirstBranch extends StatefulWidget {
-  const FirstBranch({Key? key}) : super(key: key);
+  String branchId;
+  FirstBranch({required this.branchId});
 
   @override
   State<FirstBranch> createState() => _FirstBranchState();
 }
 
 class _FirstBranchState extends State<FirstBranch> {
-    List<Map<String, dynamic>>? colors = [
+  List<Map<String, dynamic>>? colors = [
     {'color': 'red'},
     {'color': 'green'},
     {'color': 'blue'},
@@ -21,7 +21,12 @@ class _FirstBranchState extends State<FirstBranch> {
   ];
   List<Map<String, dynamic>> data = [
     {'domain': 'Flutter', 'measure': 50, 'pvalue': 0.3, 'color': 0xffb74093},
-    {'domain': 'React Native', 'measure': 81, 'pvalue': 0.3, 'color': 0xffb74093},
+    {
+      'domain': 'React Native',
+      'measure': 81,
+      'pvalue': 0.3,
+      'color': 0xffb74093
+    },
     {'domain': 'Ionic', 'measure': 27, 'pvalue': 0.1, 'color': 0xffb74093},
     {'domain': 'Cordova', 'measure': 17, 'pvalue': 0.4, 'color': 0xffb74093},
   ];
@@ -83,6 +88,7 @@ class _FirstBranchState extends State<FirstBranch> {
         );
     }
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -106,24 +112,24 @@ class _FirstBranchState extends State<FirstBranch> {
                                 color: Color.fromARGB(255, 179, 15, 15))),
                         Column(children: [
                           Padding(
-                          padding: EdgeInsets.all(16),
-                          child: AspectRatio(
-                            aspectRatio: 1.5,
-                            child: Stack(
-                              children: [
-                                _getChart('DChartBar'),
-                                Align(
-                                    child: Text(
-                                  head![index]['total'],
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Color.fromARGB(255, 110, 9, 94),
-                                  ),
-                                )),
-                              ],
+                            padding: EdgeInsets.all(16),
+                            child: AspectRatio(
+                              aspectRatio: 1.5,
+                              child: Stack(
+                                children: [
+                                  _getChart('DChartBar'),
+                                  Align(
+                                      child: Text(
+                                    head![index]['total'],
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      color: Color.fromARGB(255, 110, 9, 94),
+                                    ),
+                                  )),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
                           // AspectRatio(
                           //   aspectRatio: 16 / 9,
                           //   child: DChartBar(
@@ -218,7 +224,8 @@ class _FirstBranchState extends State<FirstBranch> {
                                               //   Color.fromARGB(
                                               //       255, 175, 48, 118),
                                               // ),
-                                              color: Color.fromARGB(0, 20, 255, 255),
+                                              color: Color.fromARGB(
+                                                  0, 20, 255, 255),
                                             ),
                                           ],
                                         )),

@@ -101,7 +101,7 @@ class _Branch2State extends State<Branch2> {
                                     child: TabBarView(children: <Widget>[
                                       Container(
                                         child: Center(
-                                          child: FirstBranch(),
+                                          child: FirstBranch(branchId: value.branchList[0]['brnach_id']),
                                         //   child: Text('Display Tab 1',
                                         //       style: TextStyle(
                                         //           fontSize: 22,
