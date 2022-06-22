@@ -51,9 +51,7 @@ class _FirstBranchState extends State<FirstBranch> {
   List<String> s = [];
   String? sid;
   var groupBarData = 1;
-  _getChart(
-    String type,List<Map<String, dynamic>> data
-  ) {
+  _getChart(String type, List<Map<String, dynamic>> data) {
     print("chart type$type");
     switch (type) {
       case "DChartPie":
@@ -103,46 +101,46 @@ class _FirstBranchState extends State<FirstBranch> {
                 padding: const EdgeInsets.only(top: 15),
                 child: Column(
                   children: [
-                    Text("COLLECTION",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: Color.fromARGB(255, 179, 15, 15))),
-                    AspectRatio(
-                      aspectRatio: 1.5,
-                      child: _getChart("DChartBar",value.collectData),
+                    Column(
+                      children: [
+                        Text("COLLECTION",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Color.fromARGB(255, 179, 15, 15))),
+                        AspectRatio(
+                          aspectRatio: 1.5,
+                          child: _getChart("DChartBar", value.collectData),
+                        ),
+                      ],
                     ),
                     linearProgress(data, size),
                     Text("COUNT",
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 179, 15, 15))),
-
                     AspectRatio(
                       aspectRatio: 1.5,
-                      child: _getChart("DChartPie",value.collectData),
+                      child: _getChart("DChartPie", value.countData),
                     ),
                     linearProgress(data, size),
                     Text("DEPARTEMENT",
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 179, 15, 15))),
-
                     AspectRatio(
                       aspectRatio: 1.5,
-                      child: _getChart("DChartPie",value.collectData),
+                      child: _getChart("DChartPie", value.collectData),
                     ),
                     linearProgress(data, size),
                     Text("SERVICE GROUP",
                         style: TextStyle(
                             fontSize: 20,
                             color: Color.fromARGB(255, 179, 15, 15))),
-
                     AspectRatio(
                       aspectRatio: 1.5,
-                      child: _getChart("DChartBar",value.collectData),
+                      child: _getChart("DChartBar", value.collectData),
                     ),
                     linearProgress(data, size),
-                    
                   ],
                 ),
               ),
