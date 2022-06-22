@@ -98,7 +98,9 @@ class _Branch3State extends State<Branch3> {
                                     child: TabBarView(children: <Widget>[
                                       Container(
                                         child: Center(
-                                          child: FirstBranch(branchId: value.branchList[0]['brnach_id']),
+                                          child: FirstBranch(
+                                            // branchId: value.branchList[0]['brnach_id']
+                                          ),
                                         ),
                                       ),
                                       Container(

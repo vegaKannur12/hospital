@@ -128,7 +128,9 @@ class _Branch1State extends State<Branch1> {
                                         builder: (context, value, child) {
                                           return Container(
                                             child: Center(
-                                              child: FirstBranch(branchId: value.branchList[0]['brnach_id']),
+                                              child: FirstBranch(
+                                                // branchId: value.branchList[0]['brnach_id']
+                                                ),
                                               //   child: Text('Display Tab 1',
                                               //       style: TextStyle(
                                               //           fontSize: 22,

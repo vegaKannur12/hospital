@@ -30,6 +30,8 @@ class Controller extends ChangeNotifier {
   String? branch_id;
   List<CD> c_d = [];
   List<Map<String, dynamic>> collectData = [];
+  List<Map<String, dynamic>> countData = [];
+
 
   List<Map<String, dynamic>> branchList = [];
   List<Map<String, dynamic>> allData = [];
@@ -184,6 +186,9 @@ class Controller extends ChangeNotifier {
       for (var item in map["collection_data"]) {
         print("inside for length  ${item}");
         collectData.add(item);
+      }
+      for(var item in map["count_data"]){
+        countData.add(item);
       }
       print("collectData ${collectData}");
       notifyListeners();
