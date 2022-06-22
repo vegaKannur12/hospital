@@ -8,6 +8,7 @@ import 'package:hospital/MODEL/registrationModel.dart';
 import 'package:hospital/SCREEN/chart.dart';
 import 'package:hospital/SCREEN/login.dart';
 import 'package:hospital/SCREEN/registration.dart';
+import 'package:hospital/SCREEN/splashScreen.dart';
 import 'package:hospital/SCREEN/tabbarinbody.dart';
 import 'package:ota_update/ota_update.dart';
 import 'package:provider/provider.dart';
@@ -23,8 +24,8 @@ void main() async {
   //   DeviceOrientation.portraitUp,
   //   DeviceOrientation.portraitDown,
   // ]);
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  // String? cid = prefs.getString("company_id");
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? cid = prefs.getString("cid");
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider(create: (_) => Controller())],
     child: MyApp(),
@@ -47,9 +48,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         fontFamily: P_Font.kronaOne,
       ),
-      home: Scaffold(
-        body: MyHomePage(),
-      ),
+      home: SplashScreen(),
     );
   }
 

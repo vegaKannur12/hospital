@@ -7,6 +7,7 @@ import 'package:hospital/MODEL/chartData_model.dart';
 import 'package:hospital/MODEL/getRegistration_model.dart';
 import 'package:hospital/MODEL/registrationModel.dart';
 import 'package:hospital/SCREEN/login.dart';
+import 'package:hospital/SCREEN/tabbarinbody.dart';
 import 'package:hospital/db_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,7 +29,7 @@ class Controller extends ChangeNotifier {
   String? till_date;
   String? branch_id;
   List<CD> c_d = [];
-  List<CollectionData> collectData =[];
+  List<CollectionData> collectData = [];
 
   List<Map<String, dynamic>> branchList = [];
   List<Map<String, dynamic>> allData = [];
@@ -84,16 +85,16 @@ class Controller extends ChangeNotifier {
 
             print("inserted ${res}");
             notifyListeners();
-            // SharedPreferences prefs = await SharedPreferences.getInstance();
+            SharedPreferences prefs = await SharedPreferences.getInstance();
             // prefs.setString("company_id", company_code);
-            // prefs.setString("cid", cid!);
+            prefs.setString("cid", cid!);
             // prefs.setString("os", os!);
             getCompanyData();
             verifyRegistration(cid!, fp!, context);
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => StaffLogin()),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => MyHomePage()),
+            );
           }
 
           notifyListeners();
@@ -177,19 +178,19 @@ class Controller extends ChangeNotifier {
       collectData.clear();
       print("map chart data ${map}");
 
-      ChartData chartModel = ChartData.fromJson(map);
+      // ChartData chartModel = ChartData.fromJson(map);
 
-      CollectionData dataDetails= CollectionData();
-      // print("collection data  ${dataDetails.title}");
-      title = chartModel.collectionData![0].title;
-      print("title   ${title}");
-      print("collection data length ${chartModel.collectionData!.length}");
-      // notifyListeners();
-      for (var item in chartModel.collectionData!) {
-        print("inside for length  ${chartModel.collectionData!.length}");
+      // CollectionData dataDetails = CollectionData();
+      // // print("collection data  ${dataDetails.title}");
+      // title = chartModel.collectionData![0].title;
+      // print("title   ${title}");
+      // print("collection data length ${chartModel.collectionData!.length}");
+
+      for (var item in map) {
+        print("inside for length  ${item}");
         collectData.add(item);
       }
-      print("collectData $collectData");
+      print("collectData ${collectData}");
 
       notifyListeners();
     } catch (e) {
@@ -201,12 +202,13 @@ class Controller extends ChangeNotifier {
   ////////////////////////////////////
   getBranchList() async {
     try {
+      branchList.clear();
       Uri url = Uri.parse("http://146.190.8.166/API/branch_list.php");
       http.Response response = await http.post(
         url,
         // body: body,
       );
-      branchList.clear();
+
       var map = jsonDecode(response.body);
       print("map.........$map");
 
