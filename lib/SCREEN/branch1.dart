@@ -55,7 +55,7 @@ class _Branch1State extends State<Branch1> {
   ];
   @override
   void initState() {
-    // Provider.of<Controller>(context, listen: false).getBranchList();
+    Provider.of<Controller>(context, listen: false).getBranchList();
     Provider.of<Controller>(context, listen: false).chartDataSet();
     // TODO: implement initState
     super.initState();
@@ -85,7 +85,7 @@ class _Branch1State extends State<Branch1> {
     return SingleChildScrollView(
       child: Consumer<Controller>(
         builder: (context, value, child) {
-          print("length.........${value.collectData.length}");
+          // print("length.........${value..length}");
           return Column(
             children: [
               Container(

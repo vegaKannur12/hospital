@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:d_chart/d_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:hospital/COMPONENTS/commoncolor.dart';
 
 class Daytwo {
   List<Map<String, dynamic>> colors = [
@@ -105,15 +106,70 @@ class Daytwo {
                             aspectRatio: 1.5,
                             child: Stack(
                               children: [
-                                _getChart('DChartPie'),
-                                Align(
-                                    child: Text(
-                                  head![index]['total'],
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    color: Color.fromARGB(255, 110, 9, 94),
+                                // _getChart('DChartPie'),
+                                AspectRatio(
+                                  aspectRatio: 16 / 9,
+                                  child: DChartBar(
+                                    measureLabelColor: P_Settings.wavecolor,
+                                    data: [
+                                      {
+                                        'id': 'Bar 1',
+                                        'data': [
+                                          {'domain': '2020', 'measure': 32},
+                                          {'domain': '2021', 'measure': 43},
+                                          {'domain': '2022', 'measure': 29},
+                                          {'domain': '2023', 'measure': 16},
+                                        ],
+                                      },
+                                      {
+                                        'id': 'Bar 2',
+                                        'data': [
+                                          {'domain': '2020', 'measure': 24},
+                                          {'domain': '2021', 'measure': 42},
+                                          {'domain': '2022', 'measure': 9},
+                                          {'domain': '2023', 'measure': 37},
+                                        ],
+                                      },
+                                      {
+                                        'id': 'Bar 3',
+                                        'data': [
+                                          {'domain': '2020', 'measure': 17},
+                                          {'domain': '2021', 'measure': 28},
+                                          {'domain': '2022', 'measure': 12},
+                                          {'domain': '2023', 'measure': 30},
+                                        ],
+                                      },
+                                    ],
+                                    minimumPaddingBetweenLabel: 1,
+                                    domainLabelPaddingToAxisLine: 16,
+                                    axisLineTick: 4,
+                                    axisLinePointTick: 4,
+                                    axisLinePointWidth: 10,
+                                    axisLineColor: Colors.green,
+                                    measureLabelPaddingToAxisLine: 40,
+                                    barColor: (barData, index, id) =>
+                                        id == 'Bar 1'
+                                            ? Colors.green.shade300
+                                            : id == 'Bar 2'
+                                                ? Colors.green.shade600
+                                                : Colors.green.shade900,
+                                    barValue: (barData, index) =>
+                                        '${barData['measure']}',
+                                    showBarValue: true,
+                                    barValueFontSize: 12,
+                                    barValuePosition: BarValuePosition.outside,
                                   ),
-                                )),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8),
+                                  child: Text(
+                                    'Year',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.green,
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),

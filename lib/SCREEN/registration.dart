@@ -106,15 +106,15 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               Provider.of<Controller>(context, listen: false)
                                   .postRegistration(
                                       codeController.text, context);
+                          
                             }
                           },
                           child: Text(
                             'Register',
                             style: TextStyle(
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontFamily: 'Montserrat'
-                            ),
+                                fontSize: 16,
+                                color: Colors.white,
+                                fontFamily: 'Montserrat'),
                             // style: GoogleFonts.actor(
                             //   textStyle: TextStyle(
                             //       color: Colors.white, letterSpacing: .5),
