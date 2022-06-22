@@ -221,13 +221,6 @@ class Controller extends ChangeNotifier {
         num_list.add(item["measure"]);
       }
 
-      for (var item in map["department_data"]) {
-        departmentData.add(item);
-      }
-      for (var item in map["servicegroup_data"]) {
-        servicegroupData.add(item);
-      }
-      print("collectData ${collectData}");
       sum = calculate_sum(num_list);
       for (var item in countData) {
         print("item----$item");
@@ -235,7 +228,33 @@ class Controller extends ChangeNotifier {
         item["per"] = percent;
         // collectData.add({"per":0});
       }
+      num_list.clear();
       print("collectData ${countData}");
+
+      for (var item in map["department_data"]) {
+        departmentData.add(item);
+        num_list.add(item["measure"]);
+      }
+      sum = calculate_sum(num_list);
+      for (var item in departmentData) {
+        print("item----$item");
+        num percent = item["measure"] / sum;
+        item["per"] = percent;
+        // collectData.add({"per":0});
+      }
+      print("departmentData ${departmentData}");
+      num_list.clear();
+      for (var item in map["servicegroup_data"]) {
+        servicegroupData.add(item);
+        num_list.add(item["measure"]);
+      }
+      sum = calculate_sum(num_list);
+      for (var item in servicegroupData) {
+        print("item----$item");
+        num percent = item["measure"] / sum;
+        item["per"] = percent;
+        // collectData.add({"per":0});
+      }
       notifyListeners();
     } catch (e) {
       print(e);

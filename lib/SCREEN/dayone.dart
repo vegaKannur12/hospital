@@ -82,7 +82,7 @@ class _FirstBranchState extends State<FirstBranch> {
                       aspectRatio: 1.5,
                       child: _getChart("DChartBar", value.collectData),
                     ),
-                    linearProgress(value.collectData, size),
+                    linearProgress(value.collectData, size,"collect"),
                     Text(
                         "${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : ''}",
                         style: TextStyle(
@@ -92,7 +92,7 @@ class _FirstBranchState extends State<FirstBranch> {
                       aspectRatio: 1.5,
                       child: _getChart("DChartPie", value.countData),
                     ),
-                    linearProgress(value.countData, size),
+                    linearProgress(value.countData, size,"count"),
                     Text(
                         "${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : ''}",
                         style: TextStyle(
@@ -102,7 +102,7 @@ class _FirstBranchState extends State<FirstBranch> {
                       aspectRatio: 1.5,
                       child: _getChart("DChartPie", value.departmentData),
                     ),
-                    linearProgress(value.collectData, size),
+                    linearProgress(value.departmentData, size,"depart"),
                     Text("SERVICE GROUP",
                         style: TextStyle(
                             fontSize: 20,
@@ -111,7 +111,7 @@ class _FirstBranchState extends State<FirstBranch> {
                       aspectRatio: 1.5,
                       child: _getChart("DChartPie", value.servicegroupData),
                     ),
-                    linearProgress(value.servicegroupData, size),
+                    linearProgress(value.servicegroupData, size,"service"),
                   ],
                 ),
               ),
@@ -122,12 +122,12 @@ class _FirstBranchState extends State<FirstBranch> {
     );
   }
 
-  Widget linearProgress(List<Map<String, dynamic>> list, Size size) {
+  Widget linearProgress(List<Map<String, dynamic>> list, Size size,String type) {
     print("cjxzj-----$list");
     return Padding(
       padding: const EdgeInsets.only(left: 10, right: 10),
       child: Container(
-        height: size.height * 0.36,
+        height: list.length > 5 ? size.height * 0.5 : size.height * 0.3,
         child: ListView.builder(
           itemCount: list.length,
           itemBuilder: (context, index) {
