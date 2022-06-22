@@ -23,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen>
       cid = prefs.getString("cid");
       print("cidjhsj----");
       // );
+
       Navigator.push(
         context,
         PageRouteBuilder(
@@ -38,6 +39,8 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
+    Provider.of<Controller>(context, listen: false).chartDataSet();
+
     navigate();
   }
 
