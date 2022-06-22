@@ -55,8 +55,6 @@ class _Branch1State extends State<Branch1> {
   ];
   @override
   void initState() {
-    Provider.of<Controller>(context, listen: false).getBranchList();
-    Provider.of<Controller>(context, listen: false).chartDataSet();
     // TODO: implement initState
     super.initState();
 
@@ -85,7 +83,7 @@ class _Branch1State extends State<Branch1> {
     return SingleChildScrollView(
       child: Consumer<Controller>(
         builder: (context, value, child) {
-          // print("length.........${value..length}");
+          print("length.........${value.branchList.length}");
           return Column(
             children: [
               Container(
@@ -101,21 +99,21 @@ class _Branch1State extends State<Branch1> {
                                 Container(
                                   // color: P_Settings.bodyTabColor,
                                   child: TabBar(
-                                    labelColor: P_Settings.wavecolor,
-                                    unselectedLabelColor: Colors.black,
-                                    tabs:
-                                        // value.branchList
-                                        //     .map((e) => Tab(
-                                        //           text: e['branch_code'],
-                                        //         ))
-                                        //     .toList()
+                                      labelColor: P_Settings.wavecolor,
+                                      unselectedLabelColor: Colors.black,
+                                      tabs: 
+                                      value.branchList
+                                          .map((e) => Tab(
+                                                text: e['branch_code'],
+                                              ))
+                                          .toList()
 
-                                        [
-                                      Tab(text: 'Branch 2'),
-                                      Tab(text: 'Branch 2'),
-                                      Tab(text: 'Branch 3'),
-                                    ],
-                                  ),
+                                      //     [
+                                      //   Tab(text: 'Branch 2'),
+                                      //   Tab(text: 'Branch 2'),
+                                      //   Tab(text: 'Branch 3'),
+                                      // ],
+                                      ),
                                 ),
                                 Container(
                                     height: size.height *
@@ -130,7 +128,9 @@ class _Branch1State extends State<Branch1> {
                                         builder: (context, value, child) {
                                           return Container(
                                             child: Center(
-                                              child: FirstBranch(),
+                                              child: FirstBranch(
+                                                // branchId: value.branchList[0]['brnach_id']
+                                                ),
                                               //   child: Text('Display Tab 1',
                                               //       style: TextStyle(
                                               //           fontSize: 22,

@@ -24,7 +24,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   DateTime date = DateTime.now();
   List<Tab> myTabs = <Tab>[
     Tab(text: 'Today '),
-    Tab(text: 'Yesterday'),
+    Tab(text: ''),
     Tab(text: '')
   ];
   @override
@@ -61,7 +61,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     switch (pos) {
       case "0":
         {
-          // _tabController!.animateTo((0));
+          _tabController!.animateTo((0));
           return Branch1();
         }
       case "1":
@@ -97,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       // drawer: Drawer(),
       body: Consumer<Controller>(
         builder: (context, value, child) {
+
           return TabBarView(
             controller: _tabController,
             children: myTabs.map((Tab tab) {

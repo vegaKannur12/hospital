@@ -30,6 +30,8 @@ class Controller extends ChangeNotifier {
   String? branch_id;
   List<CD> c_d = [];
   List<Map<String, dynamic>> collectData = [];
+  List<Map<String, dynamic>> countData = [];
+
 
   List<Map<String, dynamic>> branchList = [];
   List<Map<String, dynamic>> allData = [];
@@ -70,20 +72,20 @@ class Controller extends ChangeNotifier {
             String? os = regModel.os;
             regModel.cid;
             cid = regModel.cid;
-            print(cid);
+            // print(cid);
             cname = regModel.c_d![0].cnme;
-            print(cname);
-            print(regModel.c_d!.length);
+            // print(cname);
+            // print(regModel.c_d!.length);
             // notifyListeners();
             for (var item in regModel.c_d!) {
-              print("inside for length  ${regModel.c_d!.length}");
+              // print("inside for length  ${regModel.c_d!.length}");
               c_d.add(item);
             }
             print("c_d list $c_d");
             var res =
                 await OrderAppDB.instance.insertRegistrationDetails(regModel);
 
-            print("inserted ${res}");
+            // print("inserted ${res}");
             notifyListeners();
 
             print("cidrett---$cid");
@@ -177,11 +179,16 @@ class Controller extends ChangeNotifier {
       );
 
       var map = jsonDecode(response.body);
+      print("map ${map}");
+
       collectData.clear();
       print("map chart data ${map}");
       for (var item in map["collection_data"]) {
         print("inside for length  ${item}");
         collectData.add(item);
+      }
+      for(var item in map["count_data"]){
+        countData.add(item);
       }
       print("collectData ${collectData}");
       notifyListeners();

@@ -52,7 +52,7 @@ class _FirstBranchState extends State<FirstBranch> {
   String? sid;
   var groupBarData = 1;
   _getChart(
-    String type,
+    String type,List<Map<String, dynamic>> data
   ) {
     print("chart type$type");
     switch (type) {
@@ -62,18 +62,6 @@ class _FirstBranchState extends State<FirstBranch> {
           return DChartPie(
             data: data,
             fillColor: (pieData, index) => Colors.purple,
-            // (pieData, index) {
-            //   switch (pieData['domain']) {
-            //     case 'Flutter':
-            //       return Color.fromARGB(255, 243, 212, 33);
-            //     case 'React Native':
-            //       return Color.fromARGB(255, 158, 68, 209);
-            //     case 'Ionic':
-            //       return Colors.pink;
-            //     default:
-            //       return Colors.green;
-            //   }
-            // },
             animate: true,
             donutWidth: 20,
           );
@@ -97,7 +85,7 @@ class _FirstBranchState extends State<FirstBranch> {
           axisLineColor: Colors.green,
           measureLabelPaddingToAxisLine: 16,
           barColor: (barData, index, id) => Colors.green,
-          verticalDirection: false,
+          verticalDirection: true,
         );
     }
   }
@@ -121,7 +109,7 @@ class _FirstBranchState extends State<FirstBranch> {
                             color: Color.fromARGB(255, 179, 15, 15))),
                     AspectRatio(
                       aspectRatio: 1.5,
-                      child: _getChart("DChartBar"),
+                      child: _getChart("DChartBar",value.collectData),
                     ),
                     linearProgress(data, size),
                     Text("COUNT",
@@ -131,7 +119,7 @@ class _FirstBranchState extends State<FirstBranch> {
 
                     AspectRatio(
                       aspectRatio: 1.5,
-                      child: _getChart("DChartPie"),
+                      child: _getChart("DChartPie",value.collectData),
                     ),
                     linearProgress(data, size),
                     Text("DEPARTEMENT",
@@ -141,7 +129,7 @@ class _FirstBranchState extends State<FirstBranch> {
 
                     AspectRatio(
                       aspectRatio: 1.5,
-                      child: _getChart("DChartPie"),
+                      child: _getChart("DChartPie",value.collectData),
                     ),
                     linearProgress(data, size),
                     Text("SERVICE GROUP",
@@ -151,7 +139,7 @@ class _FirstBranchState extends State<FirstBranch> {
 
                     AspectRatio(
                       aspectRatio: 1.5,
-                      child: _getChart("DChartBar"),
+                      child: _getChart("DChartBar",value.collectData),
                     ),
                     linearProgress(data, size),
                     
