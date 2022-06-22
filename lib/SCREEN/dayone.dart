@@ -103,7 +103,7 @@ class _FirstBranchState extends State<FirstBranch> {
           measureLabelPaddingToAxisLine: 5,
           barColor: (barData, index, id) => Colors.green,
           verticalDirection: true,
-          barValue: (barData, index) => '${barData['measure']}',
+          // barValue: (barData, index) => '${barData['measure']}',
           showBarValue: true,
         );
     }
@@ -125,13 +125,13 @@ class _FirstBranchState extends State<FirstBranch> {
                     Container(
                       height: size.height * 0.9,
                       child: ListView.builder(
-                        itemCount: data.length,
+                        itemCount: value.collectData.length,
                         itemBuilder: (context, index) {
                           return Column(children: [
-                            // Text(value.collectData.length>0 ? value.collectData[index]['title'] :"",
-                            //     style: TextStyle(
-                            //         fontSize: 20,
-                            //         color: Color.fromARGB(255, 179, 15, 15))),
+                            Text(value.collectData.length!=0? value.collectData[index]['rpt'] :"",
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: Color.fromARGB(255, 179, 15, 15))),
                             Column(children: [
                               Padding(
                                 padding: EdgeInsets.all(16),
