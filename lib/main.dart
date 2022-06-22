@@ -24,8 +24,8 @@ void main() async {
   //   DeviceOrientation.portraitUp,
   //   DeviceOrientation.portraitDown,
   // ]);
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  String? cid = prefs.getString("cid");
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // String? cid = prefs.getString("cid");
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider(create: (_) => Controller())],
     child: MyApp(),
@@ -33,7 +33,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  late OtaEvent currentEvent;
+  // late OtaEvent currentEvent;
   // const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         fontFamily: P_Font.kronaOne,
       ),
-      home: SplashScreen(),
+      home: MyHomePage(),
     );
   }
 

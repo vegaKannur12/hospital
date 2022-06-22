@@ -70,20 +70,20 @@ class Controller extends ChangeNotifier {
             String? os = regModel.os;
             regModel.cid;
             cid = regModel.cid;
-            print(cid);
+            // print(cid);
             cname = regModel.c_d![0].cnme;
-            print(cname);
-            print(regModel.c_d!.length);
+            // print(cname);
+            // print(regModel.c_d!.length);
             // notifyListeners();
             for (var item in regModel.c_d!) {
-              print("inside for length  ${regModel.c_d!.length}");
+              // print("inside for length  ${regModel.c_d!.length}");
               c_d.add(item);
             }
             print("c_d list $c_d");
             var res =
                 await OrderAppDB.instance.insertRegistrationDetails(regModel);
 
-            print("inserted ${res}");
+            // print("inserted ${res}");
             notifyListeners();
             SharedPreferences prefs = await SharedPreferences.getInstance();
             // prefs.setString("company_id", company_code);
@@ -175,19 +175,22 @@ class Controller extends ChangeNotifier {
 
       // print("body ${body}");
       var map = jsonDecode(response.body);
+      print("map ${map}");
+
       collectData.clear();
       print("map chart data ${map}");
 
-      // ChartData chartModel = ChartData.fromJson(map);
-
-      // CollectionData dataDetails = CollectionData();
+      ChartData chartModel = ChartData.fromJson(map);
+      print("chartModel  ${chartModel}");
+         
+      CollectionData dataDetails;
       // // print("collection data  ${dataDetails.title}");
       // title = chartModel.collectionData![0].title;
       // print("title   ${title}");
       // print("collection data length ${chartModel.collectionData!.length}");
 
-      for (var item in map) {
-        print("inside for length  ${item}");
+      for (var item in chartModel.collectionData!) {
+        print("inside for length  ${chartModel.toJson()}");
         collectData.add(item);
       }
       print("collectData ${collectData}");

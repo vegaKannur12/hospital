@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
@@ -52,10 +51,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     // TODO: implement initState
     super.initState();
   }
-  getCid()async{
+
+  getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-        cid=prefs.getString("cid");
+    cid = prefs.getString("cid");
   }
+
   _getBranch(String pos) {
     switch (pos) {
       case "0":
@@ -96,6 +97,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       // drawer: Drawer(),
       body: Consumer<Controller>(
         builder: (context, value, child) {
+
           return TabBarView(
             controller: _tabController,
             children: myTabs.map((Tab tab) {
@@ -103,8 +105,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
               return Center(
                 child: SingleChildScrollView(
                   child: Container(
-                    child: 
-                    _getBranch(
+                    child: _getBranch(
                       menu_index,
                     ),
                   ),

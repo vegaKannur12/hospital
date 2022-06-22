@@ -55,8 +55,9 @@ class _Branch1State extends State<Branch1> {
   ];
   @override
   void initState() {
-    Provider.of<Controller>(context, listen: false).getBranchList();
     Provider.of<Controller>(context, listen: false).chartDataSet();
+     Provider.of<Controller>(context, listen: false).getBranchList();
+
     // TODO: implement initState
     super.initState();
 
@@ -85,7 +86,7 @@ class _Branch1State extends State<Branch1> {
     return SingleChildScrollView(
       child: Consumer<Controller>(
         builder: (context, value, child) {
-          // print("length.........${value..length}");
+          print("length.........${value.branchList.length}");
           return Column(
             children: [
               Container(
@@ -104,17 +105,17 @@ class _Branch1State extends State<Branch1> {
                                     labelColor: P_Settings.wavecolor,
                                     unselectedLabelColor: Colors.black,
                                     tabs:
-                                        // value.branchList
-                                        //     .map((e) => Tab(
-                                        //           text: e['branch_code'],
-                                        //         ))
-                                        //     .toList()
+                                        value.branchList
+                                            .map((e) => Tab(
+                                                  text: e['branch_code'],
+                                                ))
+                                            .toList()
 
-                                        [
-                                      Tab(text: 'Branch 2'),
-                                      Tab(text: 'Branch 2'),
-                                      Tab(text: 'Branch 3'),
-                                    ],
+                                    //     [
+                                    //   Tab(text: 'Branch 2'),
+                                    //   Tab(text: 'Branch 2'),
+                                    //   Tab(text: 'Branch 3'),
+                                    // ],
                                   ),
                                 ),
                                 Container(
