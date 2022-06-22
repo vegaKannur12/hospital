@@ -3,8 +3,16 @@ import 'package:d_chart/d_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
 
-class Dayone {
-  List<Map<String, dynamic>>? colors = [
+
+class FirstBranch extends StatefulWidget {
+  const FirstBranch({Key? key}) : super(key: key);
+
+  @override
+  State<FirstBranch> createState() => _FirstBranchState();
+}
+
+class _FirstBranchState extends State<FirstBranch> {
+    List<Map<String, dynamic>>? colors = [
     {'color': 'red'},
     {'color': 'green'},
     {'color': 'blue'},
@@ -75,10 +83,10 @@ class Dayone {
         );
     }
   }
-
   @override
-  Widget Dayone1(BuildContext context) {
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -219,4 +227,5 @@ class Dayone {
     );
   }
 }
+
 //////////////////////////////////////////////////////////////////////

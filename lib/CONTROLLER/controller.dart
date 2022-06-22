@@ -23,14 +23,17 @@ class Controller extends ChangeNotifier {
   String? sof;
   String? userType;
   String? cname;
+  String? title;
   String? from_date;
   String? till_date;
   String? branch_id;
   List<CD> c_d = [];
+  List<CollectionData> collectData =[];
+
   List<Map<String, dynamic>> branchList = [];
-  List<CollectionData> collectData = [];
+  List<Map<String, dynamic>> allData = [];
   List<CD> companyList = [];
-  ChartData chartlist = ChartData();
+  List<Map<String, dynamic>> collectionChart = [];
   var map;
   Future<GetRegistrationData?> postRegistration(
       String company_code, BuildContext context) async {
@@ -153,52 +156,60 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////chart data///////////////////////
-  // Future<ChartData?> chartDataSet(
-  //     String from_date, String till_date, String branch_id) async {
-  //   var res;
-  //   // print("company_code---fp-${company_code}---${fp}");
-  //   try {
-  //     Uri url = Uri.parse("http://146.190.8.166/API/reports.php");
-  //     Map body = {
-  //       'from_date': from_date,
-  //       'till_date': till_date,
-  //       'branch_id': branch_id,
-  //     };
+  Future<ChartData?> chartDataSet() async {
+    var res;
+    // print("company_code---fp-${company_code}---${fp}");
+    try {
+      Uri url = Uri.parse("http://146.190.8.166/API/reports.php");
+      // Map body = {
+      //   'from_date': from_date,
+      //   'till_date': till_date,
+      //   'branch_id': branch_id,
+      // };
 
-  //     http.Response response = await http.post(
-  //       url,
-  //       body: jsonEncode(body),
-  //     );
+      http.Response response = await http.post(
+        url,
+        // body: jsonEncode(body),
+      );
 
-  //     print("body ${body}");
-  //     var map = jsonDecode(response.body);
-  //     // print("map chart data ${map}");
-  //     ChartData chartcollect = ChartData.fromJson(map);
-  //     collectData = chartlist.collectionData!;
-  //     // print("length.....${collectData.length}");
+      // print("body ${body}");
+      var map = jsonDecode(response.body);
+      collectData.clear();
+      print("map chart data ${map}");
 
-  //     for (var item in map) {
-  //       collectData.add(item);
-  //     }
-  //     // print("collection data..........$companyList");
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print(e);
-  //     return null;
-  //   }
-  // }
+      ChartData chartModel = ChartData.fromJson(map);
+
+      CollectionData dataDetails= CollectionData();
+      // print("collection data  ${dataDetails.title}");
+      title = chartModel.collectionData![0].title;
+      print("title   ${title}");
+      print("collection data length ${chartModel.collectionData!.length}");
+      // notifyListeners();
+      for (var item in chartModel.collectionData!) {
+        print("inside for length  ${chartModel.collectionData!.length}");
+        collectData.add(item);
+      }
+      print("collectData $collectData");
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
   ////////////////////////////////////
   getBranchList() async {
-    branchList.clear();
     try {
       Uri url = Uri.parse("http://146.190.8.166/API/branch_list.php");
       http.Response response = await http.post(
         url,
         // body: body,
       );
+      branchList.clear();
       var map = jsonDecode(response.body);
       print("map.........$map");
+
       for (var item in map) {
         branchList.add(item);
       }

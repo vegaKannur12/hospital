@@ -49,7 +49,7 @@ class OrderAppDB {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB("orderapp.db");
+    _database = await _initDB("hospitalapp.db");
     return _database!;
   }
 

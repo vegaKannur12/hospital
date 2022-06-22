@@ -23,7 +23,7 @@ class Branch1 extends StatefulWidget {
 }
 
 class _Branch1State extends State<Branch1> {
-  Dayone todaydata = Dayone();
+  // FirstBranch todaydata = FirstBranch();
   Daytwo yesterdaydata = Daytwo();
   Daythree dayafterdata = Daythree();
   WidgetMarker selectedWidgetMarker = WidgetMarker.dayone;
@@ -55,8 +55,8 @@ class _Branch1State extends State<Branch1> {
   ];
   @override
   void initState() {
-    Provider.of<Controller>(context, listen: false).getBranchList();
-
+    // Provider.of<Controller>(context, listen: false).getBranchList();
+    Provider.of<Controller>(context, listen: false).chartDataSet();
     // TODO: implement initState
     super.initState();
 
@@ -85,16 +85,15 @@ class _Branch1State extends State<Branch1> {
     return SingleChildScrollView(
       child: Consumer<Controller>(
         builder: (context, value, child) {
-          print("length.........${value.branchList.length}");
+          print("length.........${value.collectData.length}");
           return Column(
             children: [
               Container(
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      
                       DefaultTabController(
-                          length: value.branchList.length, // length of tabs
+                          length: 3, // length of tabs
                           initialIndex: 0,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -102,20 +101,21 @@ class _Branch1State extends State<Branch1> {
                                 Container(
                                   // color: P_Settings.bodyTabColor,
                                   child: TabBar(
-                                      labelColor: P_Settings.wavecolor,
-                                      unselectedLabelColor: Colors.black,
-                                      tabs: value.branchList
-                                          .map((e) => Tab(
-                                                text: e['branch_code'],
-                                              ))
-                                          .toList()
+                                    labelColor: P_Settings.wavecolor,
+                                    unselectedLabelColor: Colors.black,
+                                    tabs:
+                                        // value.branchList
+                                        //     .map((e) => Tab(
+                                        //           text: e['branch_code'],
+                                        //         ))
+                                        //     .toList()
 
-                                      //  [
-                                      // Tab(text: ),
-                                      // Tab(text: 'Branch 2'),
-                                      // Tab(text: 'Branch 3'),
-                                      // ],
-                                      ),
+                                        [
+                                      Tab(text: 'Branch 2'),
+                                      Tab(text: 'Branch 2'),
+                                      Tab(text: 'Branch 3'),
+                                    ],
+                                  ),
                                 ),
                                 Container(
                                     height: size.height *
@@ -126,14 +126,18 @@ class _Branch1State extends State<Branch1> {
                                                 color: Colors.grey,
                                                 width: 0.5))),
                                     child: TabBarView(children: <Widget>[
-                                      Container(
-                                        child: Center(
-                                          child: todaydata.Dayone1(context),
-                                          //   child: Text('Display Tab 1',
-                                          //       style: TextStyle(
-                                          //           fontSize: 22,
-                                          //           fontWeight: FontWeight.bold)),
-                                        ),
+                                      Consumer<Controller>(
+                                        builder: (context, value, child) {
+                                          return Container(
+                                            child: Center(
+                                              child: FirstBranch(),
+                                              //   child: Text('Display Tab 1',
+                                              //       style: TextStyle(
+                                              //           fontSize: 22,
+                                              //           fontWeight: FontWeight.bold)),
+                                            ),
+                                          );
+                                        },
                                       ),
                                       Container(
                                         child: Center(

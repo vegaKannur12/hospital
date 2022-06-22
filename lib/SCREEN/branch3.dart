@@ -25,7 +25,7 @@ class Branch3 extends StatefulWidget {
 }
 
 class _Branch3State extends State<Branch3> {
-  Dayone todaydata = Dayone();
+  // Dayone todaydata = Dayone();
   Daytwo yesterdaydata = Daytwo();
   Daythree dayafterdata = Daythree();
   WidgetMarker selectedWidgetMarker = WidgetMarker.dayone;
@@ -98,7 +98,7 @@ class _Branch3State extends State<Branch3> {
                                     child: TabBarView(children: <Widget>[
                                       Container(
                                         child: Center(
-                                          child: todaydata.Dayone1(context),
+                                          child: FirstBranch(),
                                         ),
                                       ),
                                       Container(
