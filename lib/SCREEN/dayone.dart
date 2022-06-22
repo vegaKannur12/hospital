@@ -29,13 +29,23 @@ class _FirstBranchState extends State<FirstBranch> {
       'color': 0xffb74093,
     },
     {
-      'domain': 'React Native',
-      'measure': 81,
-      'pvalue': 0.3,
-      'color': 0xffb74093
+      'title': 'CASH',
+      'amt': '29921.213',
+      'domain': 'CREDIT',
+      'measure': 290.213,
     },
-    {'domain': 'Ionic', 'measure': 27, 'pvalue': 0.1, 'color': 0xffb74093},
-    {'domain': 'Cordova', 'measure': 17, 'pvalue': 0.4, 'color': 0xffb74093},
+    {
+      'title': 'CASH',
+      'domain': 'CASH',
+      'measure': 290.213,
+      'amt': '29921.213',
+    },
+    {
+      'title': 'CASH',
+      'amt': '29921.213',
+      'domain': 'CARD',
+      'measure': 400.0,
+    },
   ];
   List<Map<String, dynamic>>? head = [
     {'title': 'COLLECTION', 'total': '200'},
@@ -61,7 +71,7 @@ class _FirstBranchState extends State<FirstBranch> {
             data: data,
             fillColor: (pieData, index) => Colors.purple,
             animate: true,
-            donutWidth: 20,
+            donutWidth: 25,
           );
         }
       case "DChartLine":
@@ -81,7 +91,7 @@ class _FirstBranchState extends State<FirstBranch> {
             },
           ],
           axisLineColor: Colors.green,
-          measureLabelPaddingToAxisLine: 16,
+          measureLabelPaddingToAxisLine: 5,
           barColor: (barData, index, id) => Colors.green,
           verticalDirection: true,
         );
@@ -101,17 +111,13 @@ class _FirstBranchState extends State<FirstBranch> {
                 padding: const EdgeInsets.only(top: 15),
                 child: Column(
                   children: [
-                    Column(
-                      children: [
-                        Text("COLLECTION",
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Color.fromARGB(255, 179, 15, 15))),
-                        AspectRatio(
-                          aspectRatio: 1.5,
-                          child: _getChart("DChartBar", value.collectData),
-                        ),
-                      ],
+                    Text("${value.collectData != null && value.collectData.isNotEmpty?value.collectData[0]['rpt']:'Data'}",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: Color.fromARGB(255, 179, 15, 15))),
+                    AspectRatio(
+                      aspectRatio: 1.5,
+                      child: _getChart("DChartBar",value.collectData),
                     ),
                     linearProgress(data, size),
                     Text("COUNT",
