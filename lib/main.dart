@@ -9,7 +9,7 @@ import 'package:hospital/SCREEN/chart.dart';
 import 'package:hospital/SCREEN/login.dart';
 import 'package:hospital/SCREEN/registration.dart';
 import 'package:hospital/SCREEN/tabbarinbody.dart';
-import 'package:ota_update/ota_update.dart';
+// import 'package:ota_update/ota_update.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -23,8 +23,8 @@ void main() async {
   //   DeviceOrientation.portraitUp,
   //   DeviceOrientation.portraitDown,
   // ]);
-  // SharedPreferences prefs = await SharedPreferences.getInstance();
-  // String? cid = prefs.getString("company_id");
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? cid = prefs.getString("cid");
   runApp(MultiProvider(
     providers: [ChangeNotifierProvider(create: (_) => Controller())],
     child: MyApp(),
@@ -32,7 +32,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  late OtaEvent currentEvent;
+  // late OtaEvent currentEvent;
   // const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
@@ -47,9 +47,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         fontFamily: P_Font.kronaOne,
       ),
-      home: Scaffold(
-        body: MyHomePage(),
-      ),
+      home: MyHomePage(),
+      // home: Scaffold(
+      //   body: MyHomePage(),
+      // ),
     );
   }
 
