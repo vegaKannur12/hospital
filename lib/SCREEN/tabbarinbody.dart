@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/selectDate.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/SCREEN/branch1.dart';
+import 'package:hospital/SCREEN/multigraph.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -73,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       case "1":
         datedata.getDate(1);
         print("last 2 days-----${datedata.fromdt}---${datedata.todt}");
-        return Singlegraph(from_date: datedata.fromdt, to_date: datedata.todt);
+        return MultiGraph(from_date: datedata.fromdt, to_date: datedata.todt);
       case "2":
         datedata.getDate(2);
         print("last month-----${datedata.fromdt}---${datedata.todt}");
