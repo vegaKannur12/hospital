@@ -16,7 +16,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
   CustomDate datedata = CustomDate();
-  String menu_index = "1";
+  String menu_index = "0";
   TabController? _tabController;
   String? daytoday;
   String? cid;
@@ -31,7 +31,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _tabController = TabController(
       vsync: this,
       length: myTabs.length,
-      // initialIndex: 0,
+      initialIndex: 0,
     );
     _tabController!.addListener(() {
       setState(() {
@@ -42,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
 
     daytoday = DateFormat('yyyy-MM-dd').format(date);
-
+    _tabController!.animateTo((0));
     print("date $daytoday");
     getCid();
     // Provider.of<Controller>(context, listen: false).getBranchList();
@@ -58,22 +58,25 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   }
 
   _getBranch(String pos) {
+    print("post----$pos");
+
     switch (pos) {
-      case "1":
+      case "0":
         {
           // _tabController!.animateTo((0));
-          datedata.getDate(1);
-          //     fromdt = DateFormat('yyyy-MM-dd').format(date);
-          // todt = DateFormat('yyyy-MM-dd').format(date);
+          datedata.getDate(0);
+          print("to day-----${datedata.fromdt}---${datedata.todt}");
+
           return Singlegraph(
               from_date: datedata.fromdt, to_date: datedata.todt);
         }
+      case "1":
+        datedata.getDate(1);
+        print("last 2 days-----${datedata.fromdt}---${datedata.todt}");
+        return Singlegraph(from_date: datedata.fromdt, to_date: datedata.todt);
       case "2":
         datedata.getDate(2);
-
-        return Singlegraph(from_date: datedata.fromdt, to_date: datedata.todt);
-      case "3":
-        datedata.getDate(3);
+        print("last month-----${datedata.fromdt}---${datedata.todt}");
 
         return Singlegraph(from_date: datedata.fromdt, to_date: datedata.todt);
     }
