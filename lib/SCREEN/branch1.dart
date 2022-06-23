@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/SCREEN/dayone.dart';
-import 'package:hospital/SCREEN/daythree.dart';
-import 'package:hospital/SCREEN/daytwo.dart';
+
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +15,7 @@ import 'package:provider/provider.dart';
 class Singlegraph extends StatefulWidget {
   String? from_date;
   String? to_date;
-
+  
   Singlegraph({required this.from_date,required this.to_date});
 
   @override
@@ -26,14 +25,7 @@ class Singlegraph extends StatefulWidget {
 }
 
 class _SinglegraphState extends State<Singlegraph> {
-  // FirstBranch todaydata = FirstBranch();
 
-  Daythree dayafterdata = Daythree();
-  // WidgetMarker selectedWidgetMarker = WidgetMarker.dayone;
-  // String? _month;
-  // String? daytoday;
-  // String? yesterday;
-  // String? dayafter;
   DateTime date = DateTime.now();
   String? selected;
   List<String> s = [];

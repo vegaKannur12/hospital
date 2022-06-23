@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/MODEL/registrationModel.dart';
-import 'package:hospital/SCREEN/chart.dart';
 import 'package:hospital/SCREEN/login.dart';
 import 'package:hospital/SCREEN/registration.dart';
 import 'package:hospital/SCREEN/splashScreen.dart';

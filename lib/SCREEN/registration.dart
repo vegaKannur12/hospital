@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
-import 'package:hospital/SCREEN/chart.dart';
 import 'package:hospital/SCREEN/login.dart';
 import 'package:provider/provider.dart';
 
