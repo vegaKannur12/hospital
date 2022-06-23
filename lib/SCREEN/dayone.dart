@@ -85,7 +85,9 @@ class _FirstBranchState extends State<FirstBranch> {
                         child: _getChart("DChartBar", value.collectData),
                       ),
                     ),
-                    SizedBox(height: size.height*0.03,),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
                     linearProgress(value.collectData, size),
                     Text(
                         "${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : ''}",
@@ -96,7 +98,9 @@ class _FirstBranchState extends State<FirstBranch> {
                       aspectRatio: 1.5,
                       child: _getChart("DChartPie", value.countData),
                     ),
-                    SizedBox(height: size.height*0.03,),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
                     linearProgress(value.countData, size),
                     Text(
                         "${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : ''}",
@@ -107,7 +111,9 @@ class _FirstBranchState extends State<FirstBranch> {
                       aspectRatio: 1.5,
                       child: _getChart("DChartPie", value.departmentData),
                     ),
-                    SizedBox(height: size.height*0.03,),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
                     linearProgress(value.collectData, size),
                     Text("SERVICE GROUP",
                         style: TextStyle(
@@ -117,7 +123,9 @@ class _FirstBranchState extends State<FirstBranch> {
                       aspectRatio: 1.5,
                       child: _getChart("DChartPie", value.servicegroupData),
                     ),
-                    SizedBox(height: size.height*0.03,),
+                    SizedBox(
+                      height: size.height * 0.03,
+                    ),
                     linearProgress(value.servicegroupData, size),
                   ],
                 ),
@@ -144,7 +152,10 @@ class _FirstBranchState extends State<FirstBranch> {
               children: [
                 Container(
                     width: size.width * 0.2,
-                    child: Text("${list[index]['measure'].toString()}%",style: TextStyle(fontSize: 12),)),
+                    child: Text(
+                      "${list[index]['measure'].toString()}",
+                      style: TextStyle(fontSize: 12),
+                    )),
                 SizedBox(
                   width: size.width * 0.03,
                 ),
