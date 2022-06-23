@@ -27,35 +27,35 @@ class _MultiDayOneState extends State<MultiDayOne> {
   List<String> s = [];
   String? sid;
   var groupBarData = 1;
-  List<Map<String, dynamic>> data = [
-    {
-      'id': 'Bar 1',
-      'data': [
-        {'domain': '2020', 'measure': 32},
-        {'domain': '2021', 'measure': 43},
-        {'domain': '2022', 'measure': 29},
-        {'domain': '2023', 'measure': 16},
-      ],
-    },
-    {
-      'id': 'Bar 2',
-      'data': [
-        {'domain': '2020', 'measure': 24},
-        {'domain': '2021', 'measure': 42},
-        {'domain': '2022', 'measure': 9},
-        {'domain': '2023', 'measure': 37},
-      ],
-    },
-    {
-      'id': 'Bar 3',
-      'data': [
-        {'domain': '2020', 'measure': 17},
-        {'domain': '2021', 'measure': 28},
-        {'domain': '2022', 'measure': 12},
-        {'domain': '2023', 'measure': 30},
-      ],
-    },
-  ];
+  // List<Map<String, dynamic>> data = [
+  //   {
+  //     'id': 'Bar 1',
+  //     'data': [
+  //       {'domain': '2020', 'measure': 32},
+  //       {'domain': '2021', 'measure': 43},
+  //       {'domain': '2022', 'measure': 29},
+  //       {'domain': '2023', 'measure': 16},
+  //     ],
+  //   },
+  //   {
+  //     'id': 'Bar 2',
+  //     'data': [
+  //       {'domain': '2020', 'measure': 24},
+  //       {'domain': '2021', 'measure': 42},
+  //       {'domain': '2022', 'measure': 9},
+  //       {'domain': '2023', 'measure': 37},
+  //     ],
+  //   },
+  //   {
+  //     'id': 'Bar 3',
+  //     'data': [
+  //       {'domain': '2020', 'measure': 17},
+  //       {'domain': '2021', 'measure': 28},
+  //       {'domain': '2022', 'measure': 12},
+  //       {'domain': '2023', 'measure': 30},
+  //     ],
+  //   },
+  // ];
 
   _getChart(String type, List<Map<String, dynamic>> data) {
     print("chart type$type");
@@ -88,12 +88,12 @@ class _MultiDayOneState extends State<MultiDayOne> {
           axisLinePointWidth: 10,
           axisLineColor: Colors.green,
           measureLabelPaddingToAxisLine: 16,
-          barColor: (barData, index, id) => id == 'Bar 1'
+          barColor: (barData, index, id) => id == 'CASH'
               ? Colors.green.shade300
-              : id == 'Bar 2'
+              : id == 'CARD'
                   ? Colors.green.shade600
                   : Colors.green.shade900,
-          barValue: (barData, index) => '${barData['measure']}',
+          // barValue: (barData, index) => '${barData['measure']}',
           showBarValue: true,
           barValueFontSize: 12,
           barValuePosition: BarValuePosition.outside,
@@ -188,13 +188,13 @@ class _MultiDayOneState extends State<MultiDayOne> {
                         padding: const EdgeInsets.all(8.0),
                         child: AspectRatio(
                           aspectRatio: 1.5,
-                          child: _getChart("DChartBar", data),
+                          child: _getChart("DChartBar", value.multiCollection),
                         ),
                       ),
                       SizedBox(
                         height: size.height * 0.03,
                       ),
-                      linearProgress(value.collectData, size),
+                      linearProgress(value.multiCollection, size),
                       //////////////////// count Data ///////////////////////////////
                       // Text(
                       //     "${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : ''}",

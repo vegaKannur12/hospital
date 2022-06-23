@@ -35,6 +35,7 @@ class Controller extends ChangeNotifier {
   String? branch_id;
   List<CD> c_d = [];
   List<Map<String, dynamic>> collectData = [];
+  var jsonEnMulti;
   List<Map<String, dynamic>> multiCollection = [];
   List<Map<String, dynamic>> multiCollection1 = [];
   List<Map<String, dynamic>> multiCollection2 = [];
@@ -280,31 +281,26 @@ class Controller extends ChangeNotifier {
 
   Future<MultiChart?> multiChartDataSet() async {
     var res;
-    // print("company_code---fp-${company_code}---${fp}");
+  
     try {
       Uri url = Uri.parse("$urlgolabl/multi_graph.php");
-      // Map body = {
-      //   'branch_id': branch_id,
-      //   'from_date': from_date,
-      //   'till_date': till_date,
-      // };
-
+   
       http.Response response = await http.post(
         url,
         // body: body,
       );
-      // print("body ${body}");
+     
 
       var map = jsonDecode(response.body);
       print("map ${map}");
 
       collectData.clear();
-      print("map chart data ${map}");
+      print("multi---------------- data ${map}");
       for (var item in map["collection"]) {
         print("inside for length  ${item}");
         multiCollection.add(item);
-        // multiCollection1.add(item['data']);
       }
+      jsonEnMulti=jsonEncode(multiCollection);
       print("multiCollection1 ${multiCollection}");
 
       notifyListeners();
@@ -313,26 +309,6 @@ class Controller extends ChangeNotifier {
       return null;
     }
   }
-  // getCompanyData() async {
-  //   try {
-  //     isLoading = true;
-  //     // notifyListeners();
-  //     // SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     // String? cid = prefs.getString("cid");
-  //     // print('cidnew---$cid');
-  //     var res = await OrderAppDB.instance.selectCompany("cid='${cid}'");
-  //     // print("res companyList----${res}");
-  //     for (var item in res) {
-  //       companyList.add(item);
-  //     }
-  //     // print("companyList ----${companyList}");
-  //     isLoading = false;
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print(e);
-  //     return null;
-  //   }
-  //   notifyListeners();
-  // }
+
 
 }
