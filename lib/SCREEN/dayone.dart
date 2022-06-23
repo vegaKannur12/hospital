@@ -45,8 +45,35 @@ class _FirstBranchState extends State<FirstBranch> {
           // _tabController!.animateTo((0));
           return DChartPie(
             data: data,
-            fillColor: (pieData, index) =>
-                Colors.primaries[Random().nextInt(Colors.primaries.length)],
+            fillColor: (pieData, index) {
+              switch (pieData['domain']) {
+                case 'Revisit Patient':
+                  return Colors.purple.shade300;
+                case 'New Patient':
+                  return Color.fromARGB(255, 185, 149, 125);
+                case 'Lab order':
+                  return Color.fromARGB(255, 45, 35, 194);
+                case 'Radiology':
+                  return Color.fromARGB(255, 170, 73, 8);
+                case 'Bills':
+                  return Color.fromARGB(255, 170, 73, 8);
+                case 'CONSULTATION':
+                  return Color.fromARGB(255, 170, 73, 8);
+                case 'Refund Bills':
+                  return Color.fromARGB(255, 170, 73, 8);
+                case 'Dental':
+                  return Color.fromARGB(255, 170, 73, 8);
+                case 'General Physician':
+                  return Color.fromARGB(255, 171, 151, 207);
+                case 'Pathology':
+                  return Color.fromARGB(255, 8, 170, 89);
+
+                default:
+                  return Color.fromARGB(255, 204, 20, 66);
+              }
+            },
+            // fillColor: (pieData, index) =>
+            //     Colors.primaries[Random().nextInt(Colors.primaries.length)],
             animate: true,
             donutWidth: 25,
           );
@@ -73,13 +100,17 @@ class _FirstBranchState extends State<FirstBranch> {
             switch (barData['domain']) {
               case 'CASH':
                 return parseColor(
-              Provider.of<Controller>(context, listen: false).colorList[0]);
+                    Provider.of<Controller>(context, listen: false)
+                        .colorList[0]);
               case 'CARD':
                 return parseColor(
-              Provider.of<Controller>(context, listen: false).colorList[1]);
+                    Provider.of<Controller>(context, listen: false)
+                        .colorList[1]);
               case 'CREDIT':
                 return parseColor(
-              Provider.of<Controller>(context, listen: false).colorList[2]);
+                    Provider.of<Controller>(context, listen: false)
+                        .colorList[2]);
+
               default:
                 return Color.fromARGB(255, 188, 155, 228);
             }
@@ -241,12 +272,14 @@ class _FirstBranchState extends State<FirstBranch> {
                 // leading: Text("${list[index]['measure'].toString()}%"),
                 title: Row(
               children: [
-                Container(
-                    width: size.width * 0.2,
-                    child: Text(
-                      "${list[index]['measure'].toString()}",
-                      style: TextStyle(fontSize: 12),
-                    )),
+                Flexible(
+                  child: Container(
+                      width: size.width * 0.2,
+                      child: Text(
+                        "${list[index]['measure'].toString()}",
+                        style: TextStyle(fontSize: 12),
+                      )),
+                ),
                 SizedBox(
                   width: size.width * 0.03,
                 ),

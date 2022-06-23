@@ -182,6 +182,9 @@ class Controller extends ChangeNotifier {
       print("map ${map}");
 
       collectData.clear();
+      countData.clear();
+      departmentData.clear();
+      servicegroupData.clear();
       colorList.clear();
       print("map chart data ${map}");
       for (var item in map["collection_data"]) {
