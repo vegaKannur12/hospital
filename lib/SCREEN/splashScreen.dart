@@ -3,6 +3,7 @@ import 'package:hospital/COMPONENTS/commoncolor.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/SCREEN/registration.dart';
 import 'package:hospital/SCREEN/tabbarinbody.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,10 +14,13 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
+  DateTime date = DateTime.now();
+  String? daytoday;
   String? cid;
   String? st_uname;
   String? st_pwd;
-
+  String? fromdt;
+  String? todt;
   navigate() async {
     await Future.delayed(Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -35,10 +39,22 @@ class _SplashScreenState extends State<SplashScreen>
     });
   }
 
+
   @override
   void initState() {
+    daytoday = DateFormat('yyyy-MM-dd').format(date);
     Provider.of<Controller>(context, listen: false).getBranchList();
-    Provider.of<Controller>(context, listen: false).chartDataSet();
+    Provider.of<Controller>(context, listen: false).chartDataSet(
+        Provider.of<Controller>(context, listen: false).branchid != null &&
+                Provider.of<Controller>(context, listen: false)
+                    .branchid
+                    .isNotEmpty
+            ? Provider.of<Controller>(context, listen: false)
+                .branchid[0]
+                .toString()
+            : '1',
+        daytoday!,
+        daytoday!);
 
     // TODO: implement initState
     super.initState();

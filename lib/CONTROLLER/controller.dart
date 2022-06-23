@@ -39,6 +39,7 @@ class Controller extends ChangeNotifier {
 
   List<Map<String, dynamic>> branchList = [];
   List<Map<String, dynamic>> allData = [];
+  List branchid = [];
   List<CD> companyList = [];
   List<Map<String, dynamic>> collectionChart = [];
   String urlgolabl = Globaldata.apiglobal;
@@ -115,29 +116,6 @@ class Controller extends ChangeNotifier {
     });
   }
 
-  // //////////////////////////////////////////
-  // getCompanyData() async {
-  //   try {
-  //     isLoading = true;
-  //     // notifyListeners();
-  //     // SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     // String? cid = prefs.getString("cid");
-  //     // print('cidnew---$cid');
-  //     var res = await OrderAppDB.instance.selectCompany("cid='${cid}'");
-  //     // print("res companyList----${res}");
-  //     for (var item in res) {
-  //       companyList.add(item);
-  //     }
-  //     // print("companyList ----${companyList}");
-  //     isLoading = false;
-  //     notifyListeners();
-  //   } catch (e) {
-  //     print(e);
-  //     return null;
-  //   }
-  //   notifyListeners();
-  // }
-
   /////////////////// verify registration//////////////
   Future<Registration?> verifyRegistration(
       String company_code, String fp, BuildContext context) async {
@@ -176,21 +154,23 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////chart data///////////////////////
-  Future<ChartData?> chartDataSet() async {
+  Future<ChartData?> chartDataSet(
+      String branch_id, String from_date, String till_date) async {
     var res;
     // print("company_code---fp-${company_code}---${fp}");
     try {
       Uri url = Uri.parse("$urlgolabl/reports.php");
-      // Map body = {
-      //   'from_date': from_date,
-      //   'till_date': till_date,
-      //   'branch_id': branch_id,
-      // };
+      Map body = {
+        'branch_id': branch_id,
+        'from_date': from_date,
+        'till_date': till_date,
+      };
 
       http.Response response = await http.post(
         url,
-        // body: jsonEncode(body),
+        body: body,
       );
+      print("body ${body}");
 
       var map = jsonDecode(response.body);
       print("map ${map}");
@@ -274,16 +254,40 @@ class Controller extends ChangeNotifier {
 
       var map = jsonDecode(response.body);
       print("map.........$map");
-
+       branchid.clear();
       for (var item in map) {
         branchList.add(item);
+        branchid.add(item['brnach_id']);
       }
 
-      print("branchList ${branchList}");
+      print("branchList ${branchid}");
       notifyListeners();
     } catch (e) {
       print(e);
       return null;
     }
   }
+  // //////////////////////////////////////////
+  // getCompanyData() async {
+  //   try {
+  //     isLoading = true;
+  //     // notifyListeners();
+  //     // SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     // String? cid = prefs.getString("cid");
+  //     // print('cidnew---$cid');
+  //     var res = await OrderAppDB.instance.selectCompany("cid='${cid}'");
+  //     // print("res companyList----${res}");
+  //     for (var item in res) {
+  //       companyList.add(item);
+  //     }
+  //     // print("companyList ----${companyList}");
+  //     isLoading = false;
+  //     notifyListeners();
+  //   } catch (e) {
+  //     print(e);
+  //     return null;
+  //   }
+  //   notifyListeners();
+  // }
+
 }

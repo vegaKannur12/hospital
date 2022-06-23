@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hospital/COMPONENTS/selectDate.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/SCREEN/branch1.dart';
 import 'package:hospital/SCREEN/branch2.dart';
@@ -16,6 +17,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   int _selectedIndex = 0;
+  CustomDate datedata = CustomDate();
   String menu_index = "1";
   TabController? _tabController;
   String? daytoday;
@@ -23,7 +25,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   DateTime date = DateTime.now();
   List<Tab> myTabs = <Tab>[
     Tab(text: 'Today '),
-    // Tab(text: ''),
+    Tab(text: 'Last 3 Days'),
+    Tab(text: 'Last 3 Months'),
   ];
   @override
   void initState() {
@@ -41,6 +44,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     });
 
     daytoday = DateFormat('yyyy-MM-dd').format(date);
+
     print("date $daytoday");
     getCid();
     // Provider.of<Controller>(context, listen: false).getBranchList();
@@ -59,13 +63,21 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     switch (pos) {
       case "1":
         {
-          _tabController!.animateTo((0));
-          return Branch1();
+          // _tabController!.animateTo((0));
+          datedata.getDate(1);
+          //     fromdt = DateFormat('yyyy-MM-dd').format(date);
+          // todt = DateFormat('yyyy-MM-dd').format(date);
+          return Singlegraph(
+              from_date: datedata.fromdt, to_date: datedata.todt);
         }
-      // case "1":
-      //   return Branch2();
-      // case "2":
-      //   return Branch3();
+      case "2":
+        datedata.getDate(2);
+
+        return Singlegraph(from_date: datedata.fromdt, to_date: datedata.todt);
+      case "3":
+        datedata.getDate(3);
+
+        return Singlegraph(from_date: datedata.fromdt, to_date: datedata.todt);
     }
   }
 
@@ -93,24 +105,20 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
       ),
       // drawer: Drawer(),
-      body: Consumer<Controller>(
-        builder: (context, value, child) {
-          return TabBarView(
-            controller: _tabController,
-            children: myTabs.map((Tab tab) {
-              final String label = tab.text!.toLowerCase();
-              return Center(
-                child: SingleChildScrollView(
-                  child: Container(
-                    child: _getBranch(
-                      menu_index,
-                    ),
-                  ),
+      body: TabBarView(
+        controller: _tabController,
+        children: myTabs.map((Tab tab) {
+          final String label = tab.text!.toLowerCase();
+          return Center(
+            child: SingleChildScrollView(
+              child: Container(
+                child: _getBranch(
+                  menu_index,
                 ),
-              );
-            }).toList(),
+              ),
+            ),
           );
-        },
+        }).toList(),
       ),
     );
   }

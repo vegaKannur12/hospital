@@ -1,42 +1,27 @@
 import 'dart:math';
 import 'package:d_chart/d_chart.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
+import 'package:hospital/CONTROLLER/controller.dart';
+import 'package:provider/provider.dart';
 
-class Daytwo {
-  List<Map<String, dynamic>> colors = [
-    {'color': 'Color.fromRGBO(75, 135, 185, 1)'},
-    {'color': 'Color.fromRGBO(192, 108, 132, 1)'},
-    // {'color': 'Color.fromRGBO(246, 114, 128, 1)'},
-    // {'color': 'Color.fromRGBO(248, 177, 149, 1)'},
-    // {'color': 'Color.fromRGBO(116, 180, 155, 1)'}
-  ];
-  List<Map<String, dynamic>> data = [
-    {
-      'type': 'DChartPie',
-      'domain': 'Flutter',
-      'measure': 20,
-      'pvalue': 0.1,
-    },
-    {
-      'type': 'DChartBar',
-      'domain': 'React Native',
-      'measure': 84,
-      'pvalue': 0.3,
-    },
-    {
-      'type': 'DChartLine',
-      'domain': 'Ionic',
-      'measure': 27,
-      'pvalue': 0.7,
-    },
-    {'type': 'DChartBar', 'domain': 'Cordova', 'measure': 17, 'pvalue': 0.4},
-  ];
-  List<Map<String, dynamic>>? head = [
-    {'title': 'Expence', 'total': '7000'},
-    {'title': 'Eran', 'total': '500'},
-    {'title': 'Visit', 'total': '100'},
-  ];
+class SecondBranch extends StatefulWidget {
+  String branchid;
+  String from_date;
+  String till_date;
+  SecondBranch(
+      {required this.branchid,
+      required this.from_date,
+      required this.till_date});
+
+  @override
+  State<SecondBranch> createState() => _SecondBranchState();
+}
+
+class _SecondBranchState extends State<SecondBranch> {
+  List<String> chartType = ["DChartBar", "DChartPie", "DChartPie", "DChartBar"];
+
   String? daytoday;
   String? yesterday;
   String? dayafter;
@@ -45,7 +30,7 @@ class Daytwo {
   List<String> s = [];
   String? sid;
   var groupBarData = 1;
-  _getChart(String type) {
+  _getChart(String type, List<Map<String, dynamic>> data) {
     print("chart type$type");
     switch (type) {
       case "DChartPie":
@@ -53,183 +38,168 @@ class Daytwo {
           // _tabController!.animateTo((0));
           return DChartPie(
             data: data,
-            fillColor: (pieData, index) {
-              switch (pieData['domain']) {
-                case 'Flutter':
-                  return Color.fromARGB(255, 243, 212, 33);
-                case 'React Native':
-                  return Color.fromARGB(255, 158, 68, 209);
-                case 'Ionic':
-                  return Colors.pink;
-                default:
-                  return Colors.green;
-              }
-            },
+            fillColor: (pieData, index) => Colors.purple,
             animate: true,
-            donutWidth: 30,
-            showLabelLine: true,
+            donutWidth: 25,
           );
         }
-      // case "DChartLine":
-      //   return DChartLine(
-      //       data: data, lineColor: (lineData, index, id) => Colors.amber);
-      // case "DChartBar":
-      //   return DChartBar(
-      //       barColor: (barData, index, id) => Colors.green, data: data);
+      case "DChartLine":
+        return DChartLine(
+          data: [
+            {'id': 'Line', 'data': data},
+          ],
+          lineColor: (lineData, index, id) => Colors.amber,
+        );
+      case "DChartBar":
+        return DChartBar(
+          data: [
+            {
+              'id': 'Bar',
+              // 'data': data
+              'data': data,
+            },
+          ],
+          axisLineColor: Colors.green,
+          measureLabelPaddingToAxisLine: 5,
+          barColor: (barData, index, id) => Colors.green,
+          verticalDirection: true,
+        );
     }
   }
 
   @override
-  @override
-  Widget Daytwo2(BuildContext context) {
+  Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Column(
+    final ScrollController _firstController = ScrollController();
+    return Scrollbar(
+      thumbVisibility: true,
+      thickness: 10,
+      radius: Radius.circular(20),
+      controller: _firstController,
+      child: SingleChildScrollView(
+        controller: _firstController,
+        scrollDirection: Axis.vertical,
+        child: Consumer<Controller>(
+          builder: (context, value, child) {
+            return Column(
               children: [
-                Container(
-                  height: size.height * 0.9,
-                  child: ListView.builder(
-                    itemCount: head!.length,
-                    itemBuilder: (context, index) {
-                      return Column(children: [
-                        Text(head![index]['title'],
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Color.fromARGB(255, 179, 15, 15))),
-                        Padding(
-                          padding: EdgeInsets.all(16),
-                          child: AspectRatio(
-                            aspectRatio: 1.5,
-                            child: Stack(
-                              children: [
-                                // _getChart('DChartPie'),
-                                AspectRatio(
-                                  aspectRatio: 16 / 9,
-                                  child: DChartBar(
-                                    measureLabelColor: P_Settings.wavecolor,
-                                    data: [
-                                      {
-                                        'id': 'Bar 1',
-                                        'data': [
-                                          {'domain': '2020', 'measure': 32},
-                                          {'domain': '2021', 'measure': 43},
-                                          {'domain': '2022', 'measure': 29},
-                                          {'domain': '2023', 'measure': 16},
-                                        ],
-                                      },
-                                      {
-                                        'id': 'Bar 2',
-                                        'data': [
-                                          {'domain': '2020', 'measure': 24},
-                                          {'domain': '2021', 'measure': 42},
-                                          {'domain': '2022', 'measure': 9},
-                                          {'domain': '2023', 'measure': 37},
-                                        ],
-                                      },
-                                      {
-                                        'id': 'Bar 3',
-                                        'data': [
-                                          {'domain': '2020', 'measure': 17},
-                                          {'domain': '2021', 'measure': 28},
-                                          {'domain': '2022', 'measure': 12},
-                                          {'domain': '2023', 'measure': 30},
-                                        ],
-                                      },
-                                    ],
-                                    minimumPaddingBetweenLabel: 1,
-                                    domainLabelPaddingToAxisLine: 16,
-                                    axisLineTick: 4,
-                                    axisLinePointTick: 4,
-                                    axisLinePointWidth: 10,
-                                    axisLineColor: Colors.green,
-                                    measureLabelPaddingToAxisLine: 40,
-                                    barColor: (barData, index, id) =>
-                                        id == 'Bar 1'
-                                            ? Colors.green.shade300
-                                            : id == 'Bar 2'
-                                                ? Colors.green.shade600
-                                                : Colors.green.shade900,
-                                    barValue: (barData, index) =>
-                                        '${barData['measure']}',
-                                    showBarValue: true,
-                                    barValueFontSize: 12,
-                                    barValuePosition: BarValuePosition.outside,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8),
-                                  child: Text(
-                                    'Year',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.green,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 15),
+                  child: Column(
+                    children: [
+                      Text(
+                          "${value.collectData != null && value.collectData.isNotEmpty ? value.collectData[0]['rpt'] : ''}",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 179, 15, 15))),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AspectRatio(
+                          aspectRatio: 1.5,
+                          child: _getChart("DChartBar", value.collectData),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10),
-                          child: Container(
-                            height: size.height * 0.395,
-                            child: ListView.builder(
-                              itemCount: data.length,
-                              itemBuilder: (context, index) {
-                                return ListTile(
-                                  leading: Text(
-                                      "${data[index]['measure'].toString()}%"),
-                                  title: Container(
-                                      // width: size.width*0.9,
-                                      alignment: Alignment.topCenter,
-                                      margin: EdgeInsets.all(10),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            "${data[index]['domain'].toString()}",
-                                            style: TextStyle(
-                                                fontSize: 13,
-                                                color: Colors.grey[500]),
-                                          ),
-                                          LinearProgressIndicator(
-                                            value: data[index]['pvalue'],
-                                            valueColor:
-                                                new AlwaysStoppedAnimation<
-                                                        Color>(
-                                                    Color.fromARGB(
-                                                        255, 175, 48, 118)),
-                                          ),
-                                        ],
-                                      )),
-                                  // subtitle: Text("${data[index]['domain'].toString()}%"),
-                                  // trailing:
-                                  //     Text("${data[index]['measure'].toString()}%"),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                        Divider(
-                          thickness: 2,
-                        ),
-                      ]);
-                    },
+                      ),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      linearProgress(value.collectData, size),
+                      Text(
+                          "${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : ''}",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 179, 15, 15))),
+                      AspectRatio(
+                        aspectRatio: 1.5,
+                        child: _getChart("DChartPie", value.countData),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      linearProgress(value.countData, size),
+                      Text(
+                          "${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : ''}",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 179, 15, 15))),
+                      AspectRatio(
+                        aspectRatio: 1.5,
+                        child: _getChart("DChartPie", value.departmentData),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      linearProgress(value.collectData, size),
+                      Text("SERVICE GROUP",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: Color.fromARGB(255, 179, 15, 15))),
+                      AspectRatio(
+                        aspectRatio: 1.5,
+                        child: _getChart("DChartPie", value.servicegroupData),
+                      ),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      linearProgress(value.servicegroupData, size),
+                    ],
                   ),
                 ),
               ],
-            ),
-          ),
-        ],
+            );
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget linearProgress(List<Map<String, dynamic>> list, Size size) {
+    ;
+    print("cjxzj-----$list");
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10),
+      child: Container(
+        height: size.height * 0.36,
+        child: ListView.builder(
+          itemCount: list.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+                // leading: Text("${list[index]['measure'].toString()}%"),
+                title: Row(
+              children: [
+                Container(
+                    width: size.width * 0.2,
+                    child: Text(
+                      "${list[index]['measure'].toString()}",
+                      style: TextStyle(fontSize: 12),
+                    )),
+                SizedBox(
+                  width: size.width * 0.03,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${list[index]['domain'].toString()}",
+                      style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                    ),
+                    Container(
+                      width: size.width * 0.6,
+                      child: LinearProgressIndicator(
+                        value: list[index]['per'],
+                        valueColor: new AlwaysStoppedAnimation<Color>(
+                            Color.fromARGB(255, 131, 7, 7)),
+                        color: Color.fromARGB(0, 20, 255, 255),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ));
+          },
+        ),
       ),
     );
   }
 }
-  //////////////////////////////////////////////////////////////////////
 
+//////////////////////////////////////////////////////////////////////

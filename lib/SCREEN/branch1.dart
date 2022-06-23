@@ -13,24 +13,27 @@ import 'package:provider/provider.dart';
 //   daythree,
 // }
 
-class Branch1 extends StatefulWidget {
-  const Branch1({Key? key}) : super(key: key);
+class Singlegraph extends StatefulWidget {
+  String? from_date;
+  String? to_date;
+
+  Singlegraph({required this.from_date,required this.to_date});
 
   @override
-  State<Branch1> createState() => _Branch1State();
+  State<Singlegraph> createState() => _SinglegraphState();
 
   static void dispose() {}
 }
 
-class _Branch1State extends State<Branch1> {
+class _SinglegraphState extends State<Singlegraph> {
   // FirstBranch todaydata = FirstBranch();
-  Daytwo yesterdaydata = Daytwo();
+
   Daythree dayafterdata = Daythree();
   // WidgetMarker selectedWidgetMarker = WidgetMarker.dayone;
-  String? _month;
-  String? daytoday;
-  String? yesterday;
-  String? dayafter;
+  // String? _month;
+  // String? daytoday;
+  // String? yesterday;
+  // String? dayafter;
   DateTime date = DateTime.now();
   String? selected;
   List<String> s = [];
@@ -57,24 +60,17 @@ class _Branch1State extends State<Branch1> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
+   print("from Date.......${widget.from_date}--${widget.to_date}");
     // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
 
     // print("init");
-    final today = DateTime(date.year, date.month, date.day);
-    final yester = DateTime(date.year, date.month, date.day - 1);
-    final dayaf = DateTime(date.year, date.month, date.day - 2);
-
-    daytoday = DateFormat('dd').format(date);
-    String month1 = DateFormat('MM').format(date).toString();
-    yesterday = DateFormat('dd').format(yester);
-    dayafter = DateFormat('dd').format(dayaf);
-    // print("dayafter yesterday $dayafter $yesterday ");
-
-    /////////// month name ////////////////////
-    var someDateTime = new DateTime.now();
-    var mon = someDateTime.month;
-    _month = months[mon - 1];
+    // daytoday = DateFormat('yyyy-MM-dd').format(date);
+    // print("today....$daytoday");
+    // final yester = DateTime(date.year, date.month, date.day - 1);
+    // print("yester....$yester");
+    // daytoday = DateFormat('dd').format(date);
+    // String month1 = DateFormat('MM').format(date).toString();
+    // yesterday = DateFormat('dd').format(yester);
   }
 
   @override
@@ -101,8 +97,7 @@ class _Branch1State extends State<Branch1> {
                                   child: TabBar(
                                       labelColor: P_Settings.wavecolor,
                                       unselectedLabelColor: Colors.black,
-                                      tabs: 
-                                      value.branchList
+                                      tabs: value.branchList
                                           .map((e) => Tab(
                                                 text: e['branch_code'],
                                               ))
@@ -129,8 +124,8 @@ class _Branch1State extends State<Branch1> {
                                           return Container(
                                             child: Center(
                                               child: FirstBranch(
-                                                // branchId: value.branchList[0]['brnach_id']
-                                                ),
+                                                branch_id: value.branchid[0],
+                                              ),
                                               //   child: Text('Display Tab 1',
                                               //       style: TextStyle(
                                               //           fontSize: 22,
@@ -141,13 +136,18 @@ class _Branch1State extends State<Branch1> {
                                       ),
                                       Container(
                                         child: Center(
-                                          child: yesterdaydata.Daytwo2(context),
+                                          child:
+                                               FirstBranch(
+                                                branch_id: value.branchid[1],
+                                              ),
                                         ),
                                       ),
                                       Container(
                                         child: Center(
                                           child:
-                                              dayafterdata.Daythree3(context),
+                                               FirstBranch(
+                                                branch_id: value.branchid[2],
+                                              ),
                                         ),
                                       ),
                                     ]))
