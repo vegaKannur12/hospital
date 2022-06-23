@@ -25,6 +25,18 @@ class _FirstBranchState extends State<FirstBranch> {
   List<String> s = [];
   String? sid;
   var groupBarData = 1;
+  Color parseColor(String color) {
+    print("Colorrrrr...$color");
+    String hex = color.replaceAll("#", "");
+    if (hex.isEmpty) hex = "ffffff";
+    if (hex.length == 3) {
+      hex =
+          '${hex.substring(0, 1)}${hex.substring(0, 1)}${hex.substring(1, 2)}${hex.substring(1, 2)}${hex.substring(2, 3)}${hex.substring(2, 3)}';
+    }
+    Color col = Color(int.parse(hex, radix: 16)).withOpacity(1.0);
+    return col;
+  }
+
   _getChart(String type, List<Map<String, dynamic>> data) {
     print("chart type$type");
     switch (type) {
@@ -57,8 +69,22 @@ class _FirstBranchState extends State<FirstBranch> {
           ],
           axisLineColor: Colors.green,
           measureLabelPaddingToAxisLine: 2,
-          barColor: (barData, index, id) =>
-              Colors.primaries[Random().nextInt(Colors.primaries.length)],
+          barColor: (barData, index, id) {
+            switch (barData['domain']) {
+              case 'CASH':
+                return parseColor(
+              Provider.of<Controller>(context, listen: false).colorList[0]);
+              case 'CARD':
+                return parseColor(
+              Provider.of<Controller>(context, listen: false).colorList[1]);
+              case 'CREDIT':
+                return parseColor(
+              Provider.of<Controller>(context, listen: false).colorList[2]);
+              default:
+                return Color.fromARGB(255, 188, 155, 228);
+            }
+          },
+          // Colors.primaries[Random().nextInt(Colors.primaries.length)],
           verticalDirection: true,
           domainLabelPaddingToAxisLine: 16,
         );
@@ -68,24 +94,6 @@ class _FirstBranchState extends State<FirstBranch> {
   _getChartData(String type, List<Map<String, dynamic>> data) {
     print("chart type$type");
     switch (type) {
-      case "DChartPie":
-        {
-          // _tabController!.animateTo((0));
-          return DChartPie(
-            data: data,
-            fillColor: (pieData, index) =>
-                Colors.primaries[Random().nextInt(Colors.primaries.length)],
-            animate: true,
-            donutWidth: 25,
-          );
-        }
-      case "DChartLine":
-        return DChartLine(
-          data: [
-            {'id': 'Line', 'data': data},
-          ],
-          lineColor: (lineData, index, id) => Colors.amber,
-        );
       case "DChartBar":
         return DChartBar(
           data: [
@@ -97,8 +105,11 @@ class _FirstBranchState extends State<FirstBranch> {
           ],
           axisLineColor: Colors.green,
           measureLabelPaddingToAxisLine: 1,
-          barColor: (barData, index, id) =>
-              Colors.primaries[Random().nextInt(Colors.primaries.length)],
+
+          barColor: (barData, index, id) => parseColor(
+              Provider.of<Controller>(context, listen: false).colorList[0]),
+
+          // Colors.primaries[Random().nextInt(Colors.primaries.length)],
           verticalDirection: false,
           domainLabelPaddingToAxisLine: 16,
           axisLineTick: 2,
@@ -108,37 +119,18 @@ class _FirstBranchState extends State<FirstBranch> {
     }
   }
 
-  _getChartDataData(String type, List<Map<String, dynamic>> data) {
-    print("chart type$type");
-    switch (type) {
-      case "DChartBar":
-        return DChartBar(
-          data: [
-            {
-              'id': 'Bar',
-              // 'data': data
-              'data': data,
-            },
-          ],
-          axisLineColor: Colors.green,
-          measureLabelPaddingToAxisLine: 5,
-          barColor: (barData, index, id) =>
-              Colors.primaries[Random().nextInt(Colors.primaries.length)],
-          verticalDirection: true,
-        );
-    }
-  }
   @override
   void initState() {
     daytoday = DateFormat('yyyy-MM-dd').format(date);
-    final yester = DateTime(date.year, date.month-2, 1);
+    final yester = DateTime(date.year, date.month - 2, 1);
     // final yester = DateTime(date.year, date.month, 1);
-   print("yesterday.....$yester");
-     Provider.of<Controller>(context, listen: false)
+    print("yesterday.....$yester");
+    Provider.of<Controller>(context, listen: false)
         .chartDataSet(widget.branch_id, daytoday!, daytoday!);
     // TODO: implement initState
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;

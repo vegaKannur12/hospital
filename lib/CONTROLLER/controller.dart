@@ -22,6 +22,7 @@ class Controller extends ChangeNotifier {
   // List<Map<String, dynamic>> servicegroupData = [];
   bool isLoading = false;
   List<num> num_list = [];
+  List colorList = [];
   num? sum;
   String? cid;
   String? fp;
@@ -181,12 +182,15 @@ class Controller extends ChangeNotifier {
       print("map ${map}");
 
       collectData.clear();
+      colorList.clear();
       print("map chart data ${map}");
       for (var item in map["collection_data"]) {
         print("inside for length  ${item}");
         collectData.add(item);
         num_list.add(item["measure"]);
+        colorList.add(item["color_code"]);
       }
+      print("color list.....$colorList");
 
       sum = calculate_sum(num_list);
       for (var item in collectData) {
