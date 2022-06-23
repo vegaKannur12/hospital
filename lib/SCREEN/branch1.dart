@@ -79,6 +79,7 @@ class _SinglegraphState extends State<Singlegraph> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       DefaultTabController(
+                        
                           length: 3, // length of tabs
                           initialIndex: 0,
                           child: Column(
