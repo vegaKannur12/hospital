@@ -15,8 +15,8 @@ import 'package:provider/provider.dart';
 class Singlegraph extends StatefulWidget {
   String? from_date;
   String? to_date;
-  
-  Singlegraph({required this.from_date,required this.to_date});
+
+  Singlegraph({required this.from_date, required this.to_date});
 
   @override
   State<Singlegraph> createState() => _SinglegraphState();
@@ -25,7 +25,6 @@ class Singlegraph extends StatefulWidget {
 }
 
 class _SinglegraphState extends State<Singlegraph> {
-
   DateTime date = DateTime.now();
   String? selected;
   List<String> s = [];
@@ -52,7 +51,7 @@ class _SinglegraphState extends State<Singlegraph> {
   void initState() {
     // TODO: implement initState
     super.initState();
-   print("from Date.......${widget.from_date}--${widget.to_date}");
+    print("from Date.......${widget.from_date}--${widget.to_date}");
     // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
 
     // print("init");
@@ -79,7 +78,6 @@ class _SinglegraphState extends State<Singlegraph> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       DefaultTabController(
-                        
                           length: 3, // length of tabs
                           initialIndex: 0,
                           child: Column(
@@ -88,6 +86,7 @@ class _SinglegraphState extends State<Singlegraph> {
                                 Container(
                                   // color: P_Settings.bodyTabColor,
                                   child: TabBar(
+                                      physics: NeverScrollableScrollPhysics(),
                                       labelColor: P_Settings.wavecolor,
                                       unselectedLabelColor: Colors.black,
                                       tabs: value.branchList
@@ -129,18 +128,16 @@ class _SinglegraphState extends State<Singlegraph> {
                                       ),
                                       Container(
                                         child: Center(
-                                          child:
-                                               FirstBranch(
-                                                branch_id: value.branchid[1],
-                                              ),
+                                          child: FirstBranch(
+                                            branch_id: value.branchid[1],
+                                          ),
                                         ),
                                       ),
                                       Container(
                                         child: Center(
-                                          child:
-                                               FirstBranch(
-                                                branch_id: value.branchid[2],
-                                              ),
+                                          child: FirstBranch(
+                                            branch_id: value.branchid[2],
+                                          ),
                                         ),
                                       ),
                                     ]))

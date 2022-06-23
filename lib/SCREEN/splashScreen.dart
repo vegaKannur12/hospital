@@ -44,6 +44,7 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     daytoday = DateFormat('yyyy-MM-dd').format(date);
     Provider.of<Controller>(context, listen: false).getBranchList();
+    Provider.of<Controller>(context, listen: false).multiChartDataSet();
     Provider.of<Controller>(context, listen: false).chartDataSet(
         Provider.of<Controller>(context, listen: false).branchid != null &&
                 Provider.of<Controller>(context, listen: false)

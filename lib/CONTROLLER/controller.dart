@@ -6,6 +6,7 @@ import 'package:hospital/COMPONENTS/network_connectivity.dart';
 import 'package:hospital/MODEL/branch_model.dart';
 import 'package:hospital/MODEL/chartData_model.dart';
 import 'package:hospital/MODEL/getRegistration_model.dart';
+import 'package:hospital/MODEL/multichart_model.dart';
 import 'package:hospital/MODEL/registrationModel.dart';
 import 'package:hospital/SCREEN/login.dart';
 import 'package:hospital/SCREEN/tabbarinbody.dart';
@@ -33,6 +34,10 @@ class Controller extends ChangeNotifier {
   String? branch_id;
   List<CD> c_d = [];
   List<Map<String, dynamic>> collectData = [];
+  List<Map<String, dynamic>> multiCollection = [];
+  List<Map<String, dynamic>> multiCollection1 = [];
+  List<Map<String, dynamic>> multiCollection2 = [];
+  List<Map<String, dynamic>> multiCollection3 = [];
   List<Map<String, dynamic>> countData = [];
   List<Map<String, dynamic>> departmentData = [];
   List<Map<String, dynamic>> servicegroupData = [];
@@ -254,7 +259,7 @@ class Controller extends ChangeNotifier {
 
       var map = jsonDecode(response.body);
       print("map.........$map");
-       branchid.clear();
+      branchid.clear();
       for (var item in map) {
         branchList.add(item);
         branchid.add(item['brnach_id']);
@@ -268,6 +273,42 @@ class Controller extends ChangeNotifier {
     }
   }
   // //////////////////////////////////////////
+
+  Future<MultiChart?> multiChartDataSet() async {
+    var res;
+    // print("company_code---fp-${company_code}---${fp}");
+    try {
+      Uri url = Uri.parse("$urlgolabl/multi_graph.php");
+      // Map body = {
+      //   'branch_id': branch_id,
+      //   'from_date': from_date,
+      //   'till_date': till_date,
+      // };
+
+      http.Response response = await http.post(
+        url,
+        // body: body,
+      );
+      // print("body ${body}");
+
+      var map = jsonDecode(response.body);
+      print("map ${map}");
+
+      collectData.clear();
+      print("map chart data ${map}");
+      for (var item in map["collection"]) {
+        print("inside for length  ${item}");
+        multiCollection.add(item);
+        // multiCollection1.add(item['data']);
+      }
+      print("multiCollection1 ${multiCollection}");
+
+      notifyListeners();
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
   // getCompanyData() async {
   //   try {
   //     isLoading = true;

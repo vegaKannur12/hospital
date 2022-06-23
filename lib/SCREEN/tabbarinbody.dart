@@ -104,6 +104,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       ),
       // drawer: Drawer(),
       body: TabBarView(
+        physics: NeverScrollableScrollPhysics(),
         controller: _tabController,
         children: myTabs.map((Tab tab) {
           final String label = tab.text!.toLowerCase();
