@@ -58,7 +58,7 @@ class _MultiDayOneState extends State<MultiDayOne> {
   }
 
   //////////////////////////////////////////////////////
-  getapi(String from_date, String till_date, String branch_id,
+  getapi(String branch_id, String from_date, String till_date,
       String period) async {
     print("dateeee..$from_date---$till_date---$branch_id----$period");
 
@@ -66,14 +66,15 @@ class _MultiDayOneState extends State<MultiDayOne> {
       Uri url = Uri.parse("http://146.190.8.166/API/multi_graph.php");
       // isloading=true;
       Map body = {
-        'from_date': from_date,
-        'till_date': till_date,
-        'branch_id': branch_id,
-        'period': period,
+        'from_date': "2022-24-6",
+        'till_date': "2022-24-2",
+        'branch_id': "1",
+        'period': "0",
       };
       http.Response response = await http.post(
         url,
-        body: jsonEncode(body),
+        headers: {"Content-Type": "application/json"},
+        body: body,
       );
       print("response..${response.body}");
       setState(() {
