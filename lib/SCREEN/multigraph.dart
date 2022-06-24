@@ -8,8 +8,8 @@ import 'package:provider/provider.dart';
 class MultiGraph extends StatefulWidget {
   String? from_date;
   String? to_date;
-  String? period;
-  MultiGraph({required this.from_date, required this.to_date , required this.period});
+
+  MultiGraph({required this.from_date, required this.to_date});
 
   @override
   State<MultiGraph> createState() => _MultiGraphState();
@@ -63,8 +63,12 @@ class _MultiGraphState extends State<MultiGraph> {
                                               return Container(
                                                 child: Center(
                                                   child: MultiDayOne(
-                                                      // branch_id: value.branchid[0],
-                                                      ),
+                                                    branch_id:
+                                                        value.branchid[0],
+                                                    fromDate: widget.from_date!,
+                                                    todate: widget.to_date!,
+                                                    period: "0",
+                                                  ),
                                                   //   child: Text('Display Tab 1',
                                                   //       style: TextStyle(
                                                   //           fontSize: 22,
@@ -76,15 +80,21 @@ class _MultiGraphState extends State<MultiGraph> {
                                           Container(
                                             child: Center(
                                               child: MultiDayOne(
-                                                  // branch_id: value.branchid[1],
-                                                  ),
+                                                fromDate: widget.from_date!,
+                                                todate: widget.to_date!,
+                                                branch_id: value.branchid[1],
+                                                period: "0",
+                                              ),
                                             ),
                                           ),
                                           Container(
                                             child: Center(
                                               child: MultiDayOne(
-                                                  // branch_id: value.branchid[2],
-                                                  ),
+                                                fromDate: widget.from_date!,
+                                                todate: widget.to_date!,
+                                                branch_id: value.branchid[2],
+                                                period: "0",
+                                              ),
                                             ),
                                           ),
                                         ]))
