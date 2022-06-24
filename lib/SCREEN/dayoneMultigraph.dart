@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'dart:math';
@@ -6,8 +8,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
+import 'package:hospital/MODEL/multichart_model.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
+import 'package:hospital/COMPONENTS/globalurl.dart';
 
 class MultiDayOne extends StatefulWidget {
   const MultiDayOne({Key? key}) : super(key: key);
@@ -26,39 +31,60 @@ class _MultiDayOneState extends State<MultiDayOne> {
   String? selected;
   List<String> s = [];
   String? sid;
-  var groupBarData = 1;
+  String urlgolabl = Globaldata.apiglobal;
+  // bool? isloading;
+  var collectionJson;
+  // var groupBarData = 1;
   // List<Map<String, dynamic>> data = [
   //   {
-  //     'id': 'Bar 1',
-  //     'data': [
-  //       {'domain': '2020', 'measure': 32},
-  //       {'domain': '2021', 'measure': 43},
-  //       {'domain': '2022', 'measure': 29},
-  //       {'domain': '2023', 'measure': 16},
-  //     ],
+  //     "id": "CASH",
+  //     "data": [
+  //       {"domain": "13-06-2022", "measure": 1232, "color_code": "#1db345"},
+  //       {"domain": "14-06-2022", "measure": 1461.5, "color_code": "#1db345"},
+  //       {"domain": "15-06-2022", "measure": 1430.5, "color_code": "#1db345"},
+  //       {"domain": "16-06-2022", "measure": 1027, "color_code": "#1db345"}
+  //     ]
   //   },
   //   {
-  //     'id': 'Bar 2',
-  //     'data': [
-  //       {'domain': '2020', 'measure': 24},
-  //       {'domain': '2021', 'measure': 42},
-  //       {'domain': '2022', 'measure': 9},
-  //       {'domain': '2023', 'measure': 37},
-  //     ],
+  //     "id": "CARD",
+  //     "data": [
+  //       {"domain": "13-06-2022", "measure": 172, "color_code": "#1b86de"},
+  //       {"domain": "14-06-2022", "measure": 350.5, "color_code": "#1b86de"},
+  //       {"domain": "15-06-2022", "measure": 312.5, "color_code": "#1b86de"},
+  //       {"domain": "16-06-2022", "measure": 282.5, "color_code": "#1b86de"}
+  //     ]
   //   },
   //   {
-  //     'id': 'Bar 3',
-  //     'data': [
-  //       {'domain': '2020', 'measure': 17},
-  //       {'domain': '2021', 'measure': 28},
-  //       {'domain': '2022', 'measure': 12},
-  //       {'domain': '2023', 'measure': 30},
-  //     ],
-  //   },
+  //     "id": "CREDIT",
+  //     "data": [
+  //       {"domain": "13-06-2022", "measure": 56.9, "color_code": "#e31e3b"},
+  //       {"domain": "14-06-2022", "measure": 99, "color_code": "#e31e3b"},
+  //       {"domain": "15-06-2022", "measure": 162.1, "color_code": "#e31e3b"},
+  //       {"domain": "16-06-2022", "measure": 16, "color_code": "#e31e3b"}
+  //     ]
+  //   }
   // ];
 
+  getapi() async {
+    try {
+      Uri url = Uri.parse("$urlgolabl/multi_graph.php");
+      // isloading=true;
+      http.Response response = await http.get(
+        url,
+
+      );
+      setState(() {
+        collectionJson =
+            MultiChart.fromJson(json.decode(response.body)).toJson();
+        print("collectionJson-----$collectionJson");
+      });
+    } catch (e) {
+      return null;
+    }
+  }
+
   _getChart(String type, List<Map<String, dynamic>> data) {
-    print("chart type$type");
+    print("chart type $data");
     switch (type) {
       case "DChartPie":
         {
@@ -93,7 +119,7 @@ class _MultiDayOneState extends State<MultiDayOne> {
               : id == 'CARD'
                   ? Colors.green.shade600
                   : Colors.green.shade900,
-          // barValue: (barData, index) => '${barData['measure']}',
+          barValue: (barData, index) => '${barData['measure']}',
           showBarValue: true,
           barValueFontSize: 12,
           barValuePosition: BarValuePosition.outside,
@@ -156,6 +182,9 @@ class _MultiDayOneState extends State<MultiDayOne> {
     //       );
     // TODO: implement initState
     super.initState();
+    getapi();
+
+    // List<Map<String, dynamic>> data=Provider.of<Controller>(context, listen: false).multiCollection;
   }
 
   @override
@@ -172,83 +201,107 @@ class _MultiDayOneState extends State<MultiDayOne> {
         scrollDirection: Axis.vertical,
         child: Consumer<Controller>(
           builder: (context, value, child) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: Column(
-                    children: [
-                      //////////// collection Data ///////////////////////
-                      Text(
-                          "${value.collectData != null && value.collectData.isNotEmpty ? value.collectData[0]['rpt'] : ''}",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 179, 15, 15))),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AspectRatio(
-                          aspectRatio: 1.5,
-                          child: _getChart("DChartBar", value.multiCollection),
+            if (collectionJson == null) {
+              return CircularProgressIndicator();
+            } else {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: Column(
+                      children: [
+                        //////////// collection Data ///////////////////////
+                        Text(
+                            "${value.collectData != null && value.collectData.isNotEmpty ? value.collectData[0]['rpt'] : ''}",
+                            style: TextStyle(
+                                fontSize: 20,
+                                color: Color.fromARGB(255, 179, 15, 15))),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: AspectRatio(
+                            aspectRatio: 1.5,
+                            child: DChartBar(
+                              data: collectionJson["collection"],
+                              minimumPaddingBetweenLabel: 1,
+                              domainLabelPaddingToAxisLine: 16,
+                              axisLineTick: 2,
+                              axisLinePointTick: 2,
+                              axisLinePointWidth: 10,
+                              axisLineColor: Colors.green,
+                              measureLabelPaddingToAxisLine: 16,
+                              barColor: (barData, index, id) => id == 'CASH'
+                                  ? Colors.green.shade300
+                                  : id == 'CARD'
+                                      ? Colors.green.shade600
+                                      : Colors.green.shade900,
+                              // barValue: (barData, index) =>
+                              //     '${barData['measure']}',
+                              showBarValue: true,
+                              barValueFontSize: 12,
+                              barValuePosition: BarValuePosition.outside,
+                            ),
+                            // child: _getChart("DChartBar", value.chart),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      linearProgress(value.multiCollection, size),
-                      //////////////////// count Data ///////////////////////////////
-                      // Text(
-                      //     "${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : ''}",
-                      //     style: TextStyle(
-                      //         fontSize: 20,
-                      //         color: Color.fromARGB(255, 179, 15, 15))),
-                      // SizedBox(
-                      //   height: size.height * 0.03,
-                      // ),
-                      // AspectRatio(
-                      //   aspectRatio: 1.5,
-                      //   child: _getChart("DChartPie", value.countData),
-                      // ),
-                      // SizedBox(
-                      //   height: size.height * 0.03,
-                      // ),
-                      // linearProgress(value.countData, size),
-                      // ////////////////////// department data /////////////////////////////
-                      // Text(
-                      //     "${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : ''}",
-                      //     style: TextStyle(
-                      //         fontSize: 20,
-                      //         color: Color.fromARGB(255, 179, 15, 15))),
-                      // AspectRatio(
-                      //   aspectRatio: 1.5,
-                      //   child: _getChart("DChartPie", value.departmentData),
-                      // ),
-                      // SizedBox(
-                      //   height: size.height * 0.03,
-                      // ),
-                      // linearProgress(value.departmentData, size),
-                      // //////////////////////// service group ////////////////////////
-                      // Text(
-                      //     "${value.servicegroupData != null && value.servicegroupData.isNotEmpty ? value.servicegroupData[0]['rpt'] : ''}",
-                      //     style: TextStyle(
-                      //         fontSize: 20,
-                      //         color: Color.fromARGB(255, 179, 15, 15))),
-                      // SizedBox(
-                      //   height: size.height * 0.05,
-                      // ),
-                      // AspectRatio(
-                      //   aspectRatio: 1.5,
-                      //   child:
-                      //       _getChartData("DChartBar", value.servicegroupData),
-                      // ),
-                      // SizedBox(
-                      //   height: size.height * 0.03,
-                      // ),
-                      // linearProgress(value.servicegroupData, size),
-                    ],
+                        SizedBox(
+                          height: size.height * 0.03,
+                        ),
+                        // linearProgress(value.multiCollection, size),
+                        //////////////////// count Data ///////////////////////////////
+                        // Text(
+                        //     "${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : ''}",
+                        //     style: TextStyle(
+                        //         fontSize: 20,
+                        //         color: Color.fromARGB(255, 179, 15, 15))),
+                        // SizedBox(
+                        //   height: size.height * 0.03,
+                        // ),
+                        // AspectRatio(
+                        //   aspectRatio: 1.5,
+                        //   child: _getChart("DChartPie", value.countData),
+                        // ),
+                        // SizedBox(
+                        //   height: size.height * 0.03,
+                        // ),
+                        // linearProgress(value.countData, size),
+                        // ////////////////////// department data /////////////////////////////
+                        // Text(
+                        //     "${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : ''}",
+                        //     style: TextStyle(
+                        //         fontSize: 20,
+                        //         color: Color.fromARGB(255, 179, 15, 15))),
+                        // AspectRatio(
+                        //   aspectRatio: 1.5,
+                        //   child: _getChart("DChartPie", value.departmentData),
+                        // ),
+                        // SizedBox(
+                        //   height: size.height * 0.03,
+                        // ),
+                        // linearProgress(value.departmentData, size),
+                        // //////////////////////// service group ////////////////////////
+                        // Text(
+                        //     "${value.servicegroupData != null && value.servicegroupData.isNotEmpty ? value.servicegroupData[0]['rpt'] : ''}",
+                        //     style: TextStyle(
+                        //         fontSize: 20,
+                        //         color: Color.fromARGB(255, 179, 15, 15))),
+                        // SizedBox(
+                        //   height: size.height * 0.05,
+                        // ),
+                        // AspectRatio(
+                        //   aspectRatio: 1.5,
+                        //   child:
+                        //       _getChartData("DChartBar", value.servicegroupData),
+                        // ),
+                        // SizedBox(
+                        //   height: size.height * 0.03,
+                        // ),
+                        // linearProgress(value.servicegroupData, size),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            );
+                ],
+              );
+            }
           },
         ),
       ),

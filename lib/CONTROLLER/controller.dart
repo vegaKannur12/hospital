@@ -25,6 +25,7 @@ class Controller extends ChangeNotifier {
   List colorList = [];
   num? sum;
   String? cid;
+  // MultiChart? chart;
   String? fp;
   String? sof;
   String? userType;
@@ -36,10 +37,12 @@ class Controller extends ChangeNotifier {
   List<CD> c_d = [];
   List<Map<String, dynamic>> collectData = [];
   var jsonEnMulti;
-  List<Map<String, dynamic>> multiCollection = [];
-  List<Map<String, dynamic>> multiCollection1 = [];
-  List<Map<String, dynamic>> multiCollection2 = [];
-  List<Map<String, dynamic>> multiCollection3 = [];
+  // List<Map<String, dynamic>> chart = [];
+  var chart;
+  List<Map<String, dynamic>> multiCollection=[];
+  Map<String, dynamic> multiCollection1 = {};
+  Map<String, dynamic> multiCollection2 = {};
+  Map<String, dynamic> multiCollection3 = {};
   List<Map<String, dynamic>> countData = [];
   List<Map<String, dynamic>> departmentData = [];
   List<Map<String, dynamic>> servicegroupData = [];
@@ -279,36 +282,32 @@ class Controller extends ChangeNotifier {
   }
   // //////////////////////////////////////////
 
-  Future<MultiChart?> multiChartDataSet() async {
+  multiChartDataSet() async {
     var res;
-  
+    // multiCollection.clear();
+
     try {
       Uri url = Uri.parse("$urlgolabl/multi_graph.php");
-   
+      isLoading = true;
+      // notifyListeners();
       http.Response response = await http.post(
         url,
         // body: body,
       );
-     
+      isLoading = false;
+      notifyListeners();
+      List map = json.decode(response.body);
+      
+      // for(var item in map["collection"]){
+      //  multiCollection.add(Collection.fromJson(item) as Map<String, dynamic>) ;
+      // }
+      // chart =Collection.fromJson(map) as List<Map<String, dynamic>>?;
 
-      var map = jsonDecode(response.body);
-      print("map ${map}");
-
-      collectData.clear();
-      print("multi---------------- data ${map}");
-      for (var item in map["collection"]) {
-        print("inside for length  ${item}");
-        multiCollection.add(item);
-      }
-      jsonEnMulti=jsonEncode(multiCollection);
-      print("multiCollection1 ${multiCollection}");
-
+      print("multi----$multiCollection");
       notifyListeners();
     } catch (e) {
       print(e);
       return null;
     }
   }
-
-
 }
