@@ -36,8 +36,9 @@ class Controller extends ChangeNotifier {
   List<CD> c_d = [];
   List<Map<String, dynamic>> collectData = [];
   var jsonEnMulti;
-  List<Map<String, dynamic>> multiCollection = [];
-  List<Map<String, dynamic>> multiCollection1 = [];
+  var multiCollection;
+  var multiCollection1 = [];
+  List multiid = [];
   List<Map<String, dynamic>> multiCollection2 = [];
   List<Map<String, dynamic>> multiCollection3 = [];
   List<Map<String, dynamic>> countData = [];
@@ -161,98 +162,102 @@ class Controller extends ChangeNotifier {
   }
 
   ///////////////////chart data///////////////////////
-  Future<ChartData?> chartDataSet(
-      String branch_id, String from_date, String till_date) async {
-    var res;
-    // print("company_code---fp-${company_code}---${fp}");
-    try {
-      Uri url = Uri.parse("$urlgolabl/reports.php");
-      Map body = {
-        'branch_id': branch_id,
-        'from_date': from_date,
-        'till_date': till_date,
-      };
+  Future<ChartData?> chartDataSet(String branch_id, String from_date,
+      String till_date, BuildContext context) async {
+    NetConnection.networkConnection(context).then((value) async {
+      if (value == true) {
+        var res;
+        // print("company_code---fp-${company_code}---${fp}");
+        try {
+          Uri url = Uri.parse("$urlgolabl/reports.php");
+          Map body = {
+            'branch_id': branch_id,
+            'from_date': from_date,
+            'till_date': till_date,
+          };
 
-      http.Response response = await http.post(
-        url,
-        body: body,
-      );
-      print("body ${body}");
+          http.Response response = await http.post(
+            url,
+            body: body,
+          );
+          print("body ${body}");
 
-      var map = jsonDecode(response.body);
-      print("map ${map}");
+          var map = jsonDecode(response.body);
+          print("map ${map}");
 
-      collectData.clear();
-      countData.clear();
-      departmentData.clear();
-      servicegroupData.clear();
-      colorList.clear();
-      print("map chart data ${map}");
-      for (var item in map["collection_data"]) {
-        print("inside for length  ${item}");
-        collectData.add(item);
-        num_list.add(item["measure"]);
-        colorList.add(item["color_code"]);
+          collectData.clear();
+          countData.clear();
+          departmentData.clear();
+          servicegroupData.clear();
+          colorList.clear();
+          print("map chart data ${map}");
+          for (var item in map["collection_data"]) {
+            print("inside for length  ${item}");
+            collectData.add(item);
+            num_list.add(item["measure"]);
+            colorList.add(item["color_code"]);
+          }
+          print("color list.....$colorList");
+
+          sum = calculate_sum(num_list);
+          for (var item in collectData) {
+            print("item----$item");
+            num percent = item["measure"] / sum;
+            item["per"] = percent;
+            // collectData.add({"per":0});
+          }
+
+          num_list.clear();
+
+          print("coll--$collectData");
+          // print("num_list---$sum");
+
+          for (var item in map["count_data"]) {
+            countData.add(item);
+            num_list.add(item["measure"]);
+          }
+
+          sum = calculate_sum(num_list);
+          for (var item in countData) {
+            print("item----$item");
+            num percent = item["measure"] / sum;
+            item["per"] = percent;
+            // collectData.add({"per":0});
+          }
+          num_list.clear();
+          print("collectData ${countData}");
+
+          for (var item in map["department_data"]) {
+            departmentData.add(item);
+            num_list.add(item["measure"]);
+          }
+          sum = calculate_sum(num_list);
+          for (var item in departmentData) {
+            print("item----$item");
+            num percent = item["measure"] / sum;
+            item["per"] = percent;
+            // collectData.add({"per":0});
+          }
+          print("departmentData ${departmentData}");
+          num_list.clear();
+          for (var item in map["servicegroup_data"]) {
+            servicegroupData.add(item);
+            num_list.add(item["measure"]);
+          }
+          sum = calculate_sum(num_list);
+          for (var item in servicegroupData) {
+            print("item----$item");
+            num percent = item["measure"] / sum;
+            item["per"] = percent;
+            // collectData.add({"per":0});
+          }
+          notifyListeners();
+        } catch (e) {
+          print(e);
+          return null;
+        }
       }
-      print("color list.....$colorList");
-
-      sum = calculate_sum(num_list);
-      for (var item in collectData) {
-        print("item----$item");
-        num percent = item["measure"] / sum;
-        item["per"] = percent;
-        // collectData.add({"per":0});
-      }
-
-      num_list.clear();
-
-      print("coll--$collectData");
-      // print("num_list---$sum");
-
-      for (var item in map["count_data"]) {
-        countData.add(item);
-        num_list.add(item["measure"]);
-      }
-
-      sum = calculate_sum(num_list);
-      for (var item in countData) {
-        print("item----$item");
-        num percent = item["measure"] / sum;
-        item["per"] = percent;
-        // collectData.add({"per":0});
-      }
-      num_list.clear();
-      print("collectData ${countData}");
-
-      for (var item in map["department_data"]) {
-        departmentData.add(item);
-        num_list.add(item["measure"]);
-      }
-      sum = calculate_sum(num_list);
-      for (var item in departmentData) {
-        print("item----$item");
-        num percent = item["measure"] / sum;
-        item["per"] = percent;
-        // collectData.add({"per":0});
-      }
-      print("departmentData ${departmentData}");
-      num_list.clear();
-      for (var item in map["servicegroup_data"]) {
-        servicegroupData.add(item);
-        num_list.add(item["measure"]);
-      }
-      sum = calculate_sum(num_list);
-      for (var item in servicegroupData) {
-        print("item----$item");
-        num percent = item["measure"] / sum;
-        item["per"] = percent;
-        // collectData.add({"per":0});
-      }
-      notifyListeners();
-    } catch (e) {
-      print(e);
-      return null;
-    }
+    });
   }
 
   ////////////////////////////////////
@@ -284,27 +289,26 @@ class Controller extends ChangeNotifier {
 
   Future<MultiChart?> multiChartDataSet() async {
     var res;
-  
+
     try {
       Uri url = Uri.parse("$urlgolabl/multi_graph.php");
-   
       http.Response response = await http.post(
         url,
         // body: body,
       );
-     
+    
 
-      var map = jsonDecode(response.body);
-      print("map ${map}");
+      // var map = json.decode(response.body);
+      // CollectionData fulldata = CollectionData();
+      // Data allData = Data();
 
-      collectData.clear();
-      print("multi---------------- data ${map}");
-      for (var item in map["collection"]) {
-        print("inside for length  ${item}");
-        multiCollection.add(item);
-      }
-      jsonEnMulti=jsonEncode(multiCollection);
-      print("multiCollection1 ${multiCollection}");
+      // collectData.clear();
+      // for (var item in map["collection"]) {
+      //   print("inside for length  ${item}");
+      //   // multiCollection.add(item);
+      // }
+
+      // print("multiCollection ${multiCollection}");
 
       notifyListeners();
     } catch (e) {
@@ -312,6 +316,4 @@ class Controller extends ChangeNotifier {
       return null;
     }
   }
-
-
 }

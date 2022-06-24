@@ -43,6 +43,7 @@ dependencies:
   google_fonts: ^3.0.1
   draggable_scrollbar: ^0.1.0
   sqflite: ^2.0.2+1
+  stacked_bar_chart: ^1.1.0+2
   # horizontal_data_table: ^4.1.1
   intl: ^0.17.0
 dev_dependencies:

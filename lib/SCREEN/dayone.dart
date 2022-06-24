@@ -1,8 +1,8 @@
+import 'dart:io';
 import 'dart:math';
+
 import 'package:d_chart/d_chart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hospital/COMPONENTS/commoncolor.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -54,22 +54,24 @@ class _FirstBranchState extends State<FirstBranch> {
                 case 'Lab order':
                   return Color.fromARGB(255, 45, 35, 194);
                 case 'Radiology':
-                  return Color.fromARGB(255, 170, 73, 8);
+                  return Color.fromARGB(255, 192, 204, 21);
                 case 'Bills':
-                  return Color.fromARGB(255, 170, 73, 8);
+                  return Color.fromARGB(255, 204, 74, 85);
                 case 'CONSULTATION':
-                  return Color.fromARGB(255, 170, 73, 8);
+                  return Color.fromARGB(255, 8, 170, 70);
                 case 'Refund Bills':
-                  return Color.fromARGB(255, 170, 73, 8);
+                  return Color.fromARGB(255, 138, 185, 51);
                 case 'Dental':
                   return Color.fromARGB(255, 170, 73, 8);
                 case 'General Physician':
                   return Color.fromARGB(255, 171, 151, 207);
                 case 'Pathology':
+                  return Color.fromARGB(255, 146, 19, 163);
+                case 'Internal Medicine':
                   return Color.fromARGB(255, 8, 170, 89);
-
                 default:
-                  return Color.fromARGB(255, 204, 20, 66);
+                  return Colors
+                      .primaries[Random().nextInt(Colors.primaries.length)];
               }
             },
             // fillColor: (pieData, index) =>
@@ -99,23 +101,18 @@ class _FirstBranchState extends State<FirstBranch> {
           barColor: (barData, index, id) {
             switch (barData['domain']) {
               case 'CASH':
-                return parseColor(
-                    Provider.of<Controller>(context, listen: false)
-                        .colorList[0]);
+                return Colors.blue;
               case 'CARD':
-                return parseColor(
-                    Provider.of<Controller>(context, listen: false)
-                        .colorList[1]);
+                return Colors.red;
               case 'CREDIT':
-                return parseColor(
-                    Provider.of<Controller>(context, listen: false)
-                        .colorList[2]);
+                return Colors.yellow;
 
               default:
-                return Color.fromARGB(255, 188, 155, 228);
+                return Colors
+                    .primaries[Random().nextInt(Colors.primaries.length)];
             }
           },
-          // Colors.primaries[Random().nextInt(Colors.primaries.length)],
+          //
           verticalDirection: true,
           domainLabelPaddingToAxisLine: 16,
         );
@@ -157,7 +154,7 @@ class _FirstBranchState extends State<FirstBranch> {
     // final yester = DateTime(date.year, date.month, 1);
     print("yesterday.....$yester");
     Provider.of<Controller>(context, listen: false)
-        .chartDataSet(widget.branch_id, daytoday!, daytoday!);
+        .chartDataSet(widget.branch_id, daytoday!, daytoday!,context);
     // TODO: implement initState
     super.initState();
   }
@@ -166,94 +163,174 @@ class _FirstBranchState extends State<FirstBranch> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final ScrollController _firstController = ScrollController();
-    return Scrollbar(
-      thumbVisibility: true,
-      thickness: 10,
-      radius: Radius.circular(20),
-      controller: _firstController,
-      child: SingleChildScrollView(
+    return WillPopScope(
+      onWillPop: () => _onBackPressed(context),
+      child: Scrollbar(
+        thumbVisibility: true,
+        thickness: 10,
+        radius: Radius.circular(20),
         controller: _firstController,
-        scrollDirection: Axis.vertical,
-        child: Consumer<Controller>(
-          builder: (context, value, child) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(top: 15),
-                  child: Column(
-                    children: [
-                      //////////// collection Data ///////////////////////
-                      Text(
-                          "${value.collectData != null && value.collectData.isNotEmpty ? value.collectData[0]['rpt'] : ''}",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 179, 15, 15))),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: AspectRatio(
-                          aspectRatio: 1.5,
-                          child: _getChart("DChartBar", value.collectData),
+        child: SingleChildScrollView(
+          controller: _firstController,
+          scrollDirection: Axis.vertical,
+          child: Consumer<Controller>(
+            builder: (context, value, child) {
+              return Column(
+                children: [
+                  value.collectData != null &&
+                          value.collectData.isNotEmpty &&
+                          value.countData != null &&
+                          value.countData.isNotEmpty &&
+                          value.departmentData != null &&
+                          value.departmentData.isNotEmpty &&
+                          value.servicegroupData != null &&
+                          value.servicegroupData.isNotEmpty
+                      ? Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                          child: Column(
+                            children: [
+                              value.collectData != null &&
+                                      value.collectData.isNotEmpty
+                                  ? Visibility(
+                                      visible: true,
+                                      child: Container(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                                "${value.collectData != null && value.collectData.isNotEmpty ? value.collectData[0]['rpt'] : ''}",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Color.fromARGB(
+                                                        255, 179, 15, 15))),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: AspectRatio(
+                                                aspectRatio: 1.5,
+                                                child: _getChart("DChartBar",
+                                                    value.collectData),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              height: size.height * 0.03,
+                                            ),
+                                            linearProgress(
+                                                value.collectData, size),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  : Text(""),
+                              //////////// collection Data ///////////////////////
+
+                              //////////////////// count Data ///////////////////////////////
+                              value.countData != null &&
+                                      value.countData.isNotEmpty
+                                  ? Visibility(
+                                      visible: true,
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                              "${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : 'No Data Found'}",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Color.fromARGB(
+                                                      255, 179, 15, 15))),
+                                          SizedBox(
+                                            height: size.height * 0.03,
+                                          ),
+                                          value.countData != null
+                                              ? Visibility(
+                                                  visible: true,
+                                                  child: AspectRatio(
+                                                    aspectRatio: 1.5,
+                                                    child: _getChart(
+                                                        "DChartPie",
+                                                        value.countData),
+                                                  ),
+                                                )
+                                              : Visibility(
+                                                  child: Text("No Data Found")),
+                                          SizedBox(
+                                            height: size.height * 0.03,
+                                          ),
+                                          linearProgress(value.countData, size),
+                                        ],
+                                      ),
+                                    )
+                                  : Text(""),
+
+                              ////////////////////// department data /////////////////////////////
+                              value.departmentData != null &&
+                                      value.departmentData.isNotEmpty
+                                  ? Visibility(
+                                      visible: true,
+                                      child: Container(
+                                        child: Column(
+                                          children: [
+                                            Text(
+                                                "${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : 'No Data Found'}",
+                                                style: TextStyle(
+                                                    fontSize: 20,
+                                                    color: Color.fromARGB(
+                                                        255, 179, 15, 15))),
+                                            AspectRatio(
+                                              aspectRatio: 1.5,
+                                              child: _getChart("DChartPie",
+                                                  value.departmentData),
+                                            ),
+                                            SizedBox(
+                                              height: size.height * 0.03,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    )
+                                  : Text(""),
+
+                              linearProgress(value.departmentData, size),
+                              //////////////////////// service group ////////////////////////
+                              value.servicegroupData != null &&
+                                      value.servicegroupData.isNotEmpty
+                                  ? Visibility(
+                                      visible: true,
+                                      child: Column(
+                                        children: [
+                                          Text(
+                                              "${value.servicegroupData != null && value.servicegroupData.isNotEmpty ? value.servicegroupData[0]['rpt'] : 'No Data Found'}",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  color: Color.fromARGB(
+                                                      255, 179, 15, 15))),
+                                          SizedBox(
+                                            height: size.height * 0.05,
+                                          ),
+                                          AspectRatio(
+                                            aspectRatio: 1.5,
+                                            child: _getChartData("DChartBar",
+                                                value.servicegroupData),
+                                          ),
+                                          SizedBox(
+                                            height: size.height * 0.03,
+                                          ),
+                                          linearProgress(
+                                              value.servicegroupData, size),
+                                        ],
+                                      ),
+                                    )
+                                  : Text(""),
+                            ],
+                          ),
+                        )
+                      : Container(
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      linearProgress(value.collectData, size),
-                      //////////////////// count Data ///////////////////////////////
-                      Text(
-                          "${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : ''}",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 179, 15, 15))),
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      AspectRatio(
-                        aspectRatio: 1.5,
-                        child: _getChart("DChartPie", value.countData),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      linearProgress(value.countData, size),
-                      ////////////////////// department data /////////////////////////////
-                      Text(
-                          "${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : ''}",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 179, 15, 15))),
-                      AspectRatio(
-                        aspectRatio: 1.5,
-                        child: _getChart("DChartPie", value.departmentData),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      linearProgress(value.departmentData, size),
-                      //////////////////////// service group ////////////////////////
-                      Text(
-                          "${value.servicegroupData != null && value.servicegroupData.isNotEmpty ? value.servicegroupData[0]['rpt'] : ''}",
-                          style: TextStyle(
-                              fontSize: 20,
-                              color: Color.fromARGB(255, 179, 15, 15))),
-                      SizedBox(
-                        height: size.height * 0.05,
-                      ),
-                      AspectRatio(
-                        aspectRatio: 1.5,
-                        child:
-                            _getChartData("DChartBar", value.servicegroupData),
-                      ),
-                      SizedBox(
-                        height: size.height * 0.03,
-                      ),
-                      linearProgress(value.servicegroupData, size),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          },
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -311,3 +388,36 @@ class _FirstBranchState extends State<FirstBranch> {
 }
 
 //////////////////////////////////////////////////////////////////////
+Future<bool> _onBackPressed(BuildContext context) async {
+  return await showDialog(
+    context: context,
+    barrierDismissible: false, // user must tap button!
+    builder: (BuildContext context) {
+      return AlertDialog(
+        // title: const Text('AlertDialog Title'),
+        content: SingleChildScrollView(
+          scrollDirection: Axis.vertical,
+          child: ListBody(
+            children: const <Widget>[
+              Text('Do you want to exit from this app'),
+            ],
+          ),
+        ),
+        actions: <Widget>[
+          TextButton(
+            child: const Text('cancel'),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          TextButton(
+            child: const Text('Ok'),
+            onPressed: () {
+              exit(0);
+            },
+          ),
+        ],
+      );
+    },
+  );
+}

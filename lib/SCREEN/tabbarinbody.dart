@@ -74,7 +74,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
       case "1":
         datedata.getDate(1);
         print("last 2 days-----${datedata.fromdt}---${datedata.todt}");
-        return MultiGraph(from_date: datedata.fromdt, to_date: datedata.todt);
+        return MultiGraph(from_date: datedata.fromdt, to_date: datedata.todt , period: "1",);
       case "2":
         datedata.getDate(2);
         print("last month-----${datedata.fromdt}---${datedata.todt}");
@@ -87,7 +87,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // centerTitle: true,
+        automaticallyImplyLeading: false,
         backgroundColor: P_Settings.bodyTabColor,
         elevation: 0,
         title: Text(
