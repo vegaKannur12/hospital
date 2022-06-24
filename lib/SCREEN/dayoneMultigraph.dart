@@ -88,7 +88,7 @@ class _MultiDayOneState extends State<MultiDayOne> {
     //       );
     // TODO: implement initState
     super.initState();
-    getapi();
+    // getapi();
 
     // List<Map<String, dynamic>> data=Provider.of<Controller>(context, listen: false).multiCollection;
   }
