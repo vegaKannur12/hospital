@@ -71,10 +71,12 @@ class _MultiDayOneState extends State<MultiDayOne> {
         'branch_id': branch_id,
         'period': period,
       };
+
       http.Response response = await http.post(
         url,
-        body: jsonEncode(body),
+        body: body,
       );
+
       print("response..${response.body}");
       setState(() {
         collectionJson =
@@ -92,7 +94,7 @@ class _MultiDayOneState extends State<MultiDayOne> {
 
     daytoday = DateFormat('yyyy-MM-dd').format(date);
     final yester = DateTime(date.year, date.month - 2, 1);
-    getapi(widget.branch_id, widget.fromDate, widget.todate, widget.period);
+    getapi( widget.fromDate, widget.todate,widget.branch_id, widget.period);
     // final yester = DateTime(date.year, date.month, 1);
     print("yesterday.....$yester");
     // Provider.of<Controller>(context, listen: false)
