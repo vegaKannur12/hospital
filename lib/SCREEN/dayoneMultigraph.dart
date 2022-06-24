@@ -35,13 +35,33 @@ class _MultiDayOneState extends State<MultiDayOne> {
   String? sid;
   var groupBarData = 1;
   var client = http.Client();
+  ////////////////////////////////////////////////////////
+  Color parseColor(String color) {
+    print("Colorrrrr...$color");
+    String hex = color.replaceAll("#", "");
+    if (hex.isEmpty) hex = "ffffff";
+    if (hex.length == 3) {
+      hex =
+          '${hex.substring(0, 1)}${hex.substring(0, 1)}${hex.substring(1, 2)}${hex.substring(1, 2)}${hex.substring(2, 3)}${hex.substring(2, 3)}';
+    }
+    Color col = Color(int.parse(hex, radix: 16)).withOpacity(1.0);
+    return col;
+  }
 
-  getapi() async {
+  //////////////////////////////////////////////////////
+  getapi(String from_date, String till_date,String branch_id,String period) async {
     try {
       Uri url = Uri.parse("http://146.190.8.166/API/multi_graph.php");
       // isloading=true;
-      http.Response response = await http.get(
+      Map body = {
+        'from_date': from_date,
+        'till_date': till_date,
+        'branch_id': branch_id,
+        'period': period,
+      };
+      http.Response response = await http.post(
         url,
+        body: body,
       );
       print("response..${response.body}");
       setState(() {
@@ -57,7 +77,7 @@ class _MultiDayOneState extends State<MultiDayOne> {
   @override
   void initState() {
     // Provider.of<Controller>(context, listen: false).multiChartDataSet();
-    getapi();
+    // getapi();
     daytoday = DateFormat('yyyy-MM-dd').format(date);
     final yester = DateTime(date.year, date.month - 2, 1);
     // final yester = DateTime(date.year, date.month, 1);
