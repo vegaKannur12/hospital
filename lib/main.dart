@@ -1,18 +1,12 @@
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
-import 'package:hospital/MODEL/registrationModel.dart';
-import 'package:hospital/SCREEN/login.dart';
-import 'package:hospital/SCREEN/registration.dart';
+import 'package:hospital/SCREEN/barchart.dart';
 import 'package:hospital/SCREEN/splashScreen.dart';
-import 'package:hospital/SCREEN/tabbarinbody.dart';
 // import 'package:ota_update/ota_update.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 void main() async {
   
   runApp(MultiProvider(
@@ -22,10 +16,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // late OtaEvent currentEvent;
-  // const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

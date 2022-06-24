@@ -110,37 +110,40 @@ class _SinglegraphState extends State<Singlegraph> {
                                             top: BorderSide(
                                                 color: Colors.grey,
                                                 width: 0.5))),
-                                    child: TabBarView(children: <Widget>[
-                                      Consumer<Controller>(
-                                        builder: (context, value, child) {
-                                          return Container(
+                                    child: TabBarView(
+                                        physics: NeverScrollableScrollPhysics(),
+                                        children: <Widget>[
+                                          Consumer<Controller>(
+                                            builder: (context, value, child) {
+                                              return Container(
+                                                child: Center(
+                                                  child: FirstBranch(
+                                                    branch_id:
+                                                        value.branchid[0],
+                                                  ),
+                                                  //   child: Text('Display Tab 1',
+                                                  //       style: TextStyle(
+                                                  //           fontSize: 22,
+                                                  //           fontWeight: FontWeight.bold)),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          Container(
                                             child: Center(
                                               child: FirstBranch(
-                                                branch_id: value.branchid[0],
+                                                branch_id: value.branchid[1],
                                               ),
-                                              //   child: Text('Display Tab 1',
-                                              //       style: TextStyle(
-                                              //           fontSize: 22,
-                                              //           fontWeight: FontWeight.bold)),
                                             ),
-                                          );
-                                        },
-                                      ),
-                                      Container(
-                                        child: Center(
-                                          child: FirstBranch(
-                                            branch_id: value.branchid[1],
                                           ),
-                                        ),
-                                      ),
-                                      Container(
-                                        child: Center(
-                                          child: FirstBranch(
-                                            branch_id: value.branchid[2],
+                                          Container(
+                                            child: Center(
+                                              child: FirstBranch(
+                                                branch_id: value.branchid[2],
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
-                                    ]))
+                                        ]))
                               ])),
                     ]),
               ),

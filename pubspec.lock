@@ -448,6 +448,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.10.0"
+  stacked_bar_chart:
+    dependency: "direct main"
+    description:
+      name: stacked_bar_chart
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.1.0+2"
   stream_channel:
     dependency: transitive
     description:

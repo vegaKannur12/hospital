@@ -56,7 +56,7 @@ class Data {
 
   Data.fromJson(Map<String, dynamic> json) {
     domain = json['domain'];
-    measure = json['measure'];
+    measure = json['measure'].toDouble();
     colorCode = json['color_code'];
   }
 
