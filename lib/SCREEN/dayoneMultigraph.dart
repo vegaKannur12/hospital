@@ -16,7 +16,16 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 class MultiDayOne extends StatefulWidget {
-  const MultiDayOne({Key? key}) : super(key: key);
+  String branch_id;
+  String fromDate;
+  String todate;
+  String period;
+
+  MultiDayOne(
+      {required this.branch_id,
+      required this.fromDate,
+      required this.todate,
+      required this.period});
 
   @override
   State<MultiDayOne> createState() => _MultiDayOneState();
@@ -49,7 +58,10 @@ class _MultiDayOneState extends State<MultiDayOne> {
   }
 
   //////////////////////////////////////////////////////
-  getapi(String from_date, String till_date,String branch_id,String period) async {
+  getapi(String from_date, String till_date, String branch_id,
+      String period) async {
+    print("dateeee..$from_date---$till_date---$branch_id----$period");
+
     try {
       Uri url = Uri.parse("http://146.190.8.166/API/multi_graph.php");
       // isloading=true;
@@ -61,7 +73,7 @@ class _MultiDayOneState extends State<MultiDayOne> {
       };
       http.Response response = await http.post(
         url,
-        body: body,
+        body: jsonEncode(body),
       );
       print("response..${response.body}");
       setState(() {
@@ -77,9 +89,10 @@ class _MultiDayOneState extends State<MultiDayOne> {
   @override
   void initState() {
     // Provider.of<Controller>(context, listen: false).multiChartDataSet();
-    // getapi();
+
     daytoday = DateFormat('yyyy-MM-dd').format(date);
     final yester = DateTime(date.year, date.month - 2, 1);
+    getapi(widget.branch_id, widget.fromDate, widget.todate, widget.period);
     // final yester = DateTime(date.year, date.month, 1);
     print("yesterday.....$yester");
     // Provider.of<Controller>(context, listen: false)
