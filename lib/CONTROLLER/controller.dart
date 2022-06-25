@@ -32,6 +32,7 @@ class Controller extends ChangeNotifier {
   var jsonEnMulti;
   List<Map<String, dynamic>> multiCollection = [];
   List<Map<String, dynamic>> multiDta = [];
+  List<Map<String, dynamic>> multisetData = [];
   List<String> coldata = [];
   List<Map<String, dynamic>> rowData = [];
   List multiid = [];
@@ -296,26 +297,16 @@ class Controller extends ChangeNotifier {
       for (var item in map["collection"]) {
         print("inside for length  ${item}");
         multiCollection.add(item);
-        multiDta.add(item['data'][0]);
+        // multiDta.add(item['data'][0]);
       }
-
-      print("multiCollection ${multiCollection[0]}");
-
-      for (var item in multiCollection) {
-        rowData.add(item);
+      multiDta.clear();
+      for (var item in map["visit_data"]) {
+        print("inside for length  ${item}");
+        // multiCollection.add(item);
+        multiDta.add(item);
       }
-      print("rowdata ${rowData}");
-      
-      for (var item in map["collection"][0]['data']) {
-        rowData.add(item);
-        coldata.add(item['domain']);
-      }
+      print("multiCollection ${multiDta}");
 
-      print("multiDta ${multiDta}");
-
-      print("coldata ${coldata}");
-
-      print("multi----$multiCollection");
       notifyListeners();
     } catch (e) {
       print(e);

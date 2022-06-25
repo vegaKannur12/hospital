@@ -230,21 +230,14 @@ class _MultiDayOneState extends State<MultiDayOne> {
                                       : Container(
                                           height: size.height * 0.4,
                                           child: ListView.builder(
-                                            itemCount:
-                                                collectionJson["collection"]
-                                                    .length,
+                                            itemCount: value.multiDta.length,
                                             itemBuilder: (context, index) {
                                               return ListTile(
-                                                title: Text(
-                                                    collectionJson["collection"]
-                                                                ['data'][index]
-                                                            ['domain']
-                                                        .toString()),
+                                                title: Text(value
+                                                    .multiDta[index]['id']),
                                                 leading: Text(
-                                                    collectionJson["collection"]
-                                                                ['data'][index]
-                                                            ['measure']
-                                                        .toString()),
+                                                    value.multiDta[index]
+                                                        ['data']['domain']),
                                               );
                                             },
                                           ),
@@ -442,69 +435,43 @@ class _MultiDayOneState extends State<MultiDayOne> {
                                             color: Color.fromARGB(
                                                 255, 179, 15, 15))),
                                   ),
+
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.center,
                                     children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          collectionJson["visit_data"][0]['id'],
-                                          style: TextStyle(
-                                              color: parseColor(
-                                                '#1db345',
-                                              ),
-                                              fontSize: 20),
-                                        ),
+                                      SizedBox(
+                                        height: size.height * 0.04,
                                       ),
                                       Container(
                                         height: size.height * 0.4,
                                         child: ListView.builder(
-                                          itemCount:
-                                              collectionJson["visit_data"][0]
-                                                  .length,
+                                          itemCount: value.multiDta.length,
                                           itemBuilder: (context, index) {
                                             return ListTile(
-                                              title: Text(
-                                                  collectionJson["visit_data"][0]
-                                                          ['data'][index]
-                                                      ['measure'].toString()),
-                                              leading: Text(
-                                                  collectionJson["visit_data"][0]
-                                                          ['data'][index]
-                                                      ['domain'].toString()),
-                                            );
+                                                title: Column(children: [
+                                              Text(
+                                                value.multiDta[index]['id'],
+                                                style: TextStyle(
+                                                    color:Colors.blue,
+                                                    fontSize: 16),
+                                              ),
+                                              Container(
+                                                width: size.width*0.7,
+                                                child: Divider(thickness: 2,)),
+                                              SizedBox(
+                                                height: size.height * 0.04,
+                                              ),
+                                              rowChild(
+                                                  value.multiDta[index]['data'],
+                                                  size),
+                                                  Divider(thickness: 2,),
+                                            ]));
                                           },
                                         ),
                                       ),
                                     ],
                                   ),
-                                  // AspectRatio(
-                                  //   aspectRatio: 1.5,
-                                  //   child: DChartBar(
-                                  //     data: collectionJson["visit_data"],
-                                  //     minimumPaddingBetweenLabel: 1,
-                                  //     domainLabelPaddingToAxisLine: 16,
-                                  //     axisLineTick: 2,
-                                  //     axisLinePointTick: 2,
-                                  //     axisLinePointWidth: 10,
-                                  //     axisLineColor: Colors.green,
-                                  //     measureLabelPaddingToAxisLine: 16,
-                                  //     // barColor: (barData, index, id) =>
-                                  //     barColor: (barData, index, id) =>
-                                  //         Colors.primaries[Random().nextInt(
-                                  //             Colors.primaries.length)],
-
-                                  //     showBarValue: true,
-                                  //     barValueFontSize: 12,
-                                  //     // barValuePosition: BarValuePosition.outside,
-                                  //   ),
-                                  // ),
-                                  // SizedBox(
-                                  //   height: size.height * 0.03,
-                                  // ),
-
-                                  //////////////////// count Data ///////////////////////////////
                                 ],
                               ),
                             )
@@ -520,6 +487,103 @@ class _MultiDayOneState extends State<MultiDayOne> {
       ),
     );
   }
+}
+
+Widget rowChild(List list, Size size) {
+  print("listtt$list");
+  return SingleChildScrollView(
+    scrollDirection: Axis.vertical,
+    child: Column(
+      children: list
+          .map((e) => Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          e['domain'],
+                        ),
+                        SizedBox(
+                          width: size.width * 0.45,
+                        ),
+                        Text(
+                          e['measure'].toString(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ))
+          .toList(),
+    ),
+  );
+}
+
+//////////////////////////////////////////////
+Widget linearProgress(List<Map<String, dynamic>> list, Size size) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 10, right: 10),
+    child: Container(
+      height: list.length > 3 ? size.height * 0.45 : size.height * 0.24,
+      child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+              title: Row(
+            children: [
+              Flexible(
+                child: Container(
+                    width: size.width * 0.2,
+                    child: Text(
+                      "${list[index]['measure'].toString()}",
+                      style: TextStyle(fontSize: 12),
+                    )),
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${list[index]['domain'].toString()}",
+                    style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                  ),
+                  Container(
+                    width: size.width * 0.5,
+                    child: LinearProgressIndicator(
+                      value: list[index]['per'],
+                      valueColor: new AlwaysStoppedAnimation<Color>(
+                        list[index]['domain'] == 'CASH'
+                            ? Colors.green
+                            : list[index]['domain'] == 'CARD'
+                                ? Colors.red
+                                : Colors.yellow,
+                      ),
+                      color: list[index]['domain'] == 'CASH'
+                          ? Colors.green
+                          : list[index]['domain'] == 'CARD'
+                              ? Colors.red
+                              : Colors.yellow,
+                      // valueColor :
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(
+                width: size.width * 0.04,
+              ),
+              Text(list[index]['bills_total'] != null
+                  ? list[index]['bills_total'].toString()
+                  : ''),
+              // list[index]['rpt']=='ServiceGroupWise Billing'?Text(list[index]['bills_total'].toString()):Text(''),
+            ],
+          ));
+        },
+      ),
+    ),
+  );
 }
 
 ////////////////////////////////////////////

@@ -108,15 +108,15 @@ class VisitData {
 class Data1 {
   String? domain;
   double? measure;
-  double? netPaid;
+  double? visit_count;
   String? colorCode;
 
-  Data1({this.domain, this.measure, this.netPaid, this.colorCode});
+  Data1({this.domain, this.measure, this.visit_count, this.colorCode});
 
   Data1.fromJson(Map<String, dynamic> json) {
     domain = json['domain'];
     measure = json['measure'].toDouble();
-    netPaid = json['NetPaid'].toDouble();
+    visit_count = json['visit_count'].toDouble();
     colorCode = json['color_code'];
   }
 
@@ -124,7 +124,7 @@ class Data1 {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['domain'] = this.domain;
     data['measure'] = this.measure;
-    data['NetPaid'] = this.netPaid;
+    data['visit_count'] = this.visit_count;
     data['color_code'] = this.colorCode;
     return data;
   }
