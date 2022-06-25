@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
-import 'package:hospital/SCREEN/dayone.dart';
+import 'package:hospital/SCREEN/3.1_todaydata.dart';
 
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -29,39 +29,14 @@ class _SinglegraphState extends State<Singlegraph> {
   String? selected;
   List<String> s = [];
   String? sid;
-  bool colorvisible1 = false;
-  bool colorvisible2 = false;
-  bool colorvisible3 = false;
+
   var groupBarData = 1;
-  List months = [
-    'jan',
-    'feb',
-    'mar',
-    'april',
-    'may',
-    'jun',
-    'july',
-    'aug',
-    'sep',
-    'oct',
-    'nov',
-    'dec'
-  ];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    print("from Date.......${widget.from_date}--${widget.to_date}");
-    // WidgetsBinding.instance.addPostFrameCallback((_) => build(context));
-
-    // print("init");
-    // daytoday = DateFormat('yyyy-MM-dd').format(date);
-    // print("today....$daytoday");
-    // final yester = DateTime(date.year, date.month, date.day - 1);
-    // print("yester....$yester");
-    // daytoday = DateFormat('dd').format(date);
-    // String month1 = DateFormat('MM').format(date).toString();
-    // yesterday = DateFormat('dd').format(yester);
+    // print("from Date.......${widget.from_date}--${widget.to_date}");
   }
 
   @override
@@ -93,14 +68,7 @@ class _SinglegraphState extends State<Singlegraph> {
                                           .map((e) => Tab(
                                                 text: e['branch_code'],
                                               ))
-                                          .toList()
-
-                                      //     [
-                                      //   Tab(text: 'Branch 2'),
-                                      //   Tab(text: 'Branch 2'),
-                                      //   Tab(text: 'Branch 3'),
-                                      // ],
-                                      ),
+                                          .toList()),
                                 ),
                                 Container(
                                     height: size.height *
@@ -121,10 +89,6 @@ class _SinglegraphState extends State<Singlegraph> {
                                                     branch_id:
                                                         value.branchid[0],
                                                   ),
-                                                  //   child: Text('Display Tab 1',
-                                                  //       style: TextStyle(
-                                                  //           fontSize: 22,
-                                                  //           fontWeight: FontWeight.bold)),
                                                 ),
                                               );
                                             },

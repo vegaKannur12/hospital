@@ -1,66 +1,110 @@
 // import 'package:flutter/material.dart';
-// import 'package:hospital/COMPONENTS/commoncolor.dart';
+// import 'package:hospital/CONTROLLER/controller.dart';
+// import 'package:provider/provider.dart';
 
-// class CustomDataTable extends StatefulWidget {
-//   const CustomDataTable({ Key? key }) : super(key: key);
+// import 'package:flutter/material.dart';
 
+// class ChartTable extends StatefulWidget {
+//    List<Map<String, dynamic>> charttab;
+//   ChartTable({required this.charttab});
 //   @override
-//   State<CustomDataTable> createState() => _CustomDataTableState();
+//   State<ChartTable> createState() => _ChartTableState();
 // }
 
-// class _CustomDataTableState extends State<CustomDataTable> {
+// class _ChartTableState extends State<ChartTable> {
 //   @override
 //   Widget build(BuildContext context) {
+//     return Consumer<Controller>(
+//       builder: (context, value, child) {
 //        return SingleChildScrollView(
-//       scrollDirection: Axis.vertical,
-//       child: FittedBox(
-//         child: DataTable(
-//           columnSpacing: 0,
-//           headingRowHeight: 35,
-//           dataRowHeight: 35,
-//           decoration: BoxDecoration(color: P_Settings.datatableColor),
-//           border: TableBorder.all(
-//             color: P_Settings.datatableColor,
+//           child: Container(
+//             child: DataTable(
+//               horizontalMargin: 0,
+//               headingRowHeight: 25,
+//               dataRowHeight: 30,
+//               headingRowColor: MaterialStateColor.resolveWith(
+//                   (states) => Color.fromARGB(255, 240, 235, 235)),
+//               columnSpacing: 0,
+//               showCheckboxColumn: false,
+//               dataRowColor:
+//                   MaterialStateColor.resolveWith((states) => Colors.white),
+//               border: TableBorder.all(width: 1, color: Colors.grey),
+//               columns: getColumns(value.coldata),
+//               rows: getRowss(value.multiDta),
+//             ),
 //           ),
-//           dataRowColor:
-//               MaterialStateColor.resolveWith((states) => widget.level == "level1"
-//                   ? P_Settings.l1datatablecolor
-//                   : widget.level == "level2"
-//                       ? P_Settings.l2datatablecolor
-//                       : widget.level == "level3"
-//                           ? P_Settings.l3datatablecolor
-//                           : P_Settings.color4),
-//           columns: getColumns(tableColumn),
-//           rows: getRowss(newMp),
-//         ),
-//       ),
+//         );
+//       },
 //     );
 //   }
 
-//   ///////////////////////////////////////////////////////
-//     List<DataColumn> getColumns(List<String> columns) {
+
+// List<DataColumn> getColumns(List<String> columns) {
+//     // print("columns---${columns}");
 //     String behv;
 //     String colsName;
 //     return columns.map((String column) {
-//       // final isAge = column == columns[2];
-//       colName = column.split('_');
-//       colsName = colName![1];
-//       behv = colName![0];
-//       // print("column---${column}");
+//       // double strwidth = double.parse(behv[3]);
+//       // strwidth = strwidth * 10; //
 //       return DataColumn(
-//         tooltip: colsName,
 //         label: Container(
-//           width: 50,
-//           child: Padding(
-//             padding: behv[1] == "L"? EdgeInsets.only(left:0.2):EdgeInsets.only(right:0.2),
-//             child: Text(
-//               colsName,
-//               style: TextStyle(fontSize: 12),
-//               textAlign: behv[1] == "L" ? TextAlign.left : TextAlign.right,
-//             ),
+//           width: 70,
+//           child: Text(
+//             column,
+//             style: TextStyle(fontSize: 12),
+//             textAlign: TextAlign.center,
+//             // textAlign: behv[1] == "L" ? TextAlign.left : TextAlign.right,
 //           ),
+//           // ),
 //         ),
 //       );
 //     }).toList();
 //   }
+
+//   ////////////////////////////////////////////
+//   List<DataRow> getRowss(List<Map<String, dynamic>> rows) {
+//     List<String> newBehavr = [];
+//     // print("rows---$rows");
+//     return rows.map((row) {
+//       return DataRow(
+//         // color: MaterialStateProperty.all(Colors.green),
+//         cells: getCelle(row),
+//       );
+//     }).toList();
+//   }
+// /////////////////////////////////////////////
+
+//   List<DataCell> getCelle(Map<String, dynamic> data) {
+//     // print("data--$data");
+//     //  double  sum=0;
+//     List<DataCell> datacell = [];
+
+//     // print("main header---$mainHeader");
+
+//     data.forEach((key, value) {
+//       datacell.add(
+//         DataCell(
+//           Container(
+//              width:70,
+//             // width: mainHeader[k][3] == "1" ? 70 : 30,
+//             alignment: Alignment.center,
+//             //     ? Alignment.centerLeft
+//             //     : Alignment.centerRight,
+//             child: Text(
+//               value.toString(),
+//               // textAlign:
+//               //     mainHeader[k][1] == "L" ? TextAlign.left : TextAlign.right,
+//               style: TextStyle(
+//                 fontSize: 10,
+//               ),
+//             ),
+//           ),
+//         ),
+//       );
+//     });
+
+//     // print(datacell.length);
+//     return datacell;
+//   }
+
 // }

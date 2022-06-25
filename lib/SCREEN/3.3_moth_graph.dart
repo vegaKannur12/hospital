@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
-import 'package:hospital/SCREEN/dayone.dart';
-import 'package:hospital/SCREEN/dayoneMultigraph.dart';
+import 'package:hospital/SCREEN/3.1_todaydata.dart';
+import 'package:hospital/SCREEN/3.2_day_multigraph.dart';
 import 'package:hospital/components/commoncolor.dart';
 import 'package:provider/provider.dart';
 
-class MultiGraph extends StatefulWidget {
+class MonthwiseGraph extends StatefulWidget {
   String? from_date;
   String? to_date;
 
-  MultiGraph({required this.from_date, required this.to_date});
+  MonthwiseGraph({required this.from_date, required this.to_date});
 
   @override
-  State<MultiGraph> createState() => _MultiGraphState();
+  State<MonthwiseGraph> createState() => _MonthwiseGraphState();
 }
 
-class _MultiGraphState extends State<MultiGraph> {
+class _MonthwiseGraphState extends State<MonthwiseGraph> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -61,40 +61,30 @@ class _MultiGraphState extends State<MultiGraph> {
                                           Consumer<Controller>(
                                             builder: (context, value, child) {
                                               return Container(
-                                                child: Center(
-                                                  child: MultiDayOne(
-                                                    branch_id:
-                                                        value.branchid[0],
-                                                    fromDate: widget.from_date!,
-                                                    todate: widget.to_date!,
-                                                    period: "0",
-                                                  ),
-                                                  //   child: Text('Display Tab 1',
-                                                  //       style: TextStyle(
-                                                  //           fontSize: 22,
-                                                  //           fontWeight: FontWeight.bold)),
+                                                child: MultiDayOne(
+                                                  branch_id:
+                                                      value.branchid[0],
+                                                  fromDate: widget.from_date!,
+                                                  todate: widget.to_date!,
+                                                  period: "1",
                                                 ),
                                               );
                                             },
                                           ),
                                           Container(
-                                            child: Center(
-                                              child: MultiDayOne(
-                                                fromDate: widget.from_date!,
-                                                todate: widget.to_date!,
-                                                branch_id: value.branchid[1],
-                                                period: "0",
-                                              ),
+                                            child: MultiDayOne(
+                                              fromDate: widget.from_date!,
+                                              todate: widget.to_date!,
+                                              branch_id: value.branchid[1],
+                                              period: "1",
                                             ),
                                           ),
                                           Container(
-                                            child: Center(
-                                              child: MultiDayOne(
-                                                fromDate: widget.from_date!,
-                                                todate: widget.to_date!,
-                                                branch_id: value.branchid[2],
-                                                period: "0",
-                                              ),
+                                            child: MultiDayOne(
+                                              fromDate: widget.from_date!,
+                                              todate: widget.to_date!,
+                                              branch_id: value.branchid[2],
+                                              period: "1",
                                             ),
                                           ),
                                         ]))

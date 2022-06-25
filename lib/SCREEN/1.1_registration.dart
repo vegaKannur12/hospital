@@ -1,10 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
-import 'package:hospital/SCREEN/login.dart';
 import 'package:provider/provider.dart';
-
 import '../../components/commoncolor.dart';
 import '../COMPONENTS/waveclipper.dart';
 
@@ -105,7 +103,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               Provider.of<Controller>(context, listen: false)
                                   .postRegistration(
                                       codeController.text, context);
-                          
                             }
                           },
                           child: Text(
@@ -114,15 +111,22 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                 fontSize: 16,
                                 color: Colors.white,
                                 fontFamily: 'Montserrat'),
-                            // style: GoogleFonts.actor(
-                            //   textStyle: TextStyle(
-                            //       color: Colors.white, letterSpacing: .5),
-                            // ),
                           ),
                         ),
                       ),
                       SizedBox(
                         height: size.height * 0.09,
+                      ),
+                      Consumer<Controller>(
+                        builder: (context, value, child) {
+                          if (value.isLoading) {
+                            return SpinKitCircle(
+                              color: P_Settings.wavecolor,
+                            );
+                          } else {
+                            return Container();
+                          }
+                        },
                       ),
                     ],
                   ),

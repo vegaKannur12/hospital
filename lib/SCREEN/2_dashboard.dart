@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/selectDate.dart';
-import 'package:hospital/CONTROLLER/controller.dart';
-import 'package:hospital/SCREEN/branch1.dart';
-import 'package:hospital/SCREEN/multigraph.dart';
+import 'package:hospital/SCREEN/3_todaychart.dart';
+import 'package:hospital/SCREEN/3.3_moth_graph.dart';
+import 'package:hospital/SCREEN/3.2_day_muldata.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../COMPONENTS/commoncolor.dart';
@@ -46,9 +45,6 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     _tabController!.animateTo((0));
     print("date $daytoday");
     getCid();
-    // Provider.of<Controller>(context, listen: false).getBranchList();
-    // Provider.of<Controller>(context, listen: false)
-    //     .chartDataSet(daytoday.toString(), daytoday.toString(), "");
     // TODO: implement initState
     super.initState();
   }
@@ -79,7 +75,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         datedata.getDate(2);
         print("last month-----${datedata.fromdt}---${datedata.todt}");
 
-        return Singlegraph(from_date: datedata.fromdt, to_date: datedata.todt);
+        return MonthwiseGraph(
+            from_date: datedata.fromdt, to_date: datedata.todt);
     }
   }
 

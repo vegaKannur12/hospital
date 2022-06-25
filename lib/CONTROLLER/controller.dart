@@ -3,23 +3,16 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/globalurl.dart';
 import 'package:hospital/COMPONENTS/network_connectivity.dart';
-import 'package:hospital/MODEL/branch_model.dart';
 import 'package:hospital/MODEL/chartData_model.dart';
 import 'package:hospital/MODEL/getRegistration_model.dart';
 import 'package:hospital/MODEL/multichart_model.dart';
 import 'package:hospital/MODEL/registrationModel.dart';
-import 'package:hospital/SCREEN/login.dart';
-import 'package:hospital/SCREEN/tabbarinbody.dart';
+import 'package:hospital/SCREEN/2_dashboard.dart';
 import 'package:hospital/db_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Controller extends ChangeNotifier {
-  // List<Map<String, dynamic>> collectionData = [];
-  // List<Map<String, dynamic>> countData = [];
-  // List<Map<String, dynamic>> visitData = [];
-  // List<Map<String, dynamic>> departmentData = [];
-  // List<Map<String, dynamic>> servicegroupData = [];
   bool isLoading = false;
   List<num> num_list = [];
   List colorList = [];
@@ -36,8 +29,10 @@ class Controller extends ChangeNotifier {
   List<CD> c_d = [];
   List<Map<String, dynamic>> collectData = [];
   var jsonEnMulti;
-  var multiCollection;
-  var multiCollection1 = [];
+  List<Map<String, dynamic>> multiCollection = [];
+  List<Map<String, dynamic>> multiDta = [];
+  List<String> coldata = [];
+  List<Map<String, dynamic>> rowData = [];
   List multiid = [];
   List<Map<String, dynamic>> multiCollection2 = [];
   List<Map<String, dynamic>> multiCollection3 = [];
@@ -71,15 +66,13 @@ class Controller extends ChangeNotifier {
             body: body,
           );
 
-          // print("body ${body}");
           var map = jsonDecode(response.body);
-          // print("map ${map}");
-          // print("response ${response}");
+
           GetRegistrationData regModel = GetRegistrationData.fromJson(map);
           userType = regModel.type;
           sof = regModel.sof;
           print("sof----${sof}");
-          if (sof == "1") {
+          if (sof == "1" && company_code.length >= 12) {
             /////////////// insert into local db /////////////////////
             late CD dataDetails;
             String? fp = regModel.fp;
@@ -88,27 +81,19 @@ class Controller extends ChangeNotifier {
             cid = regModel.cid;
             // print(cid);
             cname = regModel.c_d![0].cnme;
-            // print(cname);
-            // print(regModel.c_d!.length);
-            // notifyListeners();
             for (var item in regModel.c_d!) {
-              // print("inside for length  ${regModel.c_d!.length}");
               c_d.add(item);
             }
             print("c_d list $c_d");
             var res =
                 await OrderAppDB.instance.insertRegistrationDetails(regModel);
-
-            // print("inserted ${res}");
             notifyListeners();
-
+            isLoading = false;
             print("cidrett---$cid");
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("cid", cid!);
-
-            // prefs.setString("os", os!);
-            // getCompanyData();
             verifyRegistration(cid!, fp!, context);
+
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => MyHomePage()),
@@ -143,7 +128,7 @@ class Controller extends ChangeNotifier {
 
       // print("body ${body}");
       var map = jsonDecode(response.body);
-      // print("map verify ${map}");
+
       notifyListeners();
     } catch (e) {
       print(e);
@@ -183,7 +168,7 @@ class Controller extends ChangeNotifier {
           print("body ${body}");
 
           var map = jsonDecode(response.body);
-          print("map ${map}");
+          print("map today ${map}");
 
           collectData.clear();
           countData.clear();
@@ -287,28 +272,47 @@ class Controller extends ChangeNotifier {
   }
   // //////////////////////////////////////////
 
-  Future<MultiChart?> multiChartDataSet() async {
+  Future<MultiChart?> multiChartDataSet(String from_date, String till_date,
+      String branch_id, String period) async {
     var res;
 
     try {
       Uri url = Uri.parse("$urlgolabl/multi_graph.php");
+      Map body = {
+        'from_date': from_date,
+        'till_date': till_date,
+        'branch_id': branch_id,
+        'period': period,
+      };
+
       http.Response response = await http.post(
         url,
-        // body: body,
+        body: body,
       );
-    
+      var map = json.decode(response.body);
+      print("map............  ${map}");
 
-      // var map = json.decode(response.body);
-      // CollectionData fulldata = CollectionData();
-      // Data allData = Data();
+      for (var item in map["collection"]) {
+        print("inside for length  ${item}");
+        multiCollection.add(item);
+        multiDta.add(item['data'][0]);
+      }
 
-      // collectData.clear();
-      // for (var item in map["collection"]) {
-      //   print("inside for length  ${item}");
-      //   // multiCollection.add(item);
-      // }
+      print("multiCollection ${multiCollection[0]}");
 
-      // print("multiCollection ${multiCollection}");
+      for (var item in multiCollection) {
+        rowData.add(item);
+      }
+      print("rowdata ${rowData}");
+      
+      for (var item in map["collection"][0]['data']) {
+        rowData.add(item);
+        coldata.add(item['domain']);
+      }
+
+      print("multiDta ${multiDta}");
+
+      print("coldata ${coldata}");
 
       notifyListeners();
     } catch (e) {
