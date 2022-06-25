@@ -18,6 +18,7 @@ class Controller extends ChangeNotifier {
   List colorList = [];
   num? sum;
   String? cid;
+  // MultiChart? chart;
   String? fp;
   String? sof;
   String? userType;
@@ -314,6 +315,7 @@ class Controller extends ChangeNotifier {
 
       print("coldata ${coldata}");
 
+      print("multi----$multiCollection");
       notifyListeners();
     } catch (e) {
       print(e);
