@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         fontFamily: P_Font.kronaOne,
       ),
-      home: RegistrationScreen(),
+      home: SplashScreen(),
     );
   }
 }
