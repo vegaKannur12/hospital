@@ -21,28 +21,21 @@ class _SplashScreenState extends State<SplashScreen>
   String? st_pwd;
   String? fromdt;
   String? todt;
-  String? cname;
+
 
   navigate() async {
     await Future.delayed(Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       cid = prefs.getString("cid");
-      cname = prefs.getString("cname");
-   
-      print("cidjhsj----$cname");
+  
       // );
       Navigator.push(
         context,
         PageRouteBuilder(
           opaque: false, // set to false
           pageBuilder: (_, __, ___) => cid != null
-              ? cname != null
-                  ? MyHomePage(
-                      cnmae: cname,
-                    )
-                  : MyHomePage(
-                      cnmae: "",
-                    )
+              ? MyHomePage(
+                  )
               : RegistrationScreen(),
         ),
       );

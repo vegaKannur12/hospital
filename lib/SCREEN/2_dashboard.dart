@@ -13,14 +13,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../COMPONENTS/commoncolor.dart';
 
 class MyHomePage extends StatefulWidget {
-  String? cnmae;
-  MyHomePage({this.cnmae});
+  // String? cnmae;
+  // MyHomePage({this.cnmae});
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  List cname = [];
+ String? cname;
   int _selectedIndex = 0;
   CustomDate datedata = CustomDate();
   String menu_index = "0";
@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
-    // cname = await OrderAppDB.instance.selectCompany(cid!);
+    cname =  prefs.getString("cname");
     print("cis$cname");
   }
 
@@ -96,9 +96,12 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         automaticallyImplyLeading: false,
         backgroundColor: P_Settings.headingColor,
         elevation: 0,
-        title: Text(
-          widget.cnmae.toString(),
-          style: TextStyle(color: Colors.white),
+        title:cname==null?SpinKitThreeBounce(
+          color: Colors.white,
+          size: 7,
+        ):
+         Text(
+         cname.toString()
         ),
         // title: Consumer<Controller>(
         //   builder: (context, value, child) {

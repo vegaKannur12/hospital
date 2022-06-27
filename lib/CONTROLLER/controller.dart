@@ -95,10 +95,12 @@ class Controller extends ChangeNotifier {
                 await OrderAppDB.instance.insertRegistrationDetails(regModel);
             notifyListeners();
             isLoading = false;
-            print("cidrett---$cid");
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("cid", cid!);
             prefs.setString("cname", cname!);
+
+            print("cidrett---$cname");
+
 
             verifyRegistration(cid!, fp!, context);
 
