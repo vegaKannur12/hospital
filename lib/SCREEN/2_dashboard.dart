@@ -20,7 +20,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
- String? cname;
+  String? cname;
   int _selectedIndex = 0;
   CustomDate datedata = CustomDate();
   String menu_index = "0";
@@ -54,12 +54,13 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     getCid();
     // TODO: implement initState
     super.initState();
+    Provider.of<Controller>(context, listen: false).getCname();
   }
 
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
-    cname =  prefs.getString("cname");
+    // cname = prefs.getString("cname");
     print("cis$cname");
   }
 
@@ -91,37 +92,26 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    getCid();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: P_Settings.headingColor,
         elevation: 0,
-        title:cname==null?SpinKitThreeBounce(
-          color: Colors.white,
-          size: 7,
-        ):
-         Text(
-         cname.toString()
+        title: Consumer<Controller>(
+          builder: (context, value, child) {
+            if (value.cn == null) {
+              return SpinKitThreeBounce(color: Colors.white, size: 8);
+            } else {
+              return Text(
+                value.cn.toString(),
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              );
+            }
+          },
         ),
-        // title: Consumer<Controller>(
-        //   builder: (context, value, child) {
-        //     if (value.cn == null) {
-        //       return SpinKitThreeBounce(
-        //         color: Colors.white,
-        //       );
-        //     } else {
-        //      return  Text(value.cn.toString());
-        //     }
-        //   },
-        // ),
-
-        //  cname == null
-        //     ? SpinKitThreeBounce()
-        //     : Text(
-        //         '',
-        //         // cname[0]["cnme"].toString(),
-        //         style: TextStyle(color: Colors.white, fontSize: 18),
-        //       ),
         bottom: TabBar(
           isScrollable: true,
           indicatorColor: P_Settings.headingColor,

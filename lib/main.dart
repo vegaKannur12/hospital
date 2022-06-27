@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // textTheme: GoogleFonts.latoTextTheme(
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.grey,
         fontFamily: P_Font.kronaOne,
       ),
-      home: RegistrationScreen(),
+      home: SplashScreen(),
     );
   }
 }
