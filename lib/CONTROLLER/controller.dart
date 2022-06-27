@@ -98,6 +98,8 @@ class Controller extends ChangeNotifier {
             print("cidrett---$cid");
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("cid", cid!);
+            prefs.setString("cname", cname!);
+
             verifyRegistration(cid!, fp!, context);
 
             Navigator.push(

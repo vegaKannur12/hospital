@@ -13,6 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../COMPONENTS/commoncolor.dart';
 
 class MyHomePage extends StatefulWidget {
+  String? cnmae;
+  MyHomePage({this.cnmae});
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -94,17 +96,21 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         automaticallyImplyLeading: false,
         backgroundColor: P_Settings.headingColor,
         elevation: 0,
-        title: Consumer<Controller>(
-          builder: (context, value, child) {
-            if (value.cn == null) {
-              return SpinKitThreeBounce(
-                color: Colors.white,
-              );
-            } else {
-             return  Text(value.cn.toString());
-            }
-          },
+        title: Text(
+          widget.cnmae.toString(),
+          style: TextStyle(color: Colors.white),
         ),
+        // title: Consumer<Controller>(
+        //   builder: (context, value, child) {
+        //     if (value.cn == null) {
+        //       return SpinKitThreeBounce(
+        //         color: Colors.white,
+        //       );
+        //     } else {
+        //      return  Text(value.cn.toString());
+        //     }
+        //   },
+        // ),
 
         //  cname == null
         //     ? SpinKitThreeBounce()
