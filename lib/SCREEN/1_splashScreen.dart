@@ -73,7 +73,7 @@ class _SplashScreenState extends State<SplashScreen>
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: P_Settings.wavecolor,
+      backgroundColor: P_Settings.headingColor,
       body: InkWell(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());

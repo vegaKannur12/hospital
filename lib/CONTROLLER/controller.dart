@@ -16,6 +16,7 @@ class Controller extends ChangeNotifier {
   bool isLoading = false;
   List<num> num_list = [];
   List colorList = [];
+  List colorListcount = [];
   num? sum;
   String? cid;
   // MultiChart? chart;
@@ -32,6 +33,8 @@ class Controller extends ChangeNotifier {
   var jsonEnMulti;
   List<Map<String, dynamic>> multiCollection = [];
   List<Map<String, dynamic>> multiDta = [];
+  List<Map<String, dynamic>> multidepart = [];
+  List<Map<String, dynamic>> multiservice = [];
   List<Map<String, dynamic>> multisetData = [];
   List<String> coldata = [];
   List<Map<String, dynamic>> rowData = [];
@@ -198,12 +201,13 @@ class Controller extends ChangeNotifier {
 
           print("coll--$collectData");
           // print("num_list---$sum");
-
+          colorListcount.clear();
           for (var item in map["count_data"]) {
             countData.add(item);
             num_list.add(item["measure"]);
+            colorListcount.add(item["color_code"]);
           }
-
+          print("colorlist count $countData");
           sum = calculate_sum(num_list);
           for (var item in countData) {
             print("item----$item");
@@ -218,6 +222,7 @@ class Controller extends ChangeNotifier {
             departmentData.add(item);
             num_list.add(item["measure"]);
           }
+          print("department wise data $departmentData");
           sum = calculate_sum(num_list);
           for (var item in departmentData) {
             print("item----$item");
@@ -306,6 +311,20 @@ class Controller extends ChangeNotifier {
         multiDta.add(item);
       }
       print("multiCollection ${multiDta}");
+      multidepart.clear();
+      for (var item in map["department_data"]) {
+        print("inside for length  ${item}");
+        // multiCollection.add(item);
+        multidepart.add(item);
+      }
+      print("multidepart ${multidepart}");
+      multiservice.clear();
+      for (var item in map["servicegroup_data"]) {
+        print("inside for length  ${item}");
+        // multiCollection.add(item);
+        multiservice.add(item);
+      }
+      print("multiservice ${multiservice}");
 
       notifyListeners();
     } catch (e) {

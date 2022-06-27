@@ -3,6 +3,7 @@ import 'package:hospital/COMPONENTS/selectDate.dart';
 import 'package:hospital/SCREEN/3_todaychart.dart';
 import 'package:hospital/SCREEN/3.3_moth_graph.dart';
 import 'package:hospital/SCREEN/3.2_day_muldata.dart';
+import 'package:hospital/db_helper.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +15,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  List cname = [];
   int _selectedIndex = 0;
   CustomDate datedata = CustomDate();
   String menu_index = "0";
@@ -52,6 +54,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
+    cname = await OrderAppDB.instance.selectCompany(cid!);
+    print("cis$cid");
   }
 
   _getBranch(String pos) {
@@ -85,7 +89,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: P_Settings.bodyTabColor,
+        backgroundColor: P_Settings.headingColor,
         elevation: 0,
         title: Text(
           'Clinic Report',
@@ -93,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         ),
         bottom: TabBar(
           isScrollable: true,
-          indicatorColor: P_Settings.wavecolor,
+          indicatorColor: P_Settings.headingColor,
           indicatorSize: TabBarIndicatorSize.label,
           indicatorWeight: 2.0,
           // indicatorSize: TabBarIndicatorSize.label,

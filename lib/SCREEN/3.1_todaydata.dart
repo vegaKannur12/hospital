@@ -53,8 +53,10 @@ class _FirstBranchState extends State<FirstBranch> {
                   return Color.fromARGB(255, 185, 149, 125);
                 case 'Lab order':
                   return Color.fromARGB(255, 45, 35, 194);
-                case 'Radiology':
+                case 'Radiology order':
                   return Color.fromARGB(255, 192, 204, 21);
+                case 'Radiology':
+                  return Color.fromARGB(255, 223, 39, 125);
                 case 'Bills':
                   return Color.fromARGB(255, 204, 74, 85);
                 case 'CONSULTATION':
@@ -69,6 +71,8 @@ class _FirstBranchState extends State<FirstBranch> {
                   return Color.fromARGB(255, 146, 19, 163);
                 case 'Internal Medicine':
                   return Color.fromARGB(255, 8, 170, 89);
+                case 'Others':
+                  return Color.fromARGB(255, 61, 134, 194);
                 default:
                   return Colors
                       .primaries[Random().nextInt(Colors.primaries.length)];
@@ -306,7 +310,7 @@ class _FirstBranchState extends State<FirstBranch> {
                                         SizedBox(
                                           height: size.height * 0.03,
                                         ),
-                                        linearProgress(
+                                        linearProgress2(
                                             value.servicegroupData, size),
                                       ],
                                     ),
@@ -360,13 +364,51 @@ class _FirstBranchState extends State<FirstBranch> {
                       width: size.width * 0.5,
                       child: LinearProgressIndicator(
                         value: list[index]['per'],
-                        valueColor: new AlwaysStoppedAnimation<Color>(
-                          list[index]['domain'] == 'CASH'
-                              ? Colors.green
-                              : list[index]['domain'] == 'CARD'
-                                  ? Colors.red
-                                  : Colors.yellow,
-                        ),
+                        valueColor: new AlwaysStoppedAnimation<Color>(list[index]
+                                    ['domain'] ==
+                                'CASH'
+                            ? Colors.green
+                            : list[index]['domain'] == 'CARD'
+                                ? Colors.red
+                                : list[index]['domain'] == 'New Patient'
+                                    ? Color.fromARGB(255, 185, 149, 125)
+                                    : list[index]['domain'] == 'Revisit Patient'
+                                        ? Colors.purple.shade300
+                                        : list[index]['domain'] == 'Lab order'
+                                            ? Color.fromARGB(255, 45, 35, 194)
+                                            : list[index]['domain'] ==
+                                                    'Radiology order'
+                                                ? Color.fromARGB(
+                                                    255, 192, 204, 21)
+                                                : list[index]['domain'] ==
+                                                        'Bills'
+                                                    ? Color.fromARGB(
+                                                        255, 204, 74, 85)
+                                                    : list[index]['domain'] ==
+                                                            'Refund Bills'
+                                                        ? Color.fromARGB(
+                                                            255, 138, 185, 51)
+                                                        : list[index]['domain'] ==
+                                                                'Dental'
+                                                            ? Color.fromARGB(
+                                                                255, 170, 73, 8)
+                                                            : list[index]['domain'] ==
+                                                                    'General Physician'
+                                                                ? Color.fromARGB(
+                                                                    255, 171, 151, 207)
+                                                                : list[index]['domain'] ==
+                                                                        'Internal Medicine'
+                                                                    ? Color.fromARGB(255, 8, 170, 89)
+                                                                    : list[index]['domain'] == 'Others'
+                                                                        ? Color.fromARGB(255, 61, 134, 194)
+                                                                        : list[index]['domain'] == 'Others'
+                                                                            ? Color.fromARGB(255, 146, 19, 163)
+                                                                            : list[index]['domain'] == 'Radiology'
+                                                                                ? Color.fromARGB(255, 223, 39, 125)
+                                                                                : list[index]['domain'] == 'Pathology'
+                                                                                    ? Color.fromARGB(255, 146, 19, 163)
+                                                                                    : Colors.yellow),
+
                         color: list[index]['domain'] == 'CASH'
                             ? Colors.green
                             : list[index]['domain'] == 'CARD'
@@ -391,6 +433,68 @@ class _FirstBranchState extends State<FirstBranch> {
       ),
     );
   }
+
+  /////////////////////////////////////////
+  Widget linearProgress2(List<Map<String, dynamic>> list, Size size) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10),
+      child: Container(
+        height: list.length > 3 ? size.height * 0.45 : size.height * 0.24,
+        child: ListView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          itemCount: list.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+                title: Row(
+              children: [
+                Flexible(
+                  child: Container(
+                      width: size.width * 0.2,
+                      child: Text(
+                        "${list[index]['measure'].toString()}",
+                        style: TextStyle(fontSize: 12),
+                      )),
+                ),
+
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${list[index]['domain'].toString()}",
+                      style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                    ),
+                    Container(
+                      width: size.width * 0.5,
+                      child: LinearProgressIndicator(
+                          value: list[index]['per'],
+                          valueColor: new AlwaysStoppedAnimation<Color>(
+                              parseColor(Provider.of<Controller>(context,
+                                      listen: false)
+                                  .colorList[0])),
+                          color: parseColor(
+                              Provider.of<Controller>(context, listen: false)
+                                  .colorList[0])
+                          // valueColor :
+                          ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: size.width * 0.04,
+                ),
+                Text(list[index]['bill_count'] != null
+                    ? list[index]['bill_count'].toString()
+                    : ''),
+                // list[index]['rpt']=='ServiceGroupWise Billing'?Text(list[index]['bills_total'].toString()):Text(''),
+              ],
+            ));
+          },
+        ),
+      ),
+    );
+  }
+  /////////////////////////////////////////////
+
 }
 
 //////////////////////////////////////////////////////////////////////

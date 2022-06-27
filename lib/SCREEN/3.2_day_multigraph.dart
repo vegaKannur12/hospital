@@ -444,8 +444,13 @@ class _MultiDayOneState extends State<MultiDayOne> {
                                         height: size.height * 0.04,
                                       ),
                                       Container(
-                                        height: size.height * 0.4,
+                                        height: value.multiDta.length > 2
+                                            ? size.height * 1.2
+                                            : size.height * .2,
                                         child: ListView.builder(
+                                          // shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
                                           itemCount: value.multiDta.length,
                                           itemBuilder: (context, index) {
                                             return ListTile(
@@ -453,19 +458,23 @@ class _MultiDayOneState extends State<MultiDayOne> {
                                               Text(
                                                 value.multiDta[index]['id'],
                                                 style: TextStyle(
-                                                    color:Colors.blue,
+                                                    color: Colors.blue,
                                                     fontSize: 16),
                                               ),
                                               Container(
-                                                width: size.width*0.7,
-                                                child: Divider(thickness: 2,)),
+                                                  width: size.width * 0.7,
+                                                  child: Divider(
+                                                    thickness: 2,
+                                                  )),
                                               SizedBox(
                                                 height: size.height * 0.04,
                                               ),
                                               rowChild(
                                                   value.multiDta[index]['data'],
                                                   size),
-                                                  Divider(thickness: 2,),
+                                              Divider(
+                                                thickness: 2,
+                                              ),
                                             ]));
                                           },
                                         ),
@@ -477,9 +486,146 @@ class _MultiDayOneState extends State<MultiDayOne> {
                             )
                           : Text(""),
                       //  ChartTable(charttab: [value.multiCollection[0]],)
-                      Column(
-                        children: [],
+                      ////////////////////////////////////// department////////////////////
+                      SizedBox(
+                        height: size.height * 0.03,
                       ),
+                      collectionJson["department_data"] != null
+                          ? Visibility(
+                              visible: true,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Text("DepartmentWise Billing",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromARGB(
+                                                255, 179, 15, 15))),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: size.height * 0.04,
+                                      ),
+                                      Container(
+                                        height: value.multidepart.length > 2
+                                            ? size.height * 1.5
+                                            : size.height * 0.3,
+                                        child: ListView.builder(
+                                          // shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemCount: value.multidepart.length,
+                                          itemBuilder: (context, index) {
+                                            return ListTile(
+                                                title: Column(children: [
+                                              Text(
+                                                value.multidepart[index]['id'],
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 16),
+                                              ),
+                                              Container(
+                                                  width: size.width * 0.7,
+                                                  child: Divider(
+                                                    thickness: 2,
+                                                  )),
+                                              SizedBox(
+                                                height: size.height * 0.04,
+                                              ),
+                                              rowChild(
+                                                  value.multidepart[index]
+                                                      ['data'],
+                                                  size),
+                                              Divider(
+                                                thickness: 2,
+                                              ),
+                                            ]));
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Text(""),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      //////////////////////// service group data///////////////
+                      collectionJson["servicegroup_data"] != null
+                          ? Visibility(
+                              visible: true,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  //////////// collection Data ///////////////////////
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Text("ServiceGroupWise Billing",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromARGB(
+                                                255, 179, 15, 15))),
+                                  ),
+
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: size.height * 0.04,
+                                      ),
+                                      Container(
+                                        height: value.multiservice.length > 2
+                                            ? size.height * 3
+                                            : size.height * 02,
+                                        child: ListView.builder(
+                                          // shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemCount: value.multiservice.length,
+                                          itemBuilder: (context, index) {
+                                            return ListTile(
+                                                title: Column(children: [
+                                              Text(
+                                                value.multiservice[index]['id'],
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 16),
+                                              ),
+                                              Container(
+                                                  width: size.width * 0.7,
+                                                  child: Divider(
+                                                    thickness: 2,
+                                                  )),
+                                              SizedBox(
+                                                height: size.height * 0.04,
+                                              ),
+                                              rowChild(
+                                                  value.multiservice[index]
+                                                      ['data'],
+                                                  size),
+                                              Divider(
+                                                thickness: 2,
+                                              ),
+                                            ]));
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Text("")
                     ],
                   ),
           );
@@ -496,22 +642,36 @@ Widget rowChild(List list, Size size) {
     child: Column(
       children: list
           .map((e) => Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Text(
-                          e['domain'],
-                        ),
-                        SizedBox(
-                          width: size.width * 0.45,
-                        ),
-                        Text(
-                          e['measure'].toString(),
-                        ),
-                      ],
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                e['domain'],
+                              ),
+                            ],
+                          ),
+                          // Spacer(),
+                          SizedBox(
+                            width: size.width * 0.45,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                e['measure'].toStringAsFixed(3),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

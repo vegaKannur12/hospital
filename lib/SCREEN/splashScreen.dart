@@ -27,7 +27,6 @@ class _SplashScreenState extends State<SplashScreen>
       cid = prefs.getString("cid");
       print("cidjhsj----");
       // );
-
       Navigator.push(
         context,
         PageRouteBuilder(
@@ -43,7 +42,6 @@ class _SplashScreenState extends State<SplashScreen>
   void initState() {
     daytoday = DateFormat('yyyy-MM-dd').format(date);
     Provider.of<Controller>(context, listen: false).getBranchList();
-
     Provider.of<Controller>(context, listen: false).chartDataSet(
         Provider.of<Controller>(context, listen: false).branchid != null &&
                 Provider.of<Controller>(context, listen: false)
@@ -54,7 +52,8 @@ class _SplashScreenState extends State<SplashScreen>
                 .toString()
             : '1',
         daytoday!,
-        daytoday!,context);
+        daytoday!,
+        context);
 
     // TODO: implement initState
     super.initState();
@@ -81,7 +80,7 @@ class _SplashScreenState extends State<SplashScreen>
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: P_Settings.wavecolor,
+      backgroundColor: P_Settings.headingColor,
       body: InkWell(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
