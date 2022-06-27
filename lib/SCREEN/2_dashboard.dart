@@ -55,7 +55,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
     cname = await OrderAppDB.instance.selectCompany(cid!);
-    print("cis$cid");
+    print("cis$cname");
   }
 
   _getBranch(String pos) {
@@ -92,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
         backgroundColor: P_Settings.headingColor,
         elevation: 0,
         title: Text(
-          'Clinic Report',
+          '',
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
         bottom: TabBar(
