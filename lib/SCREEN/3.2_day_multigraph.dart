@@ -147,378 +147,114 @@ class _MultiDayOneState extends State<MultiDayOne> {
                                                 255, 179, 15, 15))),
                                   ),
 
-                                  collectionJson["collection"].length < 5
-                                      ? AspectRatio(
-                                          aspectRatio: 1,
-                                          child: DChartBar(
-                                            data: collectionJson["collection"],
-                                            minimumPaddingBetweenLabel: 1,
-                                            domainLabelPaddingToAxisLine: 16,
-                                            axisLineTick: 2,
-                                            axisLinePointTick: 2,
-                                            axisLinePointWidth: 10,
-                                            axisLineColor: Colors.green,
-                                            measureLabelPaddingToAxisLine: 16,
-                                            barColor: (barData, index, id) =>
-                                                id == 'CASH'
-                                                    ? parseColor(
-                                                        Provider.of<Controller>(
-                                                                            context,
-                                                                            listen:
-                                                                                false)
-                                                                        .multiid !=
-                                                                    null &&
-                                                                Provider.of<Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .multiid
-                                                                    .isNotEmpty
-                                                            ? Provider.of<Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .multiid[0]
-                                                                ['color_code']
-                                                            : '#1db345',
-                                                      )
-                                                    : id == 'CARD'
-                                                        ? parseColor(
-                                                            Provider.of<Controller>(context, listen: false)
-                                                                            .multiid !=
-                                                                        null &&
-                                                                    Provider.of<Controller>(
-                                                                            context,
-                                                                            listen:
-                                                                                false)
-                                                                        .multiid
-                                                                        .isNotEmpty
-                                                                ? Provider.of<
-                                                                            Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .multiid[1]['color_code']
-                                                                : "#1b86de",
-                                                          )
-                                                        : parseColor(
-                                                            Provider.of<Controller>(context, listen: false)
-                                                                            .multiid !=
-                                                                        null &&
-                                                                    Provider.of<Controller>(
-                                                                            context,
-                                                                            listen:
-                                                                                false)
-                                                                        .multiid
-                                                                        .isNotEmpty
-                                                                ? Provider.of<
-                                                                            Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .multiid[2]['color_code']
-                                                                : '#e31e3b',
-                                                          ),
-                                            // barColor: (barData, index, id) => Colors.primaries[
-                                            //     Random().nextInt(Colors.primaries.length)],
+                                  collectionJson["collection"][0]["data"]
+                                              .length <
+                                          4
+                                      ? chart(collectionJson["collection"])
+                                      : customTextTile(
+                                          size,
+                                          collectionJson["collection"][0]
+                                              ["data"]),
 
-                                            showBarValue: true,
-                                            barValueFontSize: 12,
-                                            // barValuePosition: BarValuePosition.outside,
-                                          ),
-                                        )
-                                      : Container(
-                                          height: size.height * 0.4,
-                                          child: ListView.builder(
-                                            itemCount:
-                                                collectionJson["collection"]
-                                                    .length,
-                                            itemBuilder: (context, index) {
-                                              return ListTile(
-                                                title: Text(
-                                                    collectionJson["collection"]
-                                                                ['data'][index]
-                                                            ['domain']
-                                                        .toString()),
-                                                leading: Text(
-                                                    collectionJson["collection"]
-                                                                ['data'][index]
-                                                            ['measure']
-                                                        .toString()),
-                                              );
-                                            },
-                                          ),
-                                        ),
-                                  SizedBox(
-                                    height: size.height * 0.03,
-                                  ),
                                   Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Row(
-                                      children: [
-                                        CircleAvatar(
-                                            radius: 8,
-                                            backgroundColor: parseColor(
-                                              Provider.of<Controller>(context,
-                                                                  listen: false)
-                                                              .multiid !=
-                                                          null &&
-                                                      Provider.of<Controller>(
-                                                              context,
-                                                              listen: false)
-                                                          .multiid
-                                                          .isNotEmpty
-                                                  ? Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .multiid[0]['color_code']
-                                                  : '#1db345',
-                                            )),
-                                        SizedBox(
-                                          width: size.width * 0.03,
-                                        ),
-                                        Text("CASH"),
-                                        SizedBox(
-                                          width: size.width * 0.05,
-                                        ),
-                                        CircleAvatar(
-                                            radius: 8,
-                                            backgroundColor: parseColor(
-                                              Provider.of<Controller>(context,
-                                                                  listen: false)
-                                                              .multiid !=
-                                                          null &&
-                                                      Provider.of<Controller>(
-                                                              context,
-                                                              listen: false)
-                                                          .multiid
-                                                          .isNotEmpty
-                                                  ? Provider.of<Controller>(
-                                                          context,
-                                                          listen: false)
-                                                      .multiid[1]['color_code']
-                                                  : "#1b86de",
-                                            )),
-                                        SizedBox(
-                                          width: size.width * 0.03,
-                                        ),
-                                        Text("CARD"),
-                                        SizedBox(
-                                          width: size.width * 0.05,
-                                        ),
-                                        CircleAvatar(
-                                          radius: 8,
-                                          backgroundColor: parseColor(
-                                            Provider.of<Controller>(context,
-                                                                listen: false)
-                                                            .multiid !=
-                                                        null &&
-                                                    Provider.of<Controller>(
-                                                            context,
-                                                            listen: false)
-                                                        .multiid
-                                                        .isNotEmpty
-                                                ? Provider.of<Controller>(
-                                                        context,
-                                                        listen: false)
-                                                    .multiid[2]['color_code']
-                                                : '#e31e3b',
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: size.width * 0.03,
-                                        ),
-                                        Text("CREDIT"),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 8, right: 8),
-                                    child: AspectRatio(
-                                      aspectRatio: 1.5,
-                                      child: DChartBar(
-                                        data: collectionJson["collection"],
-                                        showMeasureLine: false,
-                                        minimumPaddingBetweenLabel: 1,
-                                        domainLabelPaddingToAxisLine: 16,
-                                        axisLineTick: 1,
-                                        measureLabelColor: Colors.white,
-                                        xAxisTitleColor: Colors.white,
-                                        axisLinePointTick: 0,
-                                        axisLinePointWidth: 10,
-                                        axisLineColor: Colors.white,
-                                        measureLabelPaddingToAxisLine: 16,
-                                        barColor: (barData, index, id) => id ==
-                                                'CASH'
-                                            ? parseColor(
-                                                Provider.of<Controller>(context,
-                                                                    listen:
-                                                                        false)
-                                                                .multiid !=
-                                                            null &&
-                                                        Provider.of<Controller>(
-                                                                context,
-                                                                listen: false)
-                                                            .multiid
-                                                            .isNotEmpty
-                                                    ? Provider.of<Controller>(
-                                                                context,
-                                                                listen: false)
-                                                            .multiid[0]
-                                                        ['color_code']
-                                                    : '#1db345',
-                                              )
-                                            : id == 'CARD'
-                                                ? parseColor(
-                                                    Provider.of<Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .multiid !=
-                                                                null &&
-                                                            Provider.of<Controller>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .multiid
-                                                                .isNotEmpty
-                                                        ? Provider.of<Controller>(
-                                                                    context,
-                                                                    listen: false)
-                                                                .multiid[1]
-                                                            ['color_code']
-                                                        : "#1b86de",
-                                                  )
-                                                : parseColor(
-                                                    Provider.of<Controller>(
-                                                                        context,
-                                                                        listen:
-                                                                            false)
-                                                                    .multiid !=
-                                                                null &&
-                                                            Provider.of<Controller>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .multiid
-                                                                .isNotEmpty
-                                                        ? Provider.of<Controller>(
-                                                                    context,
-                                                                    listen: false)
-                                                                .multiid[2]
-                                                            ['color_code']
-                                                        : '#e31e3b',
-                                                  ),
-                                        // barColor: (barData, index, id) => Colors.primaries[
-                                        //     Random().nextInt(Colors.primaries.length)],
-                                        verticalDirection: false,
-                                        barValue: (barData, index) =>
-                                            '${barData['measure']}',
-                                        showBarValue: true,
-                                        barValueFontSize: 12,
-                                        barValuePosition: BarValuePosition.auto,
-                                      ),
-                                    ),
-                                  ),
+                                      padding: const EdgeInsets.only(
+                                          left: 8, right: 8),
+                                      child: collectionJson["visit_data"][0]["data"]
+                                                  .length >
+                                              3
+                                          ? customTextTile(size,
+                                              collectionJson["visit_data"])
+                                          : chart(
+                                              collectionJson["visit_data"])),
                                   //////////////////// count Data ///////////////////////////////
                                 ],
                               ),
                             )
-                          : Text(''),
-                      collectionJson["visit_data"] != null
-                          ? Visibility(
-                              visible: true,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  //////////// collection Data ///////////////////////
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Text("VisitTypeWise Collection",
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            color: Color.fromARGB(
-                                                255, 179, 15, 15))),
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 10),
-                                        child: Text(
-                                          collectionJson["visit_data"][0]['id'],
-                                          style: TextStyle(
-                                              color: parseColor(
-                                                '#1db345',
-                                              ),
-                                              fontSize: 20),
-                                        ),
-                                      ),
-                                      Container(
-                                        height: size.height * 0.4,
-                                        child: ListView.builder(
-                                          itemCount:
-                                              collectionJson["visit_data"][0]
-                                                  .length,
-                                          itemBuilder: (context, index) {
-                                            return ListTile(
-                                              title: Text(
-                                                  collectionJson["visit_data"][0]
-                                                          ['data'][index]
-                                                      ['measure'].toString()),
-                                              leading: Text(
-                                                  collectionJson["visit_data"][0]
-                                                          ['data'][index]
-                                                      ['domain'].toString()),
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  // AspectRatio(
-                                  //   aspectRatio: 1.5,
-                                  //   child: DChartBar(
-                                  //     data: collectionJson["visit_data"],
-                                  //     minimumPaddingBetweenLabel: 1,
-                                  //     domainLabelPaddingToAxisLine: 16,
-                                  //     axisLineTick: 2,
-                                  //     axisLinePointTick: 2,
-                                  //     axisLinePointWidth: 10,
-                                  //     axisLineColor: Colors.green,
-                                  //     measureLabelPaddingToAxisLine: 16,
-                                  //     // barColor: (barData, index, id) =>
-                                  //     barColor: (barData, index, id) =>
-                                  //         Colors.primaries[Random().nextInt(
-                                  //             Colors.primaries.length)],
-
-                                  //     showBarValue: true,
-                                  //     barValueFontSize: 12,
-                                  //     // barValuePosition: BarValuePosition.outside,
-                                  //   ),
-                                  // ),
-                                  // SizedBox(
-                                  //   height: size.height * 0.03,
-                                  // ),
-
-                                  //////////////////// count Data ///////////////////////////////
-                                ],
-                              ),
-                            )
-                          : Text(""),
-                      //  ChartTable(charttab: [value.multiCollection[0]],)
-                      Column(
-                        children: [],
-                      ),
+                          : CircularProgressIndicator(),
+                      collectionJson["visit_data"].length < 5
+                          ? chart(collectionJson["visit_data"])
+                          : customTextTile(size, collectionJson["visit_data"])
                     ],
                   ),
           );
         },
       ),
     );
+  }
+
+  Widget chart(var data) {
+    return AspectRatio(
+      aspectRatio: 1.5,
+      child: DChartBar(
+        data: data,
+        showMeasureLine: false,
+        minimumPaddingBetweenLabel: 1,
+        domainLabelPaddingToAxisLine: 16,
+        axisLineTick: 1,
+        measureLabelColor: Colors.white,
+        xAxisTitleColor: Colors.white,
+        axisLinePointTick: 0,
+        axisLinePointWidth: 10,
+        axisLineColor: Colors.white,
+        measureLabelPaddingToAxisLine: 16,
+        barColor: (barData, index, id) => id == 'CASH'
+            ? parseColor(
+                Provider.of<Controller>(context, listen: false).multiid !=
+                            null &&
+                        Provider.of<Controller>(context, listen: false)
+                            .multiid
+                            .isNotEmpty
+                    ? Provider.of<Controller>(context, listen: false).multiid[0]
+                        ['color_code']
+                    : '#1db345',
+              )
+            : id == 'CARD'
+                ? parseColor(
+                    Provider.of<Controller>(context, listen: false).multiid !=
+                                null &&
+                            Provider.of<Controller>(context, listen: false)
+                                .multiid
+                                .isNotEmpty
+                        ? Provider.of<Controller>(context, listen: false)
+                            .multiid[1]['color_code']
+                        : "#1b86de",
+                  )
+                : parseColor(
+                    Provider.of<Controller>(context, listen: false).multiid !=
+                                null &&
+                            Provider.of<Controller>(context, listen: false)
+                                .multiid
+                                .isNotEmpty
+                        ? Provider.of<Controller>(context, listen: false)
+                            .multiid[2]['color_code']
+                        : '#e31e3b',
+                  ),
+        verticalDirection: true,
+        barValue: (barData, index) => '${barData['measure']}',
+        showBarValue: true,
+        barValueFontSize: 12,
+        barValuePosition: BarValuePosition.auto,
+      ),
+    );
+  }
+
+  Widget customTextTile(Size size, var list) {
+    print("listjkdkjsz-----$list");
+    return Container(
+        height: size.height * 0.4,
+        child: ListView.builder(
+          itemCount: list.length,
+          itemBuilder: (context, index) {
+            return ListTile(
+              title: Row(
+                children: [
+                  Text("data"),
+                  Text("data"),
+                ],
+              ),
+            );
+          },
+        ));
   }
 }
 
