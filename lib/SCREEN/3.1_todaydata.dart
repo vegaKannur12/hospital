@@ -59,6 +59,8 @@ class _FirstBranchState extends State<FirstBranch> {
                   return Color.fromARGB(255, 192, 204, 21);
                 case 'Radiology':
                   return Color.fromARGB(255, 223, 39, 125);
+                case 'Pediatric':
+                  return Colors.red;
                 case 'Bills':
                   return Color.fromARGB(255, 204, 74, 85);
                 case 'CONSULTATION':
@@ -181,12 +183,18 @@ class _FirstBranchState extends State<FirstBranch> {
             return Column(
               children: [
                 //////////// collection Data ///////////////////////
-                value.collectData != null ||
-                        value.countData != null && value.countData.isNotEmpty ||
+                value.collectData != null &&
+                            value.collectData.isNotEmpty &&
+                            value.collectData.length == 0 ||
+                        value.countData != null &&
+                            value.countData.isNotEmpty &&
+                            value.countData.length == 0 ||
                         value.departmentData != null &&
-                            value.departmentData.isNotEmpty ||
+                            value.departmentData.isNotEmpty &&
+                            value.departmentData.length == 0 ||
                         value.servicegroupData != null &&
-                            value.servicegroupData.isNotEmpty ||
+                            value.servicegroupData.isNotEmpty &&
+                            value.servicegroupData.length == 0 ||
                         value.visitData != null && value.visitData.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(top: 15),
@@ -387,11 +395,14 @@ class _FirstBranchState extends State<FirstBranch> {
                   child: Container(
                       width: size.width * 0.2,
                       child: Text(
-                        "${list[index]['measure'].toString()}",
+                        "${list[index]['measure'].toStringAsFixed(3)}",
                         style: TextStyle(fontSize: 12),
+                        textAlign: TextAlign.right,
                       )),
                 ),
-
+                SizedBox(
+                  width: size.width * 0.035,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -401,6 +412,7 @@ class _FirstBranchState extends State<FirstBranch> {
                     ),
                     Container(
                       width: size.width * 0.5,
+                      height: size.height * 0.008,
                       child: LinearProgressIndicator(
                         value: list[index]['per'],
                         valueColor: new AlwaysStoppedAnimation<Color>(list[index]
@@ -410,7 +422,8 @@ class _FirstBranchState extends State<FirstBranch> {
                                     'FREE FOLLOW UP CONSULTATION'
                             ? Colors.green
                             : list[index]['domain'] == 'CARD' ||
-                                    list[index]['domain'] == 'CONSULTATION'
+                                    list[index]['domain'] == 'CONSULTATION' ||
+                                    list[index]['domain'] == 'Pediatric'
                                 ? Colors.red
                                 : list[index]['domain'] == 'New Patient' ||
                                         list[index]['domain'] == 'LAB'
@@ -464,9 +477,9 @@ class _FirstBranchState extends State<FirstBranch> {
                 SizedBox(
                   width: size.width * 0.04,
                 ),
-                Text(list[index]['bills_total'] != null
-                    ? list[index]['bills_total'].toString()
-                    : ''),
+                // Text(list[index]['bill_count'] != null
+                //     ? list[index]['bill_count'].toString()
+                //     : ''),
                 // list[index]['rpt']=='ServiceGroupWise Billing'?Text(list[index]['bills_total'].toString()):Text(''),
               ],
             ));
@@ -491,11 +504,16 @@ class _FirstBranchState extends State<FirstBranch> {
               children: [
                 Flexible(
                   child: Container(
+                      // alignment: Alignment.topRight,
                       width: size.width * 0.2,
                       child: Text(
-                        "${list[index]['measure'].toString()}",
+                        "${list[index]['measure'].toStringAsFixed(3)}",
                         style: TextStyle(fontSize: 12),
+                        textAlign: TextAlign.right,
                       )),
+                ),
+                SizedBox(
+                  width: size.width * 0.035,
                 ),
 
                 Column(
@@ -507,8 +525,10 @@ class _FirstBranchState extends State<FirstBranch> {
                     ),
                     Container(
                       width: size.width * 0.5,
+                      height: size.height * 0.008,
                       child: LinearProgressIndicator(
                           value: list[index]['per'],
+                          minHeight: 4,
                           valueColor: new AlwaysStoppedAnimation<Color>(
                               parseColor(Provider.of<Controller>(context,
                                       listen: false)

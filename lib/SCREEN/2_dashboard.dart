@@ -20,7 +20,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
-  List cnam = [];
+  String? cname;
   int _selectedIndex = 0;
   CustomDate datedata = CustomDate();
   String menu_index = "0";
@@ -54,15 +54,14 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     getCid();
     // TODO: implement initState
     super.initState();
+    Provider.of<Controller>(context, listen: false).getCname();
   }
 
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
-    Provider.of<Controller>(context, listen: false).getCname(cid!);
-
     // cname = prefs.getString("cname");
-    // print("cis$cname");
+    print("cis$cname");
   }
 
   _getBranch(String pos) {
@@ -93,15 +92,26 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    getCid();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
         backgroundColor: P_Settings.headingColor,
         elevation: 0,
-        title: Consumer<Controller>(builder: (context, value, child) {
-          return  Text(value.cn!);
-        },),
-        // (child:),
+        title: Consumer<Controller>(
+          builder: (context, value, child) {
+            if (value.cn == null) {
+              return SpinKitThreeBounce(color: Colors.white, size: 8);
+            } else {
+              return Text(
+                value.cn.toString(),
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              );
+            }
+          },
+        ),
         bottom: TabBar(
           isScrollable: true,
           indicatorColor: P_Settings.headingColor,

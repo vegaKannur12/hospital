@@ -38,8 +38,11 @@ class _MonthwiseGraphState extends State<MonthwiseGraph> {
                                 Container(
                                   // color: P_Settings.bodyTabColor,
                                   child: TabBar(
+                                      // indicatorColor: Colors.red,
                                       physics: NeverScrollableScrollPhysics(),
-                                      labelColor: P_Settings.wavecolor,
+                                      labelColor: Colors.red,
+                                      indicatorWeight: 3,
+                                      indicatorColor: Colors.red,
                                       unselectedLabelColor: Colors.black,
                                       tabs: value.branchList
                                           .map((e) => Tab(
@@ -62,8 +65,7 @@ class _MonthwiseGraphState extends State<MonthwiseGraph> {
                                             builder: (context, value, child) {
                                               return Container(
                                                 child: MultiDayOne(
-                                                  branch_id:
-                                                      value.branchid[0],
+                                                  branch_id: value.branchid[0],
                                                   fromDate: widget.from_date!,
                                                   todate: widget.to_date!,
                                                   period: "1",

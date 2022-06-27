@@ -105,7 +105,6 @@ class Controller extends ChangeNotifier {
 
             print("cidrett---$cname");
 
-
             verifyRegistration(cid!, fp!, context);
 
             Navigator.push(
@@ -356,9 +355,13 @@ class Controller extends ChangeNotifier {
     }
   }
 
-  getCname(String cid)async{
-    var res = await OrderAppDB.instance.selectCompany(cid);
-    cn=res[0]["cnme"];
-    print("res----$res");
+  getCname() async {
+    // var res = await OrderAppDB.instance.selectCompany(cid);
+    // cn=res[0]["cnme"];
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // prefs.setString("cid", cid!);
+    cn=prefs.getString("cname");
+    notifyListeners();
+    print("res----$cn");
   }
 }
