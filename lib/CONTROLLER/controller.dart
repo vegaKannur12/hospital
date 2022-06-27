@@ -28,6 +28,7 @@ class Controller extends ChangeNotifier {
   String? title;
   String? from_date;
   String? till_date;
+  String? cn;
   String? branch_id;
   List<CD> c_d = [];
   List<Map<String, dynamic>> collectData = [];
@@ -98,9 +99,13 @@ class Controller extends ChangeNotifier {
                 await OrderAppDB.instance.insertRegistrationDetails(regModel);
             notifyListeners();
             isLoading = false;
-            print("cidrett---$cid");
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString("cid", cid!);
+            prefs.setString("cname", cname!);
+
+            print("cidrett---$cname");
+
+
             verifyRegistration(cid!, fp!, context);
 
             Navigator.push(
@@ -349,5 +354,11 @@ class Controller extends ChangeNotifier {
       print(e);
       return null;
     }
+  }
+
+  getCname(String cid)async{
+    var res = await OrderAppDB.instance.selectCompany(cid);
+    cn=res[0]["cnme"];
+    print("res----$res");
   }
 }
