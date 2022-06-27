@@ -17,6 +17,7 @@ class Controller extends ChangeNotifier {
   List<num> num_list = [];
   List colorList = [];
   List colorListcount = [];
+  List colorListvisit = [];
   num? sum;
   String? cid;
   // MultiChart? chart;
@@ -42,6 +43,7 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> multiCollection2 = [];
   List<Map<String, dynamic>> multiCollection3 = [];
   List<Map<String, dynamic>> countData = [];
+  List<Map<String, dynamic>> visitData = [];
   List<Map<String, dynamic>> departmentData = [];
   List<Map<String, dynamic>> servicegroupData = [];
 
@@ -86,6 +88,8 @@ class Controller extends ChangeNotifier {
             cid = regModel.cid;
             // print(cid);
             cname = regModel.c_d![0].cnme;
+            print("cname $cname");
+
             for (var item in regModel.c_d!) {
               c_d.add(item);
             }
@@ -216,8 +220,22 @@ class Controller extends ChangeNotifier {
             // collectData.add({"per":0});
           }
           num_list.clear();
-          print("collectData ${countData}");
-
+          visitData.clear();
+          colorListvisit.clear();
+          ////////////////////////////////////////////
+          for (var item in map["visit_data"]) {
+            visitData.add(item);
+            num_list.add(item["measure"]);
+            colorListvisit.add(item["color_code"]);
+          }
+          print("colorListvisit $colorListvisit");
+          sum = calculate_sum(num_list);
+          for (var item in visitData) {
+            print("item----$item");
+            num percent = item["measure"] / sum;
+            item["per"] = percent;
+            // collectData.add({"per":0});
+          }
           for (var item in map["department_data"]) {
             departmentData.add(item);
             num_list.add(item["measure"]);

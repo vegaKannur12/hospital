@@ -51,6 +51,8 @@ class _FirstBranchState extends State<FirstBranch> {
                   return Colors.purple.shade300;
                 case 'New Patient':
                   return Color.fromARGB(255, 185, 149, 125);
+                case 'FREE FOLLOW UP CONSULTATION':
+                  return Color.fromARGB(255, 8, 170, 70);
                 case 'Lab order':
                   return Color.fromARGB(255, 45, 35, 194);
                 case 'Radiology order':
@@ -60,11 +62,13 @@ class _FirstBranchState extends State<FirstBranch> {
                 case 'Bills':
                   return Color.fromARGB(255, 204, 74, 85);
                 case 'CONSULTATION':
-                  return Color.fromARGB(255, 8, 170, 70);
+                  return Colors.red;
                 case 'Refund Bills':
                   return Color.fromARGB(255, 138, 185, 51);
                 case 'Dental':
                   return Color.fromARGB(255, 170, 73, 8);
+                case 'LAB':
+                  return Color.fromARGB(255, 185, 149, 125);
                 case 'General Physician':
                   return Color.fromARGB(255, 171, 151, 207);
                 case 'Pathology':
@@ -182,7 +186,8 @@ class _FirstBranchState extends State<FirstBranch> {
                         value.departmentData != null &&
                             value.departmentData.isNotEmpty ||
                         value.servicegroupData != null &&
-                            value.servicegroupData.isNotEmpty
+                            value.servicegroupData.isNotEmpty ||
+                        value.visitData != null && value.visitData.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: Column(
@@ -256,7 +261,41 @@ class _FirstBranchState extends State<FirstBranch> {
                                     ),
                                   )
                                 : Text(""),
-
+                            //////////////////// visit data //////////////////////////////////
+                            value.visitData != null &&
+                                    value.visitData.isNotEmpty
+                                ? Visibility(
+                                    visible: true,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                            "${value.visitData != null && value.visitData.isNotEmpty ? value.visitData[0]['rpt'] : 'No Data Found'}",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Color.fromARGB(
+                                                    255, 179, 15, 15))),
+                                        SizedBox(
+                                          height: size.height * 0.03,
+                                        ),
+                                        value.visitData != null
+                                            ? Visibility(
+                                                visible: true,
+                                                child: AspectRatio(
+                                                  aspectRatio: 1.5,
+                                                  child: _getChart("DChartPie",
+                                                      value.visitData),
+                                                ),
+                                              )
+                                            : Visibility(
+                                                child: Text("No Data Found")),
+                                        SizedBox(
+                                          height: size.height * 0.03,
+                                        ),
+                                        linearProgress(value.visitData, size),
+                                      ],
+                                    ),
+                                  )
+                                : Text(""),
                             ////////////////////// department data /////////////////////////////
                             value.departmentData != null &&
                                     value.departmentData.isNotEmpty
@@ -365,12 +404,16 @@ class _FirstBranchState extends State<FirstBranch> {
                       child: LinearProgressIndicator(
                         value: list[index]['per'],
                         valueColor: new AlwaysStoppedAnimation<Color>(list[index]
-                                    ['domain'] ==
-                                'CASH'
+                                        ['domain'] ==
+                                    'CASH' ||
+                                list[index]['domain'] ==
+                                    'FREE FOLLOW UP CONSULTATION'
                             ? Colors.green
-                            : list[index]['domain'] == 'CARD'
+                            : list[index]['domain'] == 'CARD' ||
+                                    list[index]['domain'] == 'CONSULTATION'
                                 ? Colors.red
-                                : list[index]['domain'] == 'New Patient'
+                                : list[index]['domain'] == 'New Patient' ||
+                                        list[index]['domain'] == 'LAB'
                                     ? Color.fromARGB(255, 185, 149, 125)
                                     : list[index]['domain'] == 'Revisit Patient'
                                         ? Colors.purple.shade300
@@ -392,12 +435,11 @@ class _FirstBranchState extends State<FirstBranch> {
                                                                 'Dental'
                                                             ? Color.fromARGB(
                                                                 255, 170, 73, 8)
-                                                            : list[index]['domain'] ==
+                                                            : list[index]
+                                                                        ['domain'] ==
                                                                     'General Physician'
-                                                                ? Color.fromARGB(
-                                                                    255, 171, 151, 207)
-                                                                : list[index]['domain'] ==
-                                                                        'Internal Medicine'
+                                                                ? Color.fromARGB(255, 171, 151, 207)
+                                                                : list[index]['domain'] == 'Internal Medicine'
                                                                     ? Color.fromARGB(255, 8, 170, 89)
                                                                     : list[index]['domain'] == 'Others'
                                                                         ? Color.fromARGB(255, 61, 134, 194)
