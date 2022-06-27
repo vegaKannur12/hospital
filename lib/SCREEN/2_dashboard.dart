@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:hospital/COMPONENTS/selectDate.dart';
+import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/SCREEN/3_todaychart.dart';
 import 'package:hospital/SCREEN/3.3_moth_graph.dart';
 import 'package:hospital/SCREEN/3.2_day_muldata.dart';
+import 'package:hospital/db_helper.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../COMPONENTS/commoncolor.dart';
@@ -14,6 +18,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
+  List cname = [];
   int _selectedIndex = 0;
   CustomDate datedata = CustomDate();
   String menu_index = "0";
@@ -52,6 +57,8 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
   getCid() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     cid = prefs.getString("cid");
+    // cname = await OrderAppDB.instance.selectCompany(cid!);
+    print("cis$cname");
   }
 
   _getBranch(String pos) {
@@ -85,15 +92,30 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        backgroundColor: P_Settings.bodyTabColor,
+        backgroundColor: P_Settings.headingColor,
         elevation: 0,
-        title: Text(
-          'Clinic Report',
-          style: TextStyle(color: Colors.white, fontSize: 18),
+        title: Consumer<Controller>(
+          builder: (context, value, child) {
+            if (value.cn == null) {
+              return SpinKitThreeBounce(
+                color: Colors.white,
+              );
+            } else {
+             return  Text(value.cn.toString());
+            }
+          },
         ),
+
+        //  cname == null
+        //     ? SpinKitThreeBounce()
+        //     : Text(
+        //         '',
+        //         // cname[0]["cnme"].toString(),
+        //         style: TextStyle(color: Colors.white, fontSize: 18),
+        //       ),
         bottom: TabBar(
           isScrollable: true,
-          indicatorColor: P_Settings.wavecolor,
+          indicatorColor: P_Settings.headingColor,
           indicatorSize: TabBarIndicatorSize.label,
           indicatorWeight: 2.0,
           // indicatorSize: TabBarIndicatorSize.label,

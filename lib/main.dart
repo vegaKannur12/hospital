@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hospital/COMPONENTS/commoncolor.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
+import 'package:hospital/SCREEN/1.1_registration.dart';
 
 import 'package:hospital/SCREEN/splashScreen.dart';
 // import 'package:ota_update/ota_update.dart';

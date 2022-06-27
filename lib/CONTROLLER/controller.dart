@@ -16,6 +16,7 @@ class Controller extends ChangeNotifier {
   bool isLoading = false;
   List<num> num_list = [];
   List colorList = [];
+  List colorListcount = [];
   num? sum;
   String? cid;
   // MultiChart? chart;
@@ -26,12 +27,16 @@ class Controller extends ChangeNotifier {
   String? title;
   String? from_date;
   String? till_date;
+  String? cn;
   String? branch_id;
   List<CD> c_d = [];
   List<Map<String, dynamic>> collectData = [];
   var jsonEnMulti;
   List<Map<String, dynamic>> multiCollection = [];
   List<Map<String, dynamic>> multiDta = [];
+  List<Map<String, dynamic>> multidepart = [];
+  List<Map<String, dynamic>> multiservice = [];
+  List<Map<String, dynamic>> multisetData = [];
   List<String> coldata = [];
   List<Map<String, dynamic>> rowData = [];
   List multiid = [];
@@ -197,12 +202,13 @@ class Controller extends ChangeNotifier {
 
           print("coll--$collectData");
           // print("num_list---$sum");
-
+          colorListcount.clear();
           for (var item in map["count_data"]) {
             countData.add(item);
             num_list.add(item["measure"]);
+            colorListcount.add(item["color_code"]);
           }
-
+          print("colorlist count $countData");
           sum = calculate_sum(num_list);
           for (var item in countData) {
             print("item----$item");
@@ -217,6 +223,7 @@ class Controller extends ChangeNotifier {
             departmentData.add(item);
             num_list.add(item["measure"]);
           }
+          print("department wise data $departmentData");
           sum = calculate_sum(num_list);
           for (var item in departmentData) {
             print("item----$item");
@@ -296,30 +303,40 @@ class Controller extends ChangeNotifier {
       for (var item in map["collection"]) {
         print("inside for length  ${item}");
         multiCollection.add(item);
-        multiDta.add(item['data'][0]);
+        // multiDta.add(item['data'][0]);
       }
-
-      print("multiCollection ${multiCollection[0]}");
-
-      for (var item in multiCollection) {
-        rowData.add(item);
+      multiDta.clear();
+      for (var item in map["visit_data"]) {
+        print("inside for length  ${item}");
+        // multiCollection.add(item);
+        multiDta.add(item);
       }
-      print("rowdata ${rowData}");
-      
-      for (var item in map["collection"][0]['data']) {
-        rowData.add(item);
-        coldata.add(item['domain']);
+      print("multiCollection ${multiDta}");
+      multidepart.clear();
+      for (var item in map["department_data"]) {
+        print("inside for length  ${item}");
+        // multiCollection.add(item);
+        multidepart.add(item);
       }
+      print("multidepart ${multidepart}");
+      multiservice.clear();
+      for (var item in map["servicegroup_data"]) {
+        print("inside for length  ${item}");
+        // multiCollection.add(item);
+        multiservice.add(item);
+      }
+      print("multiservice ${multiservice}");
 
-      print("multiDta ${multiDta}");
-
-      print("coldata ${coldata}");
-
-      print("multi----$multiCollection");
       notifyListeners();
     } catch (e) {
       print(e);
       return null;
     }
+  }
+
+  getCname(String cid)async{
+    var res = await OrderAppDB.instance.selectCompany(cid);
+    cn=res[0]["cnme"];
+    print("res----$res");
   }
 }

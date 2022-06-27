@@ -147,33 +147,485 @@ class _MultiDayOneState extends State<MultiDayOne> {
                                                 255, 179, 15, 15))),
                                   ),
 
-                                  collectionJson["collection"][0]["data"]
-                                              .length <
-                                          4
-                                      ? chart(collectionJson["collection"])
-                                      : customTextTile(
-                                          size,
-                                          collectionJson["collection"][0]
-                                              ["data"]),
+                                  collectionJson["collection"].length < 5
+                                      ? AspectRatio(
+                                          aspectRatio: 1,
+                                          child: DChartBar(
+                                            data: collectionJson["collection"],
+                                            minimumPaddingBetweenLabel: 1,
+                                            domainLabelPaddingToAxisLine: 16,
+                                            axisLineTick: 2,
+                                            axisLinePointTick: 2,
+                                            axisLinePointWidth: 10,
+                                            axisLineColor: Colors.green,
+                                            measureLabelPaddingToAxisLine: 16,
+                                            barColor: (barData, index, id) =>
+                                                id == 'CASH'
+                                                    ? parseColor(
+                                                        Provider.of<Controller>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .multiid !=
+                                                                    null &&
+                                                                Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .multiid
+                                                                    .isNotEmpty
+                                                            ? Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .multiid[0]
+                                                                ['color_code']
+                                                            : '#1db345',
+                                                      )
+                                                    : id == 'CARD'
+                                                        ? parseColor(
+                                                            Provider.of<Controller>(context, listen: false)
+                                                                            .multiid !=
+                                                                        null &&
+                                                                    Provider.of<Controller>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .multiid
+                                                                        .isNotEmpty
+                                                                ? Provider.of<
+                                                                            Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .multiid[1]['color_code']
+                                                                : "#1b86de",
+                                                          )
+                                                        : parseColor(
+                                                            Provider.of<Controller>(context, listen: false)
+                                                                            .multiid !=
+                                                                        null &&
+                                                                    Provider.of<Controller>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .multiid
+                                                                        .isNotEmpty
+                                                                ? Provider.of<
+                                                                            Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .multiid[2]['color_code']
+                                                                : '#e31e3b',
+                                                          ),
+                                            // barColor: (barData, index, id) => Colors.primaries[
+                                            //     Random().nextInt(Colors.primaries.length)],
 
+                                            showBarValue: true,
+                                            barValueFontSize: 12,
+                                            // barValuePosition: BarValuePosition.outside,
+                                          ),
+                                        )
+                                      : Container(
+                                          height: size.height * 0.4,
+                                          child: ListView.builder(
+                                            itemCount: value.multiDta.length,
+                                            itemBuilder: (context, index) {
+                                              return ListTile(
+                                                title: Text(value
+                                                    .multiDta[index]['id']),
+                                                leading: Text(
+                                                    value.multiDta[index]
+                                                        ['data']['domain']),
+                                              );
+                                            },
+                                          ),
+                                        ),
+                                  SizedBox(
+                                    height: size.height * 0.03,
+                                  ),
                                   Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 8, right: 8),
-                                      child: collectionJson["visit_data"][0]["data"]
-                                                  .length >
-                                              3
-                                          ? customTextTile(size,
-                                              collectionJson["visit_data"])
-                                          : chart(
-                                              collectionJson["visit_data"])),
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        CircleAvatar(
+                                            radius: 8,
+                                            backgroundColor: parseColor(
+                                              Provider.of<Controller>(context,
+                                                                  listen: false)
+                                                              .multiid !=
+                                                          null &&
+                                                      Provider.of<Controller>(
+                                                              context,
+                                                              listen: false)
+                                                          .multiid
+                                                          .isNotEmpty
+                                                  ? Provider.of<Controller>(
+                                                          context,
+                                                          listen: false)
+                                                      .multiid[0]['color_code']
+                                                  : '#1db345',
+                                            )),
+                                        SizedBox(
+                                          width: size.width * 0.03,
+                                        ),
+                                        Text("CASH"),
+                                        SizedBox(
+                                          width: size.width * 0.05,
+                                        ),
+                                        CircleAvatar(
+                                            radius: 8,
+                                            backgroundColor: parseColor(
+                                              Provider.of<Controller>(context,
+                                                                  listen: false)
+                                                              .multiid !=
+                                                          null &&
+                                                      Provider.of<Controller>(
+                                                              context,
+                                                              listen: false)
+                                                          .multiid
+                                                          .isNotEmpty
+                                                  ? Provider.of<Controller>(
+                                                          context,
+                                                          listen: false)
+                                                      .multiid[1]['color_code']
+                                                  : "#1b86de",
+                                            )),
+                                        SizedBox(
+                                          width: size.width * 0.03,
+                                        ),
+                                        Text("CARD"),
+                                        SizedBox(
+                                          width: size.width * 0.05,
+                                        ),
+                                        CircleAvatar(
+                                          radius: 8,
+                                          backgroundColor: parseColor(
+                                            Provider.of<Controller>(context,
+                                                                listen: false)
+                                                            .multiid !=
+                                                        null &&
+                                                    Provider.of<Controller>(
+                                                            context,
+                                                            listen: false)
+                                                        .multiid
+                                                        .isNotEmpty
+                                                ? Provider.of<Controller>(
+                                                        context,
+                                                        listen: false)
+                                                    .multiid[2]['color_code']
+                                                : '#e31e3b',
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: size.width * 0.03,
+                                        ),
+                                        Text("CREDIT"),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 8, right: 8),
+                                    child: AspectRatio(
+                                      aspectRatio: 1.5,
+                                      child: DChartBar(
+                                        data: collectionJson["collection"],
+                                        showMeasureLine: false,
+                                        minimumPaddingBetweenLabel: 1,
+                                        domainLabelPaddingToAxisLine: 16,
+                                        axisLineTick: 1,
+                                        measureLabelColor: Colors.white,
+                                        xAxisTitleColor: Colors.white,
+                                        axisLinePointTick: 0,
+                                        axisLinePointWidth: 10,
+                                        axisLineColor: Colors.white,
+                                        measureLabelPaddingToAxisLine: 16,
+                                        barColor: (barData, index, id) => id ==
+                                                'CASH'
+                                            ? parseColor(
+                                                Provider.of<Controller>(context,
+                                                                    listen:
+                                                                        false)
+                                                                .multiid !=
+                                                            null &&
+                                                        Provider.of<Controller>(
+                                                                context,
+                                                                listen: false)
+                                                            .multiid
+                                                            .isNotEmpty
+                                                    ? Provider.of<Controller>(
+                                                                context,
+                                                                listen: false)
+                                                            .multiid[0]
+                                                        ['color_code']
+                                                    : '#1db345',
+                                              )
+                                            : id == 'CARD'
+                                                ? parseColor(
+                                                    Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .multiid !=
+                                                                null &&
+                                                            Provider.of<Controller>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .multiid
+                                                                .isNotEmpty
+                                                        ? Provider.of<Controller>(
+                                                                    context,
+                                                                    listen: false)
+                                                                .multiid[1]
+                                                            ['color_code']
+                                                        : "#1b86de",
+                                                  )
+                                                : parseColor(
+                                                    Provider.of<Controller>(
+                                                                        context,
+                                                                        listen:
+                                                                            false)
+                                                                    .multiid !=
+                                                                null &&
+                                                            Provider.of<Controller>(
+                                                                    context,
+                                                                    listen:
+                                                                        false)
+                                                                .multiid
+                                                                .isNotEmpty
+                                                        ? Provider.of<Controller>(
+                                                                    context,
+                                                                    listen: false)
+                                                                .multiid[2]
+                                                            ['color_code']
+                                                        : '#e31e3b',
+                                                  ),
+                                        // barColor: (barData, index, id) => Colors.primaries[
+                                        //     Random().nextInt(Colors.primaries.length)],
+                                        verticalDirection: false,
+                                        barValue: (barData, index) =>
+                                            '${barData['measure']}',
+                                        showBarValue: true,
+                                        barValueFontSize: 12,
+                                        barValuePosition: BarValuePosition.auto,
+                                      ),
+                                    ),
+                                  ),
                                   //////////////////// count Data ///////////////////////////////
                                 ],
                               ),
                             )
-                          : CircularProgressIndicator(),
-                      collectionJson["visit_data"].length < 5
-                          ? chart(collectionJson["visit_data"])
-                          : customTextTile(size, collectionJson["visit_data"])
+                          : Text(''),
+                      collectionJson["visit_data"] != null
+                          ? Visibility(
+                              visible: true,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  //////////// collection Data ///////////////////////
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Text("VisitTypeWise Collection",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromARGB(
+                                                255, 179, 15, 15))),
+                                  ),
+
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: size.height * 0.04,
+                                      ),
+                                      Container(
+                                        height: value.multiDta.length > 2
+                                            ? size.height * 1.2
+                                            : size.height * .2,
+                                        child: ListView.builder(
+                                          // shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemCount: value.multiDta.length,
+                                          itemBuilder: (context, index) {
+                                            return ListTile(
+                                                title: Column(children: [
+                                              Text(
+                                                value.multiDta[index]['id'],
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 16),
+                                              ),
+                                              Container(
+                                                  width: size.width * 0.7,
+                                                  child: Divider(
+                                                    thickness: 2,
+                                                  )),
+                                              SizedBox(
+                                                height: size.height * 0.04,
+                                              ),
+                                              rowChild(
+                                                  value.multiDta[index]['data'],
+                                                  size),
+                                              Divider(
+                                                thickness: 2,
+                                              ),
+                                            ]));
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Text(""),
+                      //  ChartTable(charttab: [value.multiCollection[0]],)
+                      ////////////////////////////////////// department////////////////////
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      collectionJson["department_data"] != null
+                          ? Visibility(
+                              visible: true,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Text("DepartmentWise Billing",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromARGB(
+                                                255, 179, 15, 15))),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: size.height * 0.04,
+                                      ),
+                                      Container(
+                                        height: value.multidepart.length > 2
+                                            ? size.height * 1.5
+                                            : size.height * 0.3,
+                                        child: ListView.builder(
+                                          // shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemCount: value.multidepart.length,
+                                          itemBuilder: (context, index) {
+                                            return ListTile(
+                                                title: Column(children: [
+                                              Text(
+                                                value.multidepart[index]['id'],
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 16),
+                                              ),
+                                              Container(
+                                                  width: size.width * 0.7,
+                                                  child: Divider(
+                                                    thickness: 2,
+                                                  )),
+                                              SizedBox(
+                                                height: size.height * 0.04,
+                                              ),
+                                              rowChild(
+                                                  value.multidepart[index]
+                                                      ['data'],
+                                                  size),
+                                              Divider(
+                                                thickness: 2,
+                                              ),
+                                            ]));
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Text(""),
+                      SizedBox(
+                        height: size.height * 0.03,
+                      ),
+                      //////////////////////// service group data///////////////
+                      collectionJson["servicegroup_data"] != null
+                          ? Visibility(
+                              visible: true,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  //////////// collection Data ///////////////////////
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 10),
+                                    child: Text("ServiceGroupWise Billing",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromARGB(
+                                                255, 179, 15, 15))),
+                                  ),
+
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        height: size.height * 0.04,
+                                      ),
+                                      Container(
+                                        height: value.multiservice.length > 2
+                                            ? size.height * 3
+                                            : size.height * 02,
+                                        child: ListView.builder(
+                                          // shrinkWrap: true,
+                                          physics:
+                                              NeverScrollableScrollPhysics(),
+                                          itemCount: value.multiservice.length,
+                                          itemBuilder: (context, index) {
+                                            return ListTile(
+                                                title: Column(children: [
+                                              Text(
+                                                value.multiservice[index]['id'],
+                                                style: TextStyle(
+                                                    color: Colors.blue,
+                                                    fontSize: 16),
+                                              ),
+                                              Container(
+                                                  width: size.width * 0.7,
+                                                  child: Divider(
+                                                    thickness: 2,
+                                                  )),
+                                              SizedBox(
+                                                height: size.height * 0.04,
+                                              ),
+                                              rowChild(
+                                                  value.multiservice[index]
+                                                      ['data'],
+                                                  size),
+                                              Divider(
+                                                thickness: 2,
+                                              ),
+                                            ]));
+                                          },
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            )
+                          : Text("")
                     ],
                   ),
           );
@@ -181,81 +633,117 @@ class _MultiDayOneState extends State<MultiDayOne> {
       ),
     );
   }
+}
 
-  Widget chart(var data) {
-    return AspectRatio(
-      aspectRatio: 1.5,
-      child: DChartBar(
-        data: data,
-        showMeasureLine: false,
-        minimumPaddingBetweenLabel: 1,
-        domainLabelPaddingToAxisLine: 16,
-        axisLineTick: 1,
-        measureLabelColor: Colors.white,
-        xAxisTitleColor: Colors.white,
-        axisLinePointTick: 0,
-        axisLinePointWidth: 10,
-        axisLineColor: Colors.white,
-        measureLabelPaddingToAxisLine: 16,
-        barColor: (barData, index, id) => id == 'CASH'
-            ? parseColor(
-                Provider.of<Controller>(context, listen: false).multiid !=
-                            null &&
-                        Provider.of<Controller>(context, listen: false)
-                            .multiid
-                            .isNotEmpty
-                    ? Provider.of<Controller>(context, listen: false).multiid[0]
-                        ['color_code']
-                    : '#1db345',
-              )
-            : id == 'CARD'
-                ? parseColor(
-                    Provider.of<Controller>(context, listen: false).multiid !=
-                                null &&
-                            Provider.of<Controller>(context, listen: false)
-                                .multiid
-                                .isNotEmpty
-                        ? Provider.of<Controller>(context, listen: false)
-                            .multiid[1]['color_code']
-                        : "#1b86de",
-                  )
-                : parseColor(
-                    Provider.of<Controller>(context, listen: false).multiid !=
-                                null &&
-                            Provider.of<Controller>(context, listen: false)
-                                .multiid
-                                .isNotEmpty
-                        ? Provider.of<Controller>(context, listen: false)
-                            .multiid[2]['color_code']
-                        : '#e31e3b',
-                  ),
-        verticalDirection: true,
-        barValue: (barData, index) => '${barData['measure']}',
-        showBarValue: true,
-        barValueFontSize: 12,
-        barValuePosition: BarValuePosition.auto,
-      ),
-    );
-  }
-
-  Widget customTextTile(Size size, var list) {
-    print("listjkdkjsz-----$list");
-    return Container(
-        height: size.height * 0.4,
-        child: ListView.builder(
-          itemCount: list.length,
-          itemBuilder: (context, index) {
-            return ListTile(
-              title: Row(
+Widget rowChild(List list, Size size) {
+  print("listtt$list");
+  return SingleChildScrollView(
+    scrollDirection: Axis.vertical,
+    child: Column(
+      children: list
+          .map((e) => Row(
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("data"),
-                  Text("data"),
+                  Flexible(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                e['domain'],
+                              ),
+                            ],
+                          ),
+                          // Spacer(),
+                          SizedBox(
+                            width: size.width * 0.45,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                e['measure'].toStringAsFixed(3),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ))
+          .toList(),
+    ),
+  );
+}
+
+//////////////////////////////////////////////
+Widget linearProgress(List<Map<String, dynamic>> list, Size size) {
+  return Padding(
+    padding: const EdgeInsets.only(left: 10, right: 10),
+    child: Container(
+      height: list.length > 3 ? size.height * 0.45 : size.height * 0.24,
+      child: ListView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+              title: Row(
+            children: [
+              Flexible(
+                child: Container(
+                    width: size.width * 0.2,
+                    child: Text(
+                      "${list[index]['measure'].toString()}",
+                      style: TextStyle(fontSize: 12),
+                    )),
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${list[index]['domain'].toString()}",
+                    style: TextStyle(fontSize: 13, color: Colors.grey[500]),
+                  ),
+                  Container(
+                    width: size.width * 0.5,
+                    child: LinearProgressIndicator(
+                      value: list[index]['per'],
+                      valueColor: new AlwaysStoppedAnimation<Color>(
+                        list[index]['domain'] == 'CASH'
+                            ? Colors.green
+                            : list[index]['domain'] == 'CARD'
+                                ? Colors.red
+                                : Colors.yellow,
+                      ),
+                      color: list[index]['domain'] == 'CASH'
+                          ? Colors.green
+                          : list[index]['domain'] == 'CARD'
+                              ? Colors.red
+                              : Colors.yellow,
+                      // valueColor :
+                    ),
+                  ),
                 ],
               ),
-            );
-          },
-        ));
-  }
+              SizedBox(
+                width: size.width * 0.04,
+              ),
+              Text(list[index]['bills_total'] != null
+                  ? list[index]['bills_total'].toString()
+                  : ''),
+              // list[index]['rpt']=='ServiceGroupWise Billing'?Text(list[index]['bills_total'].toString()):Text(''),
+            ],
+          ));
+        },
+      ),
+    ),
+  );
 }
 
 ////////////////////////////////////////////

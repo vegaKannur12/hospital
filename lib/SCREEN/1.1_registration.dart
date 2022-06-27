@@ -60,7 +60,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   WaveClipper(), //set our custom wave clipper.
                               child: Container(
                                 padding: EdgeInsets.only(bottom: 50),
-                                color: P_Settings.wavecolor,
+                                color: P_Settings.headingColor,
                                 height: size.height * 0.3,
                                 alignment: Alignment.center,
                               ),
@@ -95,7 +95,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         width: size.width * 0.3,
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                            primary: P_Settings.wavecolor,
+                            primary: P_Settings.headingColor,
                           ),
                           onPressed: () async {
                             FocusScope.of(context).requestFocus(FocusNode());
@@ -121,8 +121,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         builder: (context, value, child) {
                           if (value.isLoading) {
                             return SpinKitCircle(
-                              color: P_Settings.wavecolor,
-                            );
+                                color: P_Settings.headingColor);
                           } else {
                             return Container();
                           }

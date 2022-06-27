@@ -3,6 +3,7 @@ import 'package:hospital/COMPONENTS/commoncolor.dart';
 import 'package:hospital/CONTROLLER/controller.dart';
 import 'package:hospital/SCREEN/1.1_registration.dart';
 import 'package:hospital/SCREEN/2_dashboard.dart';
+import 'package:hospital/db_helper.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -14,6 +15,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
+  List<Map<String, dynamic>> cname = [];
   DateTime date = DateTime.now();
   String? daytoday;
   String? cid;
@@ -25,7 +27,10 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(Duration(seconds: 3), () async {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       cid = prefs.getString("cid");
-      print("cidjhsj----");
+      print("cidjhsj----$cid");
+      if (cid != null) {
+        Provider.of<Controller>(context, listen: false).getCname(cid!);
+      }
       // );
 
       Navigator.push(
@@ -73,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen>
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: P_Settings.wavecolor,
+      backgroundColor: P_Settings.headingColor,
       body: InkWell(
         onTap: () {
           FocusScope.of(context).requestFocus(FocusNode());
