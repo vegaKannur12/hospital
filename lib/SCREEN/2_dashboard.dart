@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> with TickerProviderStateMixin {
     switch (pos) {
       case "0":
         {
-          // _tabController!.animateTo((0));
+          print("fhzjkfhjksdhfjkzshkjf");
           datedata.getDate(0);
           print("to day-----${datedata.fromdt}---${datedata.todt}");
 

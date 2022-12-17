@@ -30,7 +30,7 @@ class _MonthwiseGraphState extends State<MonthwiseGraph> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       DefaultTabController(
-                          length: 3, // length of tabs
+                          length: value.branchList.length, // length of tabs
                           initialIndex: 0,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -62,8 +62,7 @@ class _MonthwiseGraphState extends State<MonthwiseGraph> {
                                             builder: (context, value, child) {
                                               return Container(
                                                 child: MultiDayOne(
-                                                  branch_id:
-                                                      value.branchid[0],
+                                                  branch_id: value.branchid[0],
                                                   fromDate: widget.from_date!,
                                                   todate: widget.to_date!,
                                                   period: "1",

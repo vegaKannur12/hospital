@@ -29,7 +29,7 @@ class _MultiGraphState extends State<MultiGraph> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
                       DefaultTabController(
-                          length: 3, // length of tabs
+                          length: value.branchList.length, // length of tabs
                           initialIndex: 0,
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
