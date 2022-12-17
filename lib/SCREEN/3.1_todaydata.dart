@@ -51,20 +51,26 @@ class _FirstBranchState extends State<FirstBranch> {
                   return Colors.purple.shade300;
                 case 'New Patient':
                   return Color.fromARGB(255, 185, 149, 125);
+                case 'FREE FOLLOW UP CONSULTATION':
+                  return Color.fromARGB(255, 8, 170, 70);
                 case 'Lab order':
                   return Color.fromARGB(255, 45, 35, 194);
                 case 'Radiology order':
                   return Color.fromARGB(255, 192, 204, 21);
                 case 'Radiology':
                   return Color.fromARGB(255, 223, 39, 125);
+                case 'Pediatric':
+                  return Colors.red;
                 case 'Bills':
                   return Color.fromARGB(255, 204, 74, 85);
                 case 'CONSULTATION':
-                  return Color.fromARGB(255, 8, 170, 70);
+                  return Colors.red;
                 case 'Refund Bills':
                   return Color.fromARGB(255, 138, 185, 51);
                 case 'Dental':
                   return Color.fromARGB(255, 170, 73, 8);
+                case 'LAB':
+                  return Color.fromARGB(255, 185, 149, 125);
                 case 'General Physician':
                   return Color.fromARGB(255, 171, 151, 207);
                 case 'Pathology':
@@ -177,12 +183,19 @@ class _FirstBranchState extends State<FirstBranch> {
             return Column(
               children: [
                 //////////// collection Data ///////////////////////
-                value.collectData != null ||
-                        value.countData != null && value.countData.isNotEmpty ||
+                value.collectData != null &&
+                            value.collectData.isNotEmpty &&
+                            value.collectData.length == 0 ||
+                        value.countData != null &&
+                            value.countData.isNotEmpty &&
+                            value.countData.length == 0 ||
                         value.departmentData != null &&
-                            value.departmentData.isNotEmpty ||
+                            value.departmentData.isNotEmpty &&
+                            value.departmentData.length == 0 ||
                         value.servicegroupData != null &&
-                            value.servicegroupData.isNotEmpty
+                            value.servicegroupData.isNotEmpty &&
+                            value.servicegroupData.length == 0 ||
+                        value.visitData != null && value.visitData.isNotEmpty
                     ? Padding(
                         padding: const EdgeInsets.only(top: 15),
                         child: Column(
@@ -256,7 +269,41 @@ class _FirstBranchState extends State<FirstBranch> {
                                     ),
                                   )
                                 : Text(""),
-
+                            //////////////////// visit data //////////////////////////////////
+                            value.visitData != null &&
+                                    value.visitData.isNotEmpty
+                                ? Visibility(
+                                    visible: true,
+                                    child: Column(
+                                      children: [
+                                        Text(
+                                            "${value.visitData != null && value.visitData.isNotEmpty ? value.visitData[0]['rpt'] : 'No Data Found'}",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                color: Color.fromARGB(
+                                                    255, 179, 15, 15))),
+                                        SizedBox(
+                                          height: size.height * 0.03,
+                                        ),
+                                        value.visitData != null
+                                            ? Visibility(
+                                                visible: true,
+                                                child: AspectRatio(
+                                                  aspectRatio: 1.5,
+                                                  child: _getChart("DChartPie",
+                                                      value.visitData),
+                                                ),
+                                              )
+                                            : Visibility(
+                                                child: Text("No Data Found")),
+                                        SizedBox(
+                                          height: size.height * 0.03,
+                                        ),
+                                        linearProgress(value.visitData, size),
+                                      ],
+                                    ),
+                                  )
+                                : Text(""),
                             ////////////////////// department data /////////////////////////////
                             value.departmentData != null &&
                                     value.departmentData.isNotEmpty
@@ -348,11 +395,14 @@ class _FirstBranchState extends State<FirstBranch> {
                   child: Container(
                       width: size.width * 0.2,
                       child: Text(
-                        "${list[index]['measure'].toString()}",
+                        "${list[index]['measure'].toStringAsFixed(3)}",
                         style: TextStyle(fontSize: 12),
+                        textAlign: TextAlign.right,
                       )),
                 ),
-
+                SizedBox(
+                  width: size.width * 0.035,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -362,15 +412,21 @@ class _FirstBranchState extends State<FirstBranch> {
                     ),
                     Container(
                       width: size.width * 0.5,
+                      height: size.height * 0.008,
                       child: LinearProgressIndicator(
                         value: list[index]['per'],
                         valueColor: new AlwaysStoppedAnimation<Color>(list[index]
-                                    ['domain'] ==
-                                'CASH'
+                                        ['domain'] ==
+                                    'CASH' ||
+                                list[index]['domain'] ==
+                                    'FREE FOLLOW UP CONSULTATION'
                             ? Colors.green
-                            : list[index]['domain'] == 'CARD'
+                            : list[index]['domain'] == 'CARD' ||
+                                    list[index]['domain'] == 'CONSULTATION' ||
+                                    list[index]['domain'] == 'Pediatric'
                                 ? Colors.red
-                                : list[index]['domain'] == 'New Patient'
+                                : list[index]['domain'] == 'New Patient' ||
+                                        list[index]['domain'] == 'LAB'
                                     ? Color.fromARGB(255, 185, 149, 125)
                                     : list[index]['domain'] == 'Revisit Patient'
                                         ? Colors.purple.shade300
@@ -392,12 +448,11 @@ class _FirstBranchState extends State<FirstBranch> {
                                                                 'Dental'
                                                             ? Color.fromARGB(
                                                                 255, 170, 73, 8)
-                                                            : list[index]['domain'] ==
+                                                            : list[index]
+                                                                        ['domain'] ==
                                                                     'General Physician'
-                                                                ? Color.fromARGB(
-                                                                    255, 171, 151, 207)
-                                                                : list[index]['domain'] ==
-                                                                        'Internal Medicine'
+                                                                ? Color.fromARGB(255, 171, 151, 207)
+                                                                : list[index]['domain'] == 'Internal Medicine'
                                                                     ? Color.fromARGB(255, 8, 170, 89)
                                                                     : list[index]['domain'] == 'Others'
                                                                         ? Color.fromARGB(255, 61, 134, 194)
@@ -422,9 +477,9 @@ class _FirstBranchState extends State<FirstBranch> {
                 SizedBox(
                   width: size.width * 0.04,
                 ),
-                Text(list[index]['bills_total'] != null
-                    ? list[index]['bills_total'].toString()
-                    : ''),
+                // Text(list[index]['bill_count'] != null
+                //     ? list[index]['bill_count'].toString()
+                //     : ''),
                 // list[index]['rpt']=='ServiceGroupWise Billing'?Text(list[index]['bills_total'].toString()):Text(''),
               ],
             ));
@@ -449,15 +504,21 @@ class _FirstBranchState extends State<FirstBranch> {
               children: [
                 Flexible(
                   child: Container(
+                      // alignment: Alignment.topRight,
                       width: size.width * 0.2,
                       child: Text(
-                        "${list[index]['measure'].toString()}",
+                        "${list[index]['measure'].toStringAsFixed(3)}",
                         style: TextStyle(fontSize: 12),
+                        textAlign: TextAlign.right,
                       )),
+                ),
+                SizedBox(
+                  width: size.width * 0.035,
                 ),
 
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "${list[index]['domain'].toString()}",
@@ -465,8 +526,10 @@ class _FirstBranchState extends State<FirstBranch> {
                     ),
                     Container(
                       width: size.width * 0.5,
+                      height: size.height * 0.008,
                       child: LinearProgressIndicator(
                           value: list[index]['per'],
+                          minHeight: 4,
                           valueColor: new AlwaysStoppedAnimation<Color>(
                               parseColor(Provider.of<Controller>(context,
                                       listen: false)

@@ -37,7 +37,9 @@ class _MultiGraphState extends State<MultiGraph> {
                                 Container(
                                   child: TabBar(
                                       physics: NeverScrollableScrollPhysics(),
-                                      labelColor: P_Settings.wavecolor,
+                                      labelColor: Colors.red,
+                                      indicatorWeight: 3,
+                                      indicatorColor: Colors.red,
                                       unselectedLabelColor: Colors.black,
                                       tabs: value.branchList
                                           .map((e) => Tab(

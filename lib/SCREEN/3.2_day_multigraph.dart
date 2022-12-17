@@ -140,7 +140,7 @@ class _MultiDayOneState extends State<MultiDayOne> {
                                   //////////// collection Data ///////////////////////
                                   Padding(
                                     padding: const EdgeInsets.only(top: 10),
-                                    child: Text("Collection at Glance",
+                                    child: Text("Collection at a Glance",
                                         style: TextStyle(
                                             fontSize: 20,
                                             color: Color.fromARGB(
@@ -248,6 +248,7 @@ class _MultiDayOneState extends State<MultiDayOne> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         CircleAvatar(
                                             radius: 8,
@@ -407,7 +408,7 @@ class _MultiDayOneState extends State<MultiDayOne> {
                                         //     Random().nextInt(Colors.primaries.length)],
                                         verticalDirection: false,
                                         barValue: (barData, index) =>
-                                            '${barData['measure']}',
+                                            '${barData['measure'].toStringAsFixed(3)}',
                                         showBarValue: true,
                                         barValueFontSize: 12,
                                         barValuePosition: BarValuePosition.auto,
@@ -734,8 +735,8 @@ Widget linearProgress(List<Map<String, dynamic>> list, Size size) {
               SizedBox(
                 width: size.width * 0.04,
               ),
-              Text(list[index]['bills_total'] != null
-                  ? list[index]['bills_total'].toString()
+              Text(list[index]['bill_count'] != null
+                  ? list[index]['bill_count'].toString()
                   : ''),
               // list[index]['rpt']=='ServiceGroupWise Billing'?Text(list[index]['bills_total'].toString()):Text(''),
             ],

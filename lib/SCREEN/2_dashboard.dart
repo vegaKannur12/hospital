@@ -13,8 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../COMPONENTS/commoncolor.dart';
 
 class MyHomePage extends StatefulWidget {
-  // String? cnmae;
-  // MyHomePage({this.cnmae});
+  String? cnmae;
+  MyHomePage({this.cnmae});
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }

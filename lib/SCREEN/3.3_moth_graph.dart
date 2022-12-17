@@ -38,8 +38,11 @@ class _MonthwiseGraphState extends State<MonthwiseGraph> {
                                 Container(
                                   // color: P_Settings.bodyTabColor,
                                   child: TabBar(
+                                      // indicatorColor: Colors.red,
                                       physics: NeverScrollableScrollPhysics(),
-                                      labelColor: P_Settings.wavecolor,
+                                      labelColor: Colors.red,
+                                      indicatorWeight: 3,
+                                      indicatorColor: Colors.red,
                                       unselectedLabelColor: Colors.black,
                                       tabs: value.branchList
                                           .map((e) => Tab(
