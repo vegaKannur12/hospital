@@ -518,6 +518,7 @@ class _FirstBranchState extends State<FirstBranch> {
 
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       "${list[index]['domain'].toString()}",
