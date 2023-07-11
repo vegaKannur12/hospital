@@ -1,17 +1,21 @@
-class GetRegistrationData {
+class RegistrationData {
   String? cid;
+  String? type;
+  String? apptype;
+
   String? fp;
   String? os;
-  String? type;
   List<CD>? c_d;
   String? msg;
   String? sof;
-  GetRegistrationData(
-      {this.cid, this.fp, this.os, this.type, this.c_d, this.msg, this.sof});
+  RegistrationData({this.cid,this.type,this.apptype, this.fp, this.os, this.c_d, this.msg,this.sof});
 
-  GetRegistrationData.fromJson(Map<String, dynamic> json) {
+  RegistrationData.fromJson(Map<String, dynamic> json) {
     cid = json['cid'];
     type = json['type'];
+    apptype = json['apptype'];
+
+
     fp = json['fp'];
     os = json['os'];
     if (json['c_d'] != null) {
@@ -28,6 +32,9 @@ class GetRegistrationData {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['cid'] = this.cid;
     data['type'] = this.type;
+    data['apptype'] = this.apptype;
+
+
     data['fp'] = this.fp;
     data['os'] = this.os;
     if (this.c_d != null) {
@@ -40,6 +47,7 @@ class GetRegistrationData {
 }
 
 class CD {
+  String? cid;
   String? cpre;
   String? ctype;
   String? hoid;
@@ -54,10 +62,10 @@ class CD {
   String? gst;
   String? ccode;
   String? scode;
-  String? base_url;
 
   CD(
-      {this.cpre,
+      {this.cid,
+      this.cpre,
       this.ctype,
       this.hoid,
       this.cnme,
@@ -70,10 +78,10 @@ class CD {
       this.em,
       this.gst,
       this.ccode,
-      this.scode,
-      this.base_url});
+      this.scode});
 
   CD.fromJson(Map<String, dynamic> json) {
+    cid = json["cid"];
     cpre = json["cpre"];
     ctype = json["ctype"];
     hoid = json["hoid"];
@@ -88,11 +96,10 @@ class CD {
     gst = json["gst"];
     ccode = json["ccode"];
     scode = json["scode"];
-    base_url = json["base_url"];
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-
+    data["cid"] = this.cid;
     data["cpre"] = this.cpre;
     data["ctype"] = this.ctype;
     data["hoid"] = this.hoid;
@@ -111,3 +118,4 @@ class CD {
     return data;
   }
 }
+

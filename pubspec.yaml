@@ -45,6 +45,10 @@ dependencies:
   flutter_spinkit: ^5.1.0
   # horizontal_data_table: ^4.1.1
   intl: ^0.17.0
+  device_info_plus: ^4.1.2
+  permission_handler: ^10.0.0
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

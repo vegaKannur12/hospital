@@ -33,12 +33,8 @@ class _SplashScreenState extends State<SplashScreen>
         context,
         PageRouteBuilder(
           opaque: false, // set to false
-          pageBuilder: (_, __, ___) => cid != null
-              ?
-              
-               MyHomePage(
-                  )
-              : RegistrationScreen(),
+          pageBuilder: (_, __, ___) =>
+              cid != null ? MyHomePage() : RegistrationScreen(),
         ),
       );
     });

@@ -45,7 +45,7 @@ class _MultiDayOneState extends State<MultiDayOne> {
   String? sid;
   var groupBarData = 1;
   var client = http.Client();
-
+  bool isLoading = false;
   ////////////////////////////////////////////////////////
   Color parseColor(String color) {
     print("Colorrrrr...$color");
@@ -66,7 +66,9 @@ class _MultiDayOneState extends State<MultiDayOne> {
 
     try {
       Uri url = Uri.parse("$urlgolabl/multi_graph.php");
-      // isloading=true;
+      setState(() {
+        isLoading = true;
+      });
       Map body = {
         'from_date': from_date,
         'till_date': till_date,
@@ -74,16 +76,19 @@ class _MultiDayOneState extends State<MultiDayOne> {
         'period': period,
       };
 
+      print("multi body-------$body");
       http.Response response = await http.post(
         url,
         body: body,
       );
 
       print("response..${response.body}");
+
       setState(() {
         collectionJson =
             MultiChart.fromJson(json.decode(response.body)).toJson();
         print("collectionJson....${collectionJson}");
+        isLoading = false;
       });
     } catch (e) {
       print("error...$e");
@@ -94,8 +99,8 @@ class _MultiDayOneState extends State<MultiDayOne> {
   void initState() {
     getapi(widget.fromDate, widget.todate, widget.branch_id, widget.period);
     // TODO: implement initState
-    Provider.of<Controller>(context, listen: false).multiChartDataSet(
-        widget.fromDate, widget.todate, widget.branch_id, widget.period);
+    // Provider.of<Controller>(context, listen: false).multiChartDataSet(
+    //     widget.fromDate, widget.todate, widget.branch_id, widget.period);
     super.initState();
   }
 
@@ -111,15 +116,15 @@ class _MultiDayOneState extends State<MultiDayOne> {
           return SingleChildScrollView(
             controller: _firstController,
             scrollDirection: Axis.vertical,
-            child: collectionJson == null
+            child: isLoading
                 ? Container(
                     alignment: Alignment.center,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          height: size.height * 0.3,
-                        ),
+                        // SizedBox(
+                        //   height: size.height * 0.3,
+                        // ),
                         Center(
                           child: CircularProgressIndicator(),
                         ),
@@ -248,7 +253,8 @@ class _MultiDayOneState extends State<MultiDayOne> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         CircleAvatar(
                                             radius: 8,

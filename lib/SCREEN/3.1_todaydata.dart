@@ -180,199 +180,185 @@ class _FirstBranchState extends State<FirstBranch> {
         scrollDirection: Axis.vertical,
         child: Consumer<Controller>(
           builder: (context, value, child) {
-            return Column(
-              children: [
-                //////////// collection Data ///////////////////////
-                value.collectData != null &&
-                            value.collectData.isNotEmpty &&
-                            value.collectData.length == 0 ||
-                        value.countData != null &&
-                            value.countData.isNotEmpty &&
-                            value.countData.length == 0 ||
-                        value.departmentData != null &&
-                            value.departmentData.isNotEmpty &&
-                            value.departmentData.length == 0 ||
-                        value.servicegroupData != null &&
-                            value.servicegroupData.isNotEmpty &&
-                            value.servicegroupData.length == 0 ||
-                        value.visitData != null && value.visitData.isNotEmpty
-                    ? Padding(
-                        padding: const EdgeInsets.only(top: 15),
-                        child: Column(
-                          children: [
-                            value.collectData != null &&
-                                    value.collectData.isNotEmpty
-                                ? Visibility(
-                                    visible: true,
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                              "${value.collectData != null && value.collectData.isNotEmpty ? value.collectData[0]['rpt'] : ''}",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Color.fromARGB(
-                                                      255, 179, 15, 15))),
-                                          Padding(
-                                            padding: const EdgeInsets.all(8.0),
+            if (value.isSinglegraphLoading) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              return Column(
+                children: [
+                  //////////// collection Data ///////////////////////
+                  Padding(
+                    padding: const EdgeInsets.only(top: 15),
+                    child: Column(
+                      children: [
+                        value.collectData != null &&
+                                value.collectData.isNotEmpty
+                            ? Visibility(
+                                visible: true,
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                          "${value.collectData != null && value.collectData.isNotEmpty ? value.collectData[0]['rpt'] : ''}",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Color.fromARGB(
+                                                  255, 179, 15, 15))),
+                                      Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: AspectRatio(
+                                          aspectRatio: 1.5,
+                                          child: _getChart(
+                                              "DChartBar", value.collectData),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: size.height * 0.03,
+                                      ),
+                                      linearProgress(
+                                        value.collectData,
+                                        size,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : Text(""),
+
+                        //////////////////// count Data ///////////////////////////////
+                        value.countData != null && value.countData.isNotEmpty
+                            ? Visibility(
+                                visible: true,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                        "${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : 'No Data Found'}",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromARGB(
+                                                255, 179, 15, 15))),
+                                    SizedBox(
+                                      height: size.height * 0.03,
+                                    ),
+                                    value.countData != null
+                                        ? Visibility(
+                                            visible: true,
                                             child: AspectRatio(
                                               aspectRatio: 1.5,
-                                              child: _getChart("DChartBar",
-                                                  value.collectData),
+                                              child: _getChart(
+                                                  "DChartPie", value.countData),
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: size.height * 0.03,
-                                          ),
-                                          linearProgress(
-                                            value.collectData,
-                                            size,
-                                          ),
-                                        ],
+                                          )
+                                        : Visibility(
+                                            child: Text("No Data Found")),
+                                    SizedBox(
+                                      height: size.height * 0.03,
+                                    ),
+                                    linearProgress(value.countData, size),
+                                  ],
+                                ),
+                              )
+                            : Text(""),
+                        //////////////////// visit data //////////////////////////////////
+                        value.visitData != null && value.visitData.isNotEmpty
+                            ? Visibility(
+                                visible: true,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                        "${value.visitData != null && value.visitData.isNotEmpty ? value.visitData[0]['rpt'] : 'No Data Found'}",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromARGB(
+                                                255, 179, 15, 15))),
+                                    SizedBox(
+                                      height: size.height * 0.03,
+                                    ),
+                                    value.visitData != null
+                                        ? Visibility(
+                                            visible: true,
+                                            child: AspectRatio(
+                                              aspectRatio: 1.5,
+                                              child: _getChart(
+                                                  "DChartPie", value.visitData),
+                                            ),
+                                          )
+                                        : Visibility(
+                                            child: Text("No Data Found")),
+                                    SizedBox(
+                                      height: size.height * 0.03,
+                                    ),
+                                    linearProgress(value.visitData, size),
+                                  ],
+                                ),
+                              )
+                            : Text(""),
+                        ////////////////////// department data /////////////////////////////
+                        value.departmentData != null &&
+                                value.departmentData.isNotEmpty
+                            ? Visibility(
+                                visible: true,
+                                child: Container(
+                                  child: Column(
+                                    children: [
+                                      Text(
+                                          "${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : 'No Data Found'}",
+                                          style: TextStyle(
+                                              fontSize: 20,
+                                              color: Color.fromARGB(
+                                                  255, 179, 15, 15))),
+                                      AspectRatio(
+                                        aspectRatio: 1.5,
+                                        child: _getChart(
+                                            "DChartPie", value.departmentData),
                                       ),
-                                    ),
-                                  )
-                                : Text(""),
-
-                            //////////////////// count Data ///////////////////////////////
-                            value.countData != null &&
-                                    value.countData.isNotEmpty
-                                ? Visibility(
-                                    visible: true,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                            "${value.countData != null && value.countData.isNotEmpty ? value.countData[0]['rpt'] : 'No Data Found'}",
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Color.fromARGB(
-                                                    255, 179, 15, 15))),
-                                        SizedBox(
-                                          height: size.height * 0.03,
-                                        ),
-                                        value.countData != null
-                                            ? Visibility(
-                                                visible: true,
-                                                child: AspectRatio(
-                                                  aspectRatio: 1.5,
-                                                  child: _getChart("DChartPie",
-                                                      value.countData),
-                                                ),
-                                              )
-                                            : Visibility(
-                                                child: Text("No Data Found")),
-                                        SizedBox(
-                                          height: size.height * 0.03,
-                                        ),
-                                        linearProgress(value.countData, size),
-                                      ],
-                                    ),
-                                  )
-                                : Text(""),
-                            //////////////////// visit data //////////////////////////////////
-                            value.visitData != null &&
-                                    value.visitData.isNotEmpty
-                                ? Visibility(
-                                    visible: true,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                            "${value.visitData != null && value.visitData.isNotEmpty ? value.visitData[0]['rpt'] : 'No Data Found'}",
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Color.fromARGB(
-                                                    255, 179, 15, 15))),
-                                        SizedBox(
-                                          height: size.height * 0.03,
-                                        ),
-                                        value.visitData != null
-                                            ? Visibility(
-                                                visible: true,
-                                                child: AspectRatio(
-                                                  aspectRatio: 1.5,
-                                                  child: _getChart("DChartPie",
-                                                      value.visitData),
-                                                ),
-                                              )
-                                            : Visibility(
-                                                child: Text("No Data Found")),
-                                        SizedBox(
-                                          height: size.height * 0.03,
-                                        ),
-                                        linearProgress(value.visitData, size),
-                                      ],
-                                    ),
-                                  )
-                                : Text(""),
-                            ////////////////////// department data /////////////////////////////
-                            value.departmentData != null &&
-                                    value.departmentData.isNotEmpty
-                                ? Visibility(
-                                    visible: true,
-                                    child: Container(
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                              "${value.departmentData != null && value.departmentData.isNotEmpty ? value.departmentData[0]['rpt'] : 'No Data Found'}",
-                                              style: TextStyle(
-                                                  fontSize: 20,
-                                                  color: Color.fromARGB(
-                                                      255, 179, 15, 15))),
-                                          AspectRatio(
-                                            aspectRatio: 1.5,
-                                            child: _getChart("DChartPie",
-                                                value.departmentData),
-                                          ),
-                                          SizedBox(
-                                            height: size.height * 0.03,
-                                          ),
-                                        ],
+                                      SizedBox(
+                                        height: size.height * 0.03,
                                       ),
-                                    ),
-                                  )
-                                : Text(""),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            : Text(""),
 
-                            linearProgress(value.departmentData, size),
-                            //////////////////////// service group ////////////////////////
-                            value.servicegroupData != null &&
-                                    value.servicegroupData.isNotEmpty
-                                ? Visibility(
-                                    visible: true,
-                                    child: Column(
-                                      children: [
-                                        Text(
-                                            "${value.servicegroupData != null && value.servicegroupData.isNotEmpty ? value.servicegroupData[0]['rpt'] : 'No Data Found'}",
-                                            style: TextStyle(
-                                                fontSize: 20,
-                                                color: Color.fromARGB(
-                                                    255, 179, 15, 15))),
-                                        SizedBox(
-                                          height: size.height * 0.05,
-                                        ),
-                                        AspectRatio(
-                                          aspectRatio: 1.5,
-                                          child: _getChartData("DChartBar",
-                                              value.servicegroupData),
-                                        ),
-                                        SizedBox(
-                                          height: size.height * 0.03,
-                                        ),
-                                        linearProgress2(
-                                            value.servicegroupData, size),
-                                      ],
+                        linearProgress(value.departmentData, size),
+                        //////////////////////// service group ////////////////////////
+                        value.servicegroupData != null &&
+                                value.servicegroupData.isNotEmpty
+                            ? Visibility(
+                                visible: true,
+                                child: Column(
+                                  children: [
+                                    Text(
+                                        "${value.servicegroupData != null && value.servicegroupData.isNotEmpty ? value.servicegroupData[0]['rpt'] : 'No Data Found'}",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            color: Color.fromARGB(
+                                                255, 179, 15, 15))),
+                                    SizedBox(
+                                      height: size.height * 0.05,
                                     ),
-                                  )
-                                : Text(""),
-                          ],
-                        ),
-                      )
-                    : Container(
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
-              ],
-            );
+                                    AspectRatio(
+                                      aspectRatio: 1.5,
+                                      child: _getChartData(
+                                          "DChartBar", value.servicegroupData),
+                                    ),
+                                    SizedBox(
+                                      height: size.height * 0.03,
+                                    ),
+                                    linearProgress2(
+                                        value.servicegroupData, size),
+                                  ],
+                                ),
+                              )
+                            : Text(""),
+                      ],
+                    ),
+                  )
+                ],
+              );
+            }
           },
         ),
       ),

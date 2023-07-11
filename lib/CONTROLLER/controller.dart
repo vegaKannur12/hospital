@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:hospital/COMPONENTS/externalDir.dart';
 import 'package:hospital/COMPONENTS/globalurl.dart';
 import 'package:hospital/COMPONENTS/network_connectivity.dart';
 import 'package:hospital/MODEL/chartData_model.dart';
@@ -11,6 +12,8 @@ import 'package:hospital/SCREEN/2_dashboard.dart';
 import 'package:hospital/db_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../COMPONENTS/customSnackbar.dart';
 
 class Controller extends ChangeNotifier {
   bool isLoading = false;
@@ -41,13 +44,15 @@ class Controller extends ChangeNotifier {
   List<String> coldata = [];
   List<Map<String, dynamic>> rowData = [];
   List multiid = [];
+  ExternalDir externalDir = ExternalDir();
+
   List<Map<String, dynamic>> multiCollection2 = [];
   List<Map<String, dynamic>> multiCollection3 = [];
   List<Map<String, dynamic>> countData = [];
   List<Map<String, dynamic>> visitData = [];
   List<Map<String, dynamic>> departmentData = [];
   List<Map<String, dynamic>> servicegroupData = [];
-
+  bool isSinglegraphLoading = false;
   List<Map<String, dynamic>> branchList = [];
   List<Map<String, dynamic>> allData = [];
   List branchid = [];
@@ -55,62 +60,103 @@ class Controller extends ChangeNotifier {
   List<Map<String, dynamic>> collectionChart = [];
   String urlgolabl = Globaldata.apiglobal;
   var map;
-  Future<GetRegistrationData?> postRegistration(
-      String company_code, BuildContext context) async {
+  ///////////////////////////////////////////////////////
+  Future<RegistrationData?> postRegistration(
+      String company_code,
+      String? fingerprints,
+      String phoneno,
+      String deviceinfo,
+      BuildContext context) async {
     NetConnection.networkConnection(context).then((value) async {
-      //   await HospitalAppDb.instance.deleteFromTableCommonQuery('menuTable', "");
+      print("Text fp...$fingerprints---$company_code---$phoneno---$deviceinfo");
+      print("company_code.........$company_code");
+      // String dsd="helloo";
+      String appType = company_code.substring(10, 12);
+      print("apptytpe----$appType");
       if (value == true) {
         try {
           Uri url =
-              Uri.parse("http://trafiqerp.in/order/fj/get_registration.php");
+              Uri.parse("https://trafiqerp.in/order/fj/get_registration.php");
           Map body = {
             'company_code': company_code,
+            'fcode': fingerprints,
+            'deviceinfo': deviceinfo,
+            'phoneno': phoneno
           };
-          // print("compny----${company_code}");
+          print("body----${body}");
           isLoading = true;
           notifyListeners();
           http.Response response = await http.post(
             url,
             body: body,
           );
-
+          print("body ${body}");
           var map = jsonDecode(response.body);
+          print("map register ${map}");
+          print("response ${response}");
+          RegistrationData regModel = RegistrationData.fromJson(map);
 
-          GetRegistrationData regModel = GetRegistrationData.fromJson(map);
-          userType = regModel.type;
           sof = regModel.sof;
+          fp = regModel.fp;
+          String? msg = regModel.msg;
+          print("fp----- $fp");
           print("sof----${sof}");
-          if (sof == "1" && company_code.length >= 12) {
-            /////////////// insert into local db /////////////////////
-            late CD dataDetails;
-            String? fp = regModel.fp;
-            String? os = regModel.os;
-            regModel.cid;
-            cid = regModel.cid;
-            // print(cid);
-            cname = regModel.c_d![0].cnme;
-            print("cname $cname");
 
-            for (var item in regModel.c_d!) {
-              c_d.add(item);
+          if (sof == "1") {
+            print("apptype----$appType");
+            if (appType == 'CA') {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              /////////////// insert into local db /////////////////////
+              late CD dataDetails;
+              String? fp1 = regModel.fp;
+              print("fingerprint......$fp1");
+              prefs.setString("fp", fp!);
+              String? os = regModel.os;
+              regModel.c_d![0].cid;
+              cid = regModel.cid;
+              prefs.setString("cid", cid!);
+
+              cname = regModel.c_d![0].cnme;
+
+              // prefs.setString("cid", cid!);
+              prefs.setString("cname", cname!);
+              notifyListeners();
+
+              await externalDir.fileWrite(fp1!);
+
+              for (var item in regModel.c_d!) {
+                print("ciddddddddd......$item");
+                c_d.add(item);
+              }
+              // verifyRegistration(context, "");
+
+              prefs.setString("os", os!);
+
+              // prefs.setString("cname", cname!);
+
+              String? user = prefs.getString("userType");
+
+              print("fnjdxf----$user");
+
+              await ClinicDB.instance
+                  .deleteFromTableCommonQuery("companyRegistrationTable", "");
+              var res =
+                  await ClinicDB.instance.insertRegistrationDetails(regModel);
+              isLoading = false;
+              notifyListeners();
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => MyHomePage()),
+              );
+            } else {
+              CustomSnackbar snackbar = CustomSnackbar();
+              snackbar.showSnackbar(context, "Invalid Apk Key");
             }
-            print("c_d list $c_d");
-            var res =
-                await OrderAppDB.instance.insertRegistrationDetails(regModel);
-            notifyListeners();
-            isLoading = false;
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.setString("cid", cid!);
-            prefs.setString("cname", cname!);
-
-            print("cidrett---$cname");
-
-            verifyRegistration(cid!, fp!, context);
-
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => MyHomePage()),
-            );
+          }
+          /////////////////////////////////////////////////////
+          if (sof == "0") {
+            CustomSnackbar snackbar = CustomSnackbar();
+            snackbar.showSnackbar(context, msg.toString());
           }
 
           notifyListeners();
@@ -174,6 +220,9 @@ class Controller extends ChangeNotifier {
             'till_date': till_date,
           };
 
+          print("bodyyyyyy--------$body");
+          isSinglegraphLoading = true;
+          notifyListeners();
           http.Response response = await http.post(
             url,
             body: body,
@@ -189,6 +238,9 @@ class Controller extends ChangeNotifier {
           servicegroupData.clear();
           colorList.clear();
           print("map chart data ${map}");
+
+          // if (map["collection_data"] != null &&
+          //     map["collection_data"].length > 0) {
           for (var item in map["collection_data"]) {
             print("inside for length  ${item}");
             collectData.add(item);
@@ -198,6 +250,7 @@ class Controller extends ChangeNotifier {
           print("color list.....$colorList");
 
           sum = calculate_sum(num_list);
+
           for (var item in collectData) {
             print("item----$item");
             num percent = item["measure"] / sum;
@@ -208,8 +261,11 @@ class Controller extends ChangeNotifier {
           num_list.clear();
 
           print("coll--$collectData");
-          // print("num_list---$sum");
+          // }
+
           colorListcount.clear();
+
+          // if (map["count_data"] != null && map["count_data"].length > 0) {
           for (var item in map["count_data"]) {
             countData.add(item);
             num_list.add(item["measure"]);
@@ -223,10 +279,12 @@ class Controller extends ChangeNotifier {
             item["per"] = percent;
             // collectData.add({"per":0});
           }
+          // }
           num_list.clear();
           visitData.clear();
           colorListvisit.clear();
           ////////////////////////////////////////////
+          // if (map["visit_data"] != null && map["visit_data"].length > 0) {
           for (var item in map["visit_data"]) {
             visitData.add(item);
             num_list.add(item["measure"]);
@@ -240,6 +298,10 @@ class Controller extends ChangeNotifier {
             item["per"] = percent;
             // collectData.add({"per":0});
           }
+          // }
+
+          // if (map["department_data"] != null &&
+          //     map["department_data"].length > 0) {
           for (var item in map["department_data"]) {
             departmentData.add(item);
             num_list.add(item["measure"]);
@@ -253,18 +315,27 @@ class Controller extends ChangeNotifier {
             // collectData.add({"per":0});
           }
           print("departmentData ${departmentData}");
+          // }
+
           num_list.clear();
+// if (map["servicegroupData"] != null &&
+//               map["servicegroupData"].length > 0) {
           for (var item in map["servicegroup_data"]) {
             servicegroupData.add(item);
             num_list.add(item["measure"]);
           }
           sum = calculate_sum(num_list);
+
           for (var item in servicegroupData) {
             print("item----$item");
             num percent = item["measure"] / sum;
             item["per"] = percent;
             // collectData.add({"per":0});
           }
+          // }
+
+          isSinglegraphLoading = false;
+
           notifyListeners();
         } catch (e) {
           print(e);
@@ -313,6 +384,7 @@ class Controller extends ChangeNotifier {
         'branch_id': branch_id,
         'period': period,
       };
+      print("kjjkfzdjkf----$body");
 
       http.Response response = await http.post(
         url,
@@ -320,33 +392,47 @@ class Controller extends ChangeNotifier {
       );
       var map = json.decode(response.body);
       print("map............  ${map}");
+      if (map["collection"] != null && map["collection"].length > 0) {
+        for (var item in map["collection"]) {
+          print("inside for length  ${item}");
+          multiCollection.add(item);
+          // multiDta.add(item['data'][0]);
+        }
+      }
 
-      for (var item in map["collection"]) {
-        print("inside for length  ${item}");
-        multiCollection.add(item);
-        // multiDta.add(item['data'][0]);
-      }
+      print("multi collection------$multiCollection");
       multiDta.clear();
-      for (var item in map["visit_data"]) {
-        print("inside for length  ${item}");
-        // multiCollection.add(item);
-        multiDta.add(item);
+
+      if (map["visit_data"] != null && map["visit_data"].length > 0) {
+        for (var item in map["visit_data"]) {
+          print("inside for length  ${item}");
+          // multiCollection.add(item);
+          multiDta.add(item);
+        }
       }
-      print("multiCollection ${multiDta}");
+
+      print("multi Data --------- ${multiDta}");
       multidepart.clear();
-      for (var item in map["department_data"]) {
-        print("inside for length  ${item}");
-        // multiCollection.add(item);
-        multidepart.add(item);
+
+      if (map["department_data"] != null && map["department_data"].length > 0) {
+        for (var item in map["department_data"]) {
+          print("inside for length  ${item}");
+          // multiCollection.add(item);
+          multidepart.add(item);
+        }
       }
-      print("multidepart ${multidepart}");
+
+      print("multidepart---------- ${multidepart}");
       multiservice.clear();
-      for (var item in map["servicegroup_data"]) {
-        print("inside for length  ${item}");
-        // multiCollection.add(item);
-        multiservice.add(item);
+      if (map["servicegroup_data"] != null &&
+          map["servicegroup_data"].length > 0) {
+        for (var item in map["servicegroup_data"]) {
+          print("inside for length  ${item}");
+          // multiCollection.add(item);
+          multiservice.add(item);
+        }
       }
-      print("multiservice ${multiservice}");
+      print("multiservice---------- ${multiservice}");
 
       notifyListeners();
     } catch (e) {
@@ -360,8 +446,8 @@ class Controller extends ChangeNotifier {
     // cn=res[0]["cnme"];
     SharedPreferences prefs = await SharedPreferences.getInstance();
     // prefs.setString("cid", cid!);
-    cn=prefs.getString("cname");
+    cn = prefs.getString("cname");
     notifyListeners();
-    print("res----$cn");
+    print("resname-------$cn");
   }
 }

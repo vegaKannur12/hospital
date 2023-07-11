@@ -48,45 +48,57 @@ class _MultiGraphState extends State<MultiGraph> {
                                           .toList()),
                                 ),
                                 Container(
-                                    height: size.height *
-                                        0.75, //height of TabBarView
-                                    decoration: const BoxDecoration(
-                                        border: Border(
-                                            top: BorderSide(
-                                                color: Colors.grey,
-                                                width: 0.5))),
-                                    child: TabBarView(
-                                        physics: NeverScrollableScrollPhysics(),
-                                        children: <Widget>[
-                                          Consumer<Controller>(
-                                            builder: (context, value, child) {
-                                              return Container(
-                                                child: MultiDayOne(
-                                                  branch_id: value.branchid[0],
-                                                  fromDate: widget.from_date!,
-                                                  todate: widget.to_date!,
-                                                  period: "0",
-                                                ),
-                                              );
-                                            },
-                                          ),
-                                          Container(
-                                            child: MultiDayOne(
-                                              fromDate: widget.from_date!,
-                                              todate: widget.to_date!,
-                                              branch_id: value.branchid[1],
-                                              period: "0",
-                                            ),
-                                          ),
-                                          Container(
-                                            child: MultiDayOne(
-                                              fromDate: widget.from_date!,
-                                              todate: widget.to_date!,
-                                              branch_id: value.branchid[2],
-                                              period: "0",
-                                            ),
-                                          ),
-                                        ]))
+                                  height:
+                                      size.height * 0.75, //height of TabBarView
+                                  decoration: const BoxDecoration(
+                                      border: Border(
+                                          top: BorderSide(
+                                              color: Colors.grey, width: 0.5))),
+                                  child: TabBarView(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      children: value.branchid
+                                          .map((e) => customContainer(e))
+                                          .toList()
+                                      // children: <Widget>[
+                                      //   Consumer<Controller>(
+                                      //     builder: (context, value, child) {
+                                      //       return Container(
+                                      //         child: MultiDayOne(
+                                      //           branch_id: value.branchid[0],
+                                      //           fromDate: widget.from_date!,
+                                      //           todate: widget.to_date!,
+                                      //           period: "0",
+                                      //         ),
+                                      //       );
+                                      //     },
+                                      //   ),
+                                      //   Container(
+                                      //     child: MultiDayOne(
+                                      //       fromDate: widget.from_date!,
+                                      //       todate: widget.to_date!,
+                                      //       branch_id: value.branchid[1],
+                                      //       period: "0",
+                                      //     ),
+                                      //   ),
+                                      //   Container(
+                                      //     child: MultiDayOne(
+                                      //       fromDate: widget.from_date!,
+                                      //       todate: widget.to_date!,
+                                      //       branch_id: value.branchid[2],
+                                      //       period: "0",
+                                      //     ),
+                                      //   ),
+                                      //   Container(
+                                      //     child: MultiDayOne(
+                                      //       fromDate: widget.from_date!,
+                                      //       todate: widget.to_date!,
+                                      //       branch_id: value.branchid[3],
+                                      //       period: "0",
+                                      //     ),
+                                      //   ),
+                                      // ],
+                                      ),
+                                )
                               ])),
                     ]),
               ),
@@ -94,6 +106,25 @@ class _MultiGraphState extends State<MultiGraph> {
           );
         },
       ),
+    );
+  }
+
+  Widget customContainer(String e) {
+    return Consumer<Controller>(
+      builder: (context, value, child) {
+        return Container(
+          child: Center(
+            child: Container(
+              child: MultiDayOne(
+                fromDate: widget.from_date!,
+                todate: widget.to_date!,
+                branch_id: e,
+                period: "0",
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
